@@ -1,0 +1,468 @@
+Hallo, ich bin Jiawei Zhou von der Harvard University.
+Ich freue mich sehr, unsere Arbeit zum semantischenOnline-Parsing für die Latenzreduktion bei einem aufgabenorientierten Dialog vorstellen zu können.
+Dies ist eine gemeinsame Arbeit mit Jason, Michael, Anthony und Sam von Microsoft Semantic Machines.
+Beim aufgabenorientierten Dialog interagiert ein Benutzer mit dem System, das Anfragen von Benutzeräußerungen, in der Regel in gesprochener Form, bearbeitet.
+Vom Ende der Benutzeräußerung bis zur Antwort des Systems gibt es oft eine spürbare Verzögerung.
+Im Detail wird die Benutzeräußerung in ein ausführbares Programm übersetzt.
+Dieses wird dann ausgeführt, damit das System richtig reagieren kann.
+Denn das Programm wird als semantischer Graph dargestellt, der die Berechnung skizziert, wobei ein Knoten einen Funktionsaufruf darstellt und seine Kindknoten die Argumente sind.
+Die großen Knoten markieren sofortige Operationen, aber die anderen sind langsam in der Ausführung.
+Das einfache Beispiel hier zeigt, dass diese Programme oft kompliziertere Graphen sein können als die Baumstrukturen.
+In diesem Vortrag stellen wir die Frage, ob wir mit der Generierung des Programms und seiner Ausführung beginnen können, bevor der Benutzer überhaupt die Äußerung beendet hat, sodass das System schneller reagieren kann.
+Dies ist das Problem der Online-Vorhersage und Entscheidung.
+Es gibt viele andere in diesem REALM.
+Beispiele sind Simultanübersetzungen, bei denen ein Dolmetscher live eine Sprache in eine andere in Echtzeit übersetzt; die intelligente automatische Vervollständigung von Text, um die Absicht des Benutzers zu erraten; und der Uber Pool, wo Fahrer dorthin geschickt werden, wo sie basierend auf der prognostizierten Nachfrage möglicherweise benötigt werden.
+All diese Szenarien haben eines gemeinsam.
+Es ist vorteilhaft, Entscheidungen zu treffen, bevor man alle Eingaben sieht.
+In unserem Fall werden wir uns mit dem semantischen Online-Parsing befassen, was eine Herausforderung sein könnte, da wir erraten müssen, was der Benutzer sagen könnte.
+Dieses Gebiet ist auch wenig erforscht und hat keine formale Evaluationsmetrik.
+Schauen wir uns zunächst an, wie ein gewöhnliches System funktioniert.
+Dieses funktioniert offline durch Parsing zum Programm erst am Ende der Benutzeräußerung.
+Hier wird das Zeichen Graph vorhergesagt, nachdem alle Information gesehen wurden.
+Im Gegensatz dazu schlagen wir ein Online-System vor, das bei jedem Äußerung das Präfix vergleicht.
+Jedes Mal, wenn wir beispielsweise ein neues Token sehen, prognostizieren wir einen neuen Graphen.
+Beachten Sie, dass Fehler auftreten können.
+Bei der Position von der Poolparty mit Barack Obama haben wir einen Graphen mit den richtigen Knoten über die Person und das Thema des Ereignisses, aber wahrscheinlich die falschen Informationen zu den Zeiten.
+Dieser Prozess geht weiter, bis wir die vollständige Benutzeräußerung erhalten.
+Wie würde sich dies auf die Ausführungszeiten im Offline-System auswirken?
+Am Ende erhalten wir den Programm-Graphen, damit das System an dieser Stelle mit der Ausführung beginnen kann.
+Vergessen Sie nicht, dass die großen Knoten schnelle Operationen sind. Daher betrachten wir nur die Ausführungszeiten der farbigen langsamen Funktionen.
+Erstens können diese beiden Personensuchfunktionen parallel ausgeführt werden, da sie keine Abhängigkeit von anderen Funktionen haben. Sie sind weiß hinterlegt im rosa Kästchen.
+Als Nächstes kann der Knoten „Ereignis erstellen“ ausgeführt werden, nachdem er Ergebnisse von Knoten bekommen hat. Mit der Top-Ertragsfunktion wird das gesamte Programm beendet.
+Der Ausführungsprozess ist streng und beschränkt sich auf die Abhängigkeitsstruktur des Programms, bei der einige Operationen nicht parallelisiert werden können. Das führt zu einer spürbaren Verzögerung.
+In unserem Online-System, wo wir im Laufe der Zeit vorhersagen, kann die Programmausführung früher beginnen.
+Hier, beim Präfix nach Obama, sagen wir zuversichtlich voraus, dass die Funktion „Person finden“ im Programm sein muss, aber dass der Rest Fehler enthalten kann, da sie ausgegraut sind.
+Die Ausführung des Knotens kann sofort als Schritt gestartet werden.
+Dann, mit mehr Token, prognostizieren wir einen völlig neuen Graphen, aber ein Teil davon wird bereits ausgeführt.
+Wir müssen also nur den Rest der Knoten betrachten, bei denen wir uns auch sicher sind.
+Hier kann wieder „Finde Person“ parallel ausgeführt werden.
+Auch hier könnten wir falsche Vorhersagen haben.
+Mit mehr Text steigt die Chance, dass wir richtig liegen.
+Zum Beispiel bei der Zeit des Ereignisses, bei der AM auch richtig vorhergesehen wird.
+Dann können wir mit der Ausführung des Rests beginnen, indem wir der Abhängigkeitsstruktur des Programms folgen.
+Indem wir die Ausführungszeiten mit den Zeiten der Äußerungen überlappen, sparen wir viel Zeit ein.
+Also haben wir die Aufgabe mit dem semantischen Online-Parsing vorgeschlagen.
+Eine zugrunde liegende Annahme ist, dass die Ausführungszeit die Vorhersagezeit des Modells dominiert.
+Also konnten wir nur Zeit gewinnen, indem wir früher voraussagten.
+Eine weitere Annahme ist, dass, wenn die Vorhersage und die Ausführung im Hintergrund stattfinden, sie für Benutzer nicht sichtbar sind.
+Es ist nicht notwendig, eine konsistente Parsing-Historie aufzubewahren.
+Also parsen wir nach jedem Token von Grund auf neu.
+Insbesondere wollen wir einen zweistufigen Ansatz vorschlagen.
+Wir schlagen einen Schritt vor, bei dem ein Graph mit vollständiger Struktur vorhergesagt wird und einen Schritt, bei dem die Knoten ausgewählt werden, die es zu diesem Zeitpunkt wert sind, ausgeführt zu werden.
+Wir hatten zwei Varianten der vorgeschlagenen Methode.
+Der erste Ansatz kombiniert eine Sprachmodell-Vervollständigung mit einer vollständigen Äußerung zum Graph-Parsing.
+Insbesondere wird das Präfix nach Obama zunächst durch ein fein abgestimmtes BART-Sprachmodell vervollständigt und dann in ein Programm mit vollständigem Offline-Parser übersetzt.
+Der zweite Ansatz sagt das Programm direkt aus den Präfixen der Benutzeräußerung voraus.
+Dies wird durch Training von einem einzigen Online-Parser erreicht, der aus jedem Präfix in den Zielgraphen übersetzen soll.
+Dies erleichtert dem Modell, die richtige Erwartung zu erlernen.
+Detaillierter gesagt: Wie können wir diese Graphen generieren?
+Wir formulieren das Problem, indem wir eine serielle Version des Graphen generieren.
+Jeder Knoten oder jede Kante wird durch eine Aktion dargestellt.
+Hier beginnen wir mit dem ersten Knoten.
+Die Reihe unten zeichnet den absoluten Index im Aktionsverlauf auf.
+Dann haben wir den zweiten Knoten.
+Als Nächstes kommt die Kante zwischen ihnen.
+Dort ist der Zeiger auf den Index des früheren Knotens und das Kantenlabel enthalten.
+Null bedeutet hier, dass der neueste Knoten mit dem Knoten verbunden wird, der durch die Null-Aktion und die Kante des nächsten Knotens generiert wurde.
+Dieser Prozess geht weiter, bis wir den vollständigen Graph generieren.
+Das zugrunde liegende Modell basiert auf dem Transformator mit Selbstausrichtungsmechanismus, ähnlich einem früheren übergangsbasierten Parser.
+Nach Generierung eines vollständigen Graphen haben wir die Wahrscheinlichkeiten der Aktionsebene erhalten, die verschiedenen Teilen des Graphen entsprechen.
+Wir wählen Konfidenzteilgraphen auf der Grundlage der auszuführenden Schwellwerte heuristisch aus.
+Später werden wir den Schwellenwert variieren, um unterschiedliche Kompromisse zwischen der Latenzreduzierung und den Ausführungskosten zu erzielen.
+Für die formale Evaluation der Online-Methoden wollen wir eine endgültige Latenzreduzierung oder FLR-Metrik vorschlagen.
+Hier ist eine Zusammenfassung, wie ein Offline-System die Ausführungszeiten beendet.
+In Online-Systemen überschneidet sich die Ausführung mit den Zeiten der Äußerung. Sie endet also früher.
+FLR ist als die Reduktionszeit im Vergleich zum Offline-System definiert und durch das Ende der Ausführung markiert.
+Wir führen Experimente an zwei großen Datensätzen von Konversationen mit semantischem Parsing durch: SMCalFlow und TreeDST.
+Unser auf dem Graphen basierte Parser erreicht, wenn er offline betrieben wird, beste Leistungen beim Parsing für beide Datensätze.
+Das LM-Complete-Modell erzielt auch eine nicht triviale BLEU -Verstärkung im Vergleich zur einfachen Basislinie der Knotenvervollständigung.
+Schauen wir uns nun die Vorhersagegenauigkeit unseres Präfixes für den Graph-Parser an.
+Wir testen den F1-Score der Graph-Tupel zwischen der Generierung und dem Go-Graph in den Validierungsdaten auf der y-Achse für jede Präfixlänge in der x-Achse, dargestellt durch Prozentsätze.
+Jede dieser Kurven stellt ein anderes Modell mit dem einzigen Unterschied in den Trainingsdaten dar.
+Die untere Kurve ist der Offline-Parser. Wir mischen Präfix- Daten in verschiedenen Längen hinein, um das Modell in einen Online-Parser zu überführen.
+Zum Beispiel bedeutet das Legendenpräfix „80 Prozent plus“, dass das Modell mit Präfix-Daten trainiert wird, wobei die Präfixlänge größer als 80 Prozent der vollen Äußerungslänge ist.
+Die obere linke Ecke ist der gewünschte Bereich.
+Wie wir sehen können, funktioniert der Offline-Parser in der schwarzen Kurve der Präfix-Daten nicht gut.
+Da wir im Training mehr Präfixe mischen, hebt sich die Kurve nach oben und links und schneidet bei allen Präfixlängen besser ab.
+Die volle Leistung des Äußerung-Parsings wird jedoch im oberen rechten Punkt nicht beeinflusst.
+Basierend auf diesen starken Ergebnissen, stellt sich die Frage, wie viel Latenz reduziert wird.
+Wir messen die Zeit anhand der Reihe von Quelltoken und simulieren verschiedene Funktionsausführungszeiten.
+Die Kurven zeigen den Kompromiss zwischen der FLR-Metrik und den Ausführungskosten, gemessen an der Reihe übermäßiger Funktionskosten, die nicht korrekt sind.
+Dies wird durch Variation der Teilgraphenauswahlschwelle erreicht.
+Eine höhere Schwelle wählt weniger Fehlfunktionen aus, erhält aber eine kleinere FLR, während die niedrigere Schwelle aggressiver Programme auswählt und ausführt.
+Wir vergleichen die beiden Ansätze, die wir vorschlagen, mit einer Baseline, die nichts anderes tut, als den Offline-Parser für den Online-Einsatz anzuwenden.
+Der obere linke Bereich hat den besten FLR und Kostenvorteil.
+Wir sehen, dass beide unserer Methoden die Baseline um eine große Differenz übertreffen und sie bei TreeDST ähnlicher abschneiden.
+Während die Ausführung einzelner Funktionen schneller ist, gibt es tendenziell mehr Ausführungsvorgänge und weniger Raum für die Latenzreduzierung.
+Wenn die Ausführung einzelner Funktionen langsamer ist, gibt es mehr Möglichkeiten für FLR-Verbesserungen.
+Unsere beiden Ansätze erreichen eine bessere Leistung in verschiedenen Kostenbereichen.
+Insgesamt erreichen wir je nach Ausführungszeit und zulässigen Kosten eine Reduzierung der relativen Latenz um 63 bis 60 Prozent.
+Schließlich haben wir eine Aufschlüsselung der durchschnittlichen Latenzreduktion in Token für jeden Typ des Funktionsknotens, wenn die zulässigen Kosten drei Ausführungsvorgänge betragen.
+Wie wir sehen können, gibt es in jedem Bereich positive Ergebnisse.
+Es gibt auch einige Funktionen, bei denen wir eine beeindruckende Latenzreduzierung erzielen und der rote Balken viel länger ist, wie z. B. Find Manager und Empfänger.
+Dies sind Low-Level-Funktionen, die keine große Abhängigkeit von anderen haben.
+Abschließend haben wir das semantische Online-Parsing als neue Aufgabe vorgeschlagen, das wir mit der strengen Latenzreduktionsmetrik untersuchen.
+Mit einem starken graph-basierten, semantischen Parser erreichen wir eine relativ gute Latenzreduktion, entweder durch unseren Pipeline-Ansatz mit LM-Abschluss und einem vollständigen Parser, oder direkt durch einen gelernten Parser mit Fokus auf die Präfixe.
+Darüber hinaus kann unser Ansatz ein allgemeiner Rahmen sein und auf andere ausführbare semantische Darstellungen in verschiedenen Domänen angewendet werden.
+Zukünftige Arbeiten könnten eine intelligentere Vorhersage und die Methode der Ausführungsintegration erforschen.
+Danke fürs Zuhören.
+Hi.
+Ich werde nun unsere Arbeit am generierenden Retrieval und den erweiterten Kontrafakten für Aufgaben der Fragenbeantwortung vorstellen.
+Dies ist die Arbeit, die ich während meines Praktikums bei Google Research gemacht habe, wo ich von Matthew Lamm und Ian Tenney betreut wurde.
+Um die Aufgabe vorzustellen, möchte ich damit beginnen, das Wort kontrafaktisch zu definieren.
+In dieser Arbeit definieren wir kontrafaktisch als eine Störung des eingegebenen Textes, der sich in irgendeiner bedeutungsvollen kontrollierten Weise vom ursprünglichen Text unterscheidet.
+Damit können wir über die Änderungen des Ergebnisses oder des Labels der Aufgabe schlussfolgern.
+Wenn man beispielsweise die Wörter „faszinierend“ zu „fesselnd“ oder „erwartet“ zu „todlangweilig“ ändert, ändert das die Stimmung der Filmrezension.
+Wird die nähere Bestimmung „Damen“ zur Frage hinzugefügt, ändert sich die Antwort auf die Frage wie im Beispiel unten dargestellt.
+Menschen sind in der Regel robust gegenüber solchen Störungen im Vergleich zu NLP-Modellen, die für die Aufgabe trainiert wurden.
+Warum?
+Der Datensatz kann mit systematischen Bias gesampelt werden. Das führt zu einer einfachen Entscheidungsgrenze, die kontrafaktisch übertreten wird.
+Das zeigt sich in diesem 2D-Klassifizierungsproblem.
+Mit meiner Arbeit habe ich herausgefunden, dass das Hinzufügen von kontrafaktischen Beispielen zu den Trainingsdaten das Modell robust gegen solche Störungen machen kann.
+Wenn also Kontrafakten wertvoll sind, wie können wir sie dann generieren?
+Diese Aufgabe ist besonders schwierig für NLP, denn hier sind drei Beispiele aus drei verschiedenen NLP-Aufgaben.
+Wie Sie sehen können, müssen Beispiele, die die Entscheidungsgrenze zwischen den Ergebnissen verletzen, sehr sorgfältig erstellt werden, indem einige Attribute des Textes, die hier unterstrichen werden, gestört werden.
+Dies könnte durch menschliche Annotation geschehen, aber dies ist teuer und voreingenommen.
+Einige frühere Arbeiten konzentrierten sich auf die Verwendung von Syntax-Bäumen oder einer semantischen Rollenbezeichnung.
+Aber die Reihe von Störungen, die durch diese Techniken generiert werden, sind durch den semantischen Rahmen begrenzt.
+Neuere Arbeiten haben maskierte Sprachmodelle verwendet, um maskierte Teile des Textes auszufüllen, um Labels zu ändern.
+Aber herauszufinden, welche Teile des Textes zu stören sind, kann eine Herausforderung sein.
+Es gibt mehr Herausforderungen für die Generierung von Kontrafakten als für die spezifische Beantwortung der Frage.
+Diese Aufgabe erfordert Hintergrundwissen.
+Um beispielsweise die ursprüngliche Frage zu stören: „Ist Indiana Jones und der Tempel des Todes ein Prequel?“
+Wir müssen die anderen Filme im Franchise kennen, um die Frage stellen zu können: „Ist Indiana Jones – Jäger des verlorenen Schatzes ein Prequel?“
+Darüber hinaus können zufällige Störungen zu Fragen führen, die mit den verfügbaren Beweisen nicht beantwortet werden können oder falsche Voraussetzungen haben.
+Darüber hinaus können einige Frage-Störungen zu einer signifikanten semantischen Abweichung von der ursprünglichen Eingabe führen.
+Zum Beispiel ist diese Frage hier: „Praktiziert Indiana Jones Kindersklaverei im Tempel des Todes?“
+Wir wollen eine sehr einfache, aber effektive Technik mit dem Namen „Retrieve Generate Filter“ oder RGF vorschlagen, um kontrafaktische Störungen von Fragen in Angriff zu nehmen. Sie zielt auch darauf ab, alle anderen oben genannten Herausforderungen zu bewältigen.
+Die Kernintuition hinter RGF ist, dass die notwendigen Hintergrundinformationen, die erforderlich sind, um Störungen zu genieren, in den Near-Misses vorhanden sein können, die von einem Frage-Antwort-Modell erstellt werden.
+Zum Beispiel liefert das hochmoderne Modell REALM die folgenden Top-k-Antworten auf die Frage, wer der Kapitän des Richmond Football Club ist.
+Es holt die ursprüngliche Referenzpassage und die Antwort „Trent Cotchin“ als erste Wahl ein.
+Zusätzlich werden auch zusätzliche Passagen und Antworten abgerufen, die verwendet werden können, um Störungen der Frage zu steuern.
+Zum Beispiel holt es zwei weitere Antworten ein, passend zu den Kapitänen der Reservemannschaft und der Damenmannschaft des gleichen Vereins. Dies kann zu interessanten Änderungen führen.
+Zusammenfassend lässt sich sagen, dass RGF zuerst die wichtigsten Top-k-Antworten und Kontexte abruft, die nicht mit der Referenz Antwort in Kontext übereinstimmen.
+Im Anschluss an diesen Schritt konditioniert dieses Fragengenerierungsmodell diese alternativen Antworten, um eine ihnen entsprechende Frage zu generieren.
+Schließlich können wir die generierten Fragen nach Minimalität oder nach der Art der semantischen Störung, die wir einführen möchten, filtern.
+Wenn wir beim Retrieval jeden Schritt genauer durchgehen, dann sehen wir, dass wir einen Abruf verwenden. Dann lesen wir ein Modell wie REALM, das als Eingabe die ursprüngliche Frage und einen großen Korpus wie etwa Wikipedia hernimmt.
+Es besteht aus zwei Modulen.
+Das Retrieval-Modul führt eine Ähnlichkeitssuche über einen dichten Index von Passagen durch, um die wichtigsten Top-k-Passagen zur Frage abzurufen.
+Das Lesemodul extrahiert dann aus jeder Passage einen Bereich als potenzielle Antwort.
+REALM ruft die Goldpassage und in den meisten Fällen die Antwort ab.
+In dieser Arbeit sind wir jedoch mehr an den Antworten und am Kontext interessiert, der später abgerufen wird.
+Im nächsten Schritt der Fragengenerierung verwenden wir diese alternativen Antworten und Kontexte, um neue Fragen zu generieren, die diesen Alternativen entsprechen.
+Das Modell der Fragengenerierung ist ein vortrainierter Text-to-Text-Transformer, der auf die NQ-Daten abgestimmt ist, um eine Frage für eine Antwort zu generieren, die für den Kontext markiert ist.
+Während der Interferenz liefern wir das Fragengenerierungsmodell, die alternative Antwort und den Kontext, die wir im früheren Schritt abgerufen haben.
+Zum Beispiel für die Anfrage: „Wer ist der Kapitän des Richmond Football Clubs?“ REALM ruft Passagen über die Damenmannschaft des Clubs ab, die von Jess Kennedy angeführt wird. Das fragengenerierende Modell generiert die Anfrage: „Wer war Kapitänin der ersten Damenmannschaft des Richmond Football Clubs?“
+Hier gibt es eine spezifische semantische Störung.
+In einer ähnlichen Art und Weise erhalten wir auch Abfragen, wie etwa: „Wer war Kapitän der Richmond's VFL-Reservemannschaft?“
+Oder: „Wen hat Graham letztes Jahr im großen Finale geschlagen?“
+Schließlich filtern wir eine Teilmenge der generierten Abfragen basierend auf gewünschten Eigenschaften aus.
+Wie vorhin begründet, möchten wir sicherstellen, dass die neue Frage immer noch semantisch nah am Original ist.
+Bei den Filtertechniken, die keine zusätzliche Überwachung erfordern, speichern wir einfach neue Fragen, die einen kleinen Token-Label und einen Bearbeitungsabstand von der ursprünglichen Frage haben.
+Wir entfernen zum Beispiel die Frage: „Wen hat Graham letztes Jahr im großen Finale geschlagen?“
+Denn diese hat einen längeren Bearbeitungsabstand zur ursprünglichen Frage.
+In unseren Experimenten zeigen wir, dass diese einfache Heuristik verwendet werden kann, um Trainingsdaten zu erweitern und in die Warteschlange zu stellen.
+Wir experimentieren auch mit einer Filterstrategie, die auf der Art der semantischen Störung basiert.
+Zu diesem Zweck verwenden wir einen allgemeinen Zerlegungsrahmen für die Anfrage mit dem Namen QED.
+QED identifiziert zwei Teile der Frage: ein Prädikat und eine Referenz.
+Referenzen sind Substantivgruppen in der Frage, die Entitäten im Kontext entsprechen.
+Ein Prädikat ist im Grunde der verbleibende Teil der Frage.
+Zum Beispiel sind wir in der Lage, die Abfrage zu zerlegen: „Wer war Kapitänin der ersten Damenmannschaft des Richmond Football Clubs?“ Wir können die Frage in zwei Referenzen zerlegen: das Damenteam vom Richmond Football Club und das Prädikat X (wer war Kapitänin?).
+Ein Modell, das auf Referenzen der Prädikatannotationen für NQ trainiert wurde, erlaubt uns diese Zerlegung der Frage.
+Die Zerlegung sowohl des Originals als auch der generierten Frage basierend auf QED ermöglicht es uns, unsere generierten Kontrafakten für die Bewertung zu kategorisieren.
+Konkret erhalten wir zwei Gruppen von Fragen.
+Es gibt Fragen, bei denen sich die Referenz ändert, aber die Prädikate gleichbleiben, und Fragen, bei denen sich die Prädikate ändern und optional Referenzen hinzugefügt werden.
+Hier ist ein Beispiel für eine Änderung der Referenz: „Wer war Kapitän der Richmond's VFL-Reservemannschaft?“
+Das ist eine Veränderung des Prädikats: „Wer trägt die Nummer neun beim Club?“
+Wir bewerten nun die Effektivität von RGF-Störungen, wenn diese um die Trainingsdaten ergänzt werden.
+Um insbesondere die Effektivität des kontrafaktischen Aufbaus effektiv bewerten zu können, experimentieren wir mit zwei starken Baselines des Datenaufbaus.
+Die erste Baseline, die als zufällige Antwort- und Fragengenerierung bezeichnet wird, fügt Daten hinzu, die keine Relation zur ursprünglichen Frage haben.
+Das heißt, dass Passagen und Antworten einfach zufällig aus Wikipedia entnommen werden.
+Diese Baseline fügt im Grunde mehr Daten hinzu, die wie NQ aussehen.
+Mit der zweiten Baseline, der Goldantwort und der Fragengeneration, aktualisieren wir speziell den Retrieval bei unserer Methode.
+Hier werden alternative Antworten nur aus der gleichen Passage ausgewählt, welche die Goldantwort enthält.
+Welche Leistung erbringen die Baselines, RGF und der Aufbau beim Leseverständnis, wo das Modell Zugriff auf Frage und Kontext hat?
+Wir experimentieren mit sechs von den Datensätzen der Domäne und präsentieren hier die Ergebnisse, wobei es bei den Daten um die Trainingsdaten geht und beim Aufbau verdoppelt werden.
+Wir stellten fest, dass beide Baselines des Datenaufbaus nicht in der Lage sind, unsere Verallgemeinerung der Domäne zu verbessern.
+Tatsächlich scheint ein Ensemble von sechs Modellen, die mit den ursprünglichen Daten trainiert wurden, die wettbewerbsfähigste Baseline zu sein.
+Im Vergleich zu dieser Baseline stellten wir fest, dass RGF-Kontrafakten in der Lage sind, die Leistung außerhalb der Domäne zu verbessern, während die Leistung innerhalb der Domäne beibehalten wird.
+Dies deutet darauf hin, dass das Füllen der Argumentationslücken beim Modell über einen kontrafaktischen Aufbau effektiver ist als mehr Daten aus der Training-Verteilung hinzuzufügen.
+Darüber hinaus fanden wir heraus, dass die Verwendung von Retrievals zur Erprobung alternativer Ergebnisse oder Antworten für effektive CDA wichtig ist.
+Wir experimentieren auch mit einer offenen Domäne-QA -Einstellung, bei der das Modell nur die Frage sieht. Wir bewerten wieder vier von den Datensätzen der Domäne.
+Wir stellten fest, dass die Baseline-Modelle nicht so effektiv für die Verallgemeinerung der Domäne sind.
+Allerdings zeigt der Datenaufbau mit RGF signifikantere Verbesserungen.
+Wir verbessern uns sogar in der Domäne NQ-Datensatz.
+Wir haben angenommen, dass der kontrafaktische Datenaufbau das Modell beim Lernen von besseren Abfragekodierungen für sehr ähnliche Abfragen unterstützt.
+Schließlich bewerten wir auch die Fähigkeit des Modells, die Einheitlichkeit in der lokalen Nachbarschaft der ursprünglichen Frage zu verbessern.
+Die Einheitlichkeit misst den Anteil der vom Modell korrekt beantworteten Fragen, bei denen sowohl das Original als auch die kontrafaktische Abfrage korrekt beantwortet werden.
+Dies hilft uns explizit, die Robustheit des Modells bei kleinen Störungen in der Nähe der ursprünglichen Eingabe zu messen.
+Wir experimentieren mit fünf Datensätzen, die Paare von Fragen enthalten, die semantisch nahe beieinander liegen.
+Abgesehen von den drei Datensätzen AQA, AmbigQA und den QUOREF-Kontrastsätzen, die bereits verfügbar sind, bewerten wir auch RGF-Kontrafakten. Diese sind mit ursprünglichen NQ-Fragen gepaart, basierend darauf, ob sie von einer Prädikat- oder Referenzänderung betroffen waren.
+Diese Teilmengen wurden intern annotiert, um Qualitätsmängel zu eliminieren. Sie werden als Ressource bereitgestellt.
+Alle Baselines können die Einheitlichkeit signifikant nicht verbessern. Das Ensemble der Modelle kann die Einheitlichkeit geringfügig verbessern.
+Der kontrafaktische Aufbau der RGF kann jedoch eine beeindruckende Steigerung der Einheitlichkeit sowohl bei früheren Datensätzen als auch bei den beiden Teilmengen, die wir für Referenz- und Prädikat-Störungen ausgewählt haben, aufweisen.
+Beachten Sie, dass die erweiterten RGF-Daten nicht durch den Störungstyp verfälscht werden, sondern nur durch die Evaluationssätze.
+Tatsächlich zeigt eine qualitative Überprüfung der verschiedenen Arten von Kontrafaktoren, dass die generierten Fragen mehrere unterschiedliche Störungen enthalten.
+Zum Beispiel ist diese ursprüngliche Frage über die Bevölkerung von Walnut Grove in Minnesota gestört. Diese Störung betrifft verschiedene Dimensionen wie Stadt, Bundesland, Land und verschiedene Prädikate wie Lage, Armut, Anzahl von Schulen.
+Das Audio von Störungen ist kontextspezifisch.
+Bei dieser anderen Frage über das Einzelturnier in Wimbledon handelt die Störung von der Art des Spiels, der Art des Turniers oder des Spielergebnisses.
+Abschließende Erkenntnisse: Wir befassen uns mit der Aufgabe des kontrafaktischen Datenaufbaus und Störungen bei der Information. Wir suchen nach Abfragen und bewältigen deren einzigartige Herausforderungen durch eine Umkehrung des Generierungsansatzes. Wir übergenerieren mithilfe von Near-Misses des Modells und filtern basierend auf dem Störungstyp oder der Minimalität.
+Wir stellten fest, dass diese Technik keiner zusätzlichen Überwachung bedarf und die Beispiele für den Aufbau markiert sind.
+Der Aufbau verbessert sich dank der Domäneverallgemeinerung und der Konsistenz der Nachbarschaft.
+Zudem stellten wir fest, dass die RGF-Kontrafakten semantisch divers sind, ohne dass Verzerrungen während des Aufbaus eingeführt wurden.
+Vielen Dank!
+Hallo, hier ist Elena und ich stelle nun unsere Arbeit vor: Die Erkennung nicht-assimilierter Entlehnungen im Spanischen: Ein annotierter Korpus und Ansätze zur Modellierung.
+Wir werden uns also damit beschäftigen, was die lexikalische Entlehnung ist, die von uns vorgeschlagene Aufgabe, den veröffentlichten Datensatz und einige untersuchte Modelle.
+Doch zunächst einmal: Was ist die lexikalische Entlehnung und warum ist sie als NLP-Aufgabe so wichtig?
+Die lexikalische Entlehnung ist im Grunde die Übernahme von Wörtern aus einer Sprache in eine andere Sprache.
+Zum Beispiel verwenden wir im Spanischen Wörter, die aus dem Englischen stammen.
+Und hier ein paar Beispiele: Wörter wie Podcast, App und Online-Crowdfunding sind englische Wörter, die wir manchmal im Spanischen verwenden.
+Die lexikalische Entlehnung ist eine Art der sprachlichen Entlehnung, die im Grunde genommen die Reproduktion von Mustern einer Sprache in einer anderen Sprache bedeutet.
+Manchmal wurde die Entlehnung mit dem Code-Switching verglichen und als ein Kontinuum beschrieben. Code-Switching wird von Zweisprachigen praktiziert, wenn sie zwei Sprachen gleichzeitig verwenden.
+Es gibt jedoch einige Unterschiede zwischen lexikalischer Entlehnung und Code-Switching.
+Wir werden uns auf die lexikalische Entlehnung konzentrieren.
+Zweisprachige Personen praktizieren das sogenannte Code-Switching. Per Definition sind die Code-Switches nicht Teil der verwendeten Sprachen, während die lexikalische Entlehnung auch von einsprachigen Personen verwendet wird.
+Die Entlehnungen werden der Grammatik der Empfängersprache angepasst.
+Entlehnungen können Schritt für Schritt in die Empfängersprache integriert werden.
+Warum ist Entlehnen so ein interessantes Phänomen?
+Aus Sicht der Linguistik ist die Entlehnung eine Manifestation dessen, wie sich Sprachen verändern und wie sie interagieren.
+Auch lexikalische Entlehnungen sind eine Quelle für neue Wörter.
+Hier finden Sie einige Beispiele für lexikalische Entlehnungen, die als neue Wörter in die spanische Sprache aufgenommen wurden.
+Beim NLP sind Entlehnungen eine häufige Quelle von Wörtern, die nicht im Wortschatz enthalten sind.
+Die automatische Erkennung lexikalischer Entlehnungen erwies sich als nützlich für NLP und nachgelagerte Aufgaben wie Parsing, Text-zu-Sprache-Synthesen oder die maschinelle Übersetzung.
+Der Einfluss des Englischen auf andere Sprachen erfährt immer stärkeres Interesse, insbesondere bei englischen lexikalischen Entlehnungen. Diese werden manchmal auch als Anglizismen bezeichnet.
+Hier sind einige Beispiele von Arbeiten zur automatischen Erkennung von Entlehnungen in einigen dieser Sprachen.
+Die Aufgabe, die wir vorschlagen, besteht also darin, nicht-assimilierte lexikalische Entlehnungen in spanischen Nachrichten zu erkennen.
+Wir sind daran interessiert, aus anderen Sprachen entlehnte Wörter zu extrahieren, die in spanischen Zeitungen verwendet werden, aber nicht in die Empfängersprache integriert oder assimiliert wurden.
+Sie wurden also noch nicht ins Spanische integriert.
+Hier ist ein Beispiel.
+Dies ist ein Satz auf Spanisch: Las prendas bestsellers se estampan con motivos florales, animal print o retales tipo patchwork.
+Wie Sie sehen können, sind hier drei Textpassagen, die eigentlich englische Wörter sind: Bestseller, Animal Print und Patchwork.
+Bei diesen Passagen wollen wir extrahieren und erkennen.
+Es gab früher schon Arbeiten über die Erkennung von Anglizismen. Diese beschäftigten sich mit einem CRF-Modell für die Erkennung von Anglizismen in spanischen Nachrichten.
+Dieses Modell erreichte einen F1-Score von 86.
+Es gab jedoch einige Einschränkungen sowohl beim Datensatz als auch beim Modellierungsansatz.
+Der Datensatz konzentrierte sich also ausschließlich auf eine Quelle von den Nachrichten und bestand nur aus Schlagzeilen.
+Außerdem gab es Überschneidungen bei den Entlehnungen, die im Trainingssatz und im Testsatz vorkommen.
+Dadurch konnte nicht beurteilt werden, ob der Modellierungsansatz tatsächlich auf zuvor unbekannte Entlehnungen verallgemeinert werden kann.
+Unser Ziel ist es also, einige dieser Einschränkungen in der Aufgabe zu überwinden.
+Zu Beginn haben wir also einen neuen Datensatz erstellt.
+Das Ziel war ein neuer Datensatz, der mit lexikalischen Entlehnungen annotiert wurde, und einen möglichst schwierigen Testsatz zu erstellen.
+Es gäbe also minimale Überschneidungen bei Wörtern und Themen zwischen dem Trainingssatz und dem Testsatz.
+Das Ergebnis ist, dass der Testsatz aus Quellen und Daten stammt, die wir nicht im Trainingssatz sehen.
+Hier können Sie sehen, dass es keine Überschneidungen in der Zeit gibt.
+Außerdem enthält der Testsatz auch sehr viele Entlehnungen.
+Um Ihnen ein paar Zahlen zu nennen: Wenn der Trainingssatz sechs Entlehnungen pro 1000 Token enthält, enthält der Testsatz 20 Entlehnungen pro 1000 Token.
+Der Testsatz enthielt so viele Vokabelwörter wie möglich.
+Tatsächlich sind 92 Prozent der Entlehnungen im Testsatz OOV.
+Sie waren also während des Trainings nicht bekannt.
+Der Korpus bestand im Wesentlichen aus einer Sammlung von Texten, die aus verschiedenen Quellen spanischer Zeitungen stammten.
+Er wurde manuell mit zwei Tags annotiert.
+Einer für englische lexikalische Entlehnungen, die den Großteil der lexikalischen Entlehnungen im Spanischen ausmachen, und dann das andere Label für Entlehnungen aus anderen Sprachen.
+Wir verwenden CONLL-Formate und die BIO-Kodierung, sodass wir einfache Token-Entlehnungen wie „App“ oder mehrteilige Token-Entlehnungen wie „maschinelles Lernen“ kodieren können.
+Das sind die Nummern des Korpus.
+Wie Sie sehen können, handelt es sich um etwa 370 000 Token.
+Hier sehen Sie die Reihe an Passagen, die als Englisch markiert wurden, und die Passagen, die als andere Entlehnungen markiert waren, und wie viele davon einzigartig waren.
+Hier sehen Sie einige Beispiele für den Datensatz.
+Wie Sie zum Beispiel hier sehen können, haben wir im ersten Beispiel die Entlehnung „batch cooking“, die eine mehrteilige Wort-Entlehnung ist.
+Wir haben dieses Wort mit der BIO-Kodierung annotiert.
+BIO wurde also für Wörter im Spanischen verwendet, also nicht für Wörter, die nicht entlehnt wurden.
+Hier in diesem zweiten Beispiel sehen Sie „benching“ und „crash“, die ebenfalls als Entlehnungen aus dem Englischen markiert sind.
+Nachdem wir also den Datensatz hatten, untersuchten wir verschiedene Modelle für die Aufgabe, bei der wir lexikalische Entlehnungen extrahieren und erkennen wollten.
+Zuerst haben wir das bedingte Zufallsfeld Modell getestet.
+Das war das Modell, das bei früheren Arbeiten verwendet worden war.
+Wir haben die gleichen manuell erstellten Funktionen wie bei dieser Arbeit verwendet.
+Wie Sie sehen können, sind dies die Funktionen.
+Dies sind binäre Funktionen, wie das Wort oder das Token in Großbuchstaben.
+Handelt es sich um einen Titel?
+Ist es ein Anführungszeichen?
+Solche Dinge sind die Art von Funktionen, die man bei einer Named Entity Recognition-Aufgabe erwarten würde.
+Das sind die Ergebnisse, die wir erhalten haben.
+Wir erhalten 55 F1-Scores, wenn wir das CRF-Modell mit manuell erstellten Funktionen verwenden.
+Das ist ein großer Unterschied im Vergleich zum bereits berichteten F1-Score von 86, der ein Ergebnis desselben CRF-Modells mit derselben Funktionen war, aber auf einen anderen Datensatz angewendet wurde, auch für die Erkennung von spanischen lexikalischen Entlehnungen.
+Das beweist also, dass der Datensatz, den wir erstellt haben, schwieriger ist und dass wir anspruchsvollere Modelle für diese Aufgaben entwickeln müssen.
+Wir haben also zwei Transformer-basierte Modelle getestet.
+Wir haben BETO verwendet, ein einsprachiges BERT-Modell, das auf Spanisch trainiert ist, und auch ein mehrsprachiges BERT-Modell.
+Beide Modelle verwenden wir über die Transformer-Bibliothek von HuggingFace.
+Das sind die Ergebnisse, die wir erhalten haben.
+Wie Sie sehen können, schneidet das mehrsprachige BERT sowohl im Entwicklungssatz als auch im Testsatz und bei allen Metriken besser ab als BETO.
+Das CRF-Modell hat 82 erreicht, nur damit wir einen Vergleich ziehen können.
+Das CRF-Modell erreichte einen F1-Score von 55, während das mehrsprachige BERT 82 erreichte, was ein großer Unterschied ist.
+Nachdem wir also diese Ergebnisse hatten, stellten wir uns eine weitere Frage, nämlich: Können wir ein BiLSTM-CRF-Modell finden, verschiedene Arten von Einbettungen darin einspeisen, Einbettungen, die verschiedene Arten von sprachlichen Informationen kodieren, und die Ergebnisse von Transformer-basierten Modellen übertreffen?
+Dafür haben wir einige präliminäre Experimente durchgeführt, und zwar mit dem BiLSTM-CRF-Modell unter Verwendung von Flare Library.
+Wir haben mit verschiedenen Arten von Einbettungen experimentiert, z. B. mit Transformer-basierten, aber auch mit Schnell-Text-Einbettungen und Zeichen-Einbettungen.
+Wir haben herausgefunden, dass Transformer-basierte Einbettungen besser abschneiden als nicht kontextualisierte Einbettungen, dass die Kombination aus englischer BERT- und spanischer BETO-Einbettung besser ist als mehrsprachige BERT-Einbettungen.
+Auch ergeben die BPE-Einbettungen ein besseres F1 und die Zeicheneinbettungen ein besseres Recall.
+Vor diesem Hintergrund waren dies die besten Ergebnisse, die wir erzielen konnten.
+Beide Modelle waren BiLSTM-CRF-Modelle unter Verwendung von Flare.
+Bei einem wurden BETO- und BERT-Einbettungen und BPE eingespeist, beim anderen BETO- und BERT-Einbettungen und BPE sowie Zeichen-Einbettungen.
+Letzteres war dasjenige, das den höchste F1-Score beim Testsatz erzielte, obwohl der höchste Score beim Entwicklungssatz durch das Modell ohne Zeichen-Einbettungen erreicht wurde.
+Vergessen Sie nicht, dass das beste Ergebnis, das wir mit mehrsprachigem BERT erzielt haben, einen F1-Wert von 76 im Entwicklungssatz und 82 im Testsatz erreichte.
+Dies ist also eine Verbesserung im Vergleich zu diesen Ergebnissen.
+Schließlich stellten wir uns noch eine weitere Frage: Kann die Erkennung von lexikalischen Entlehnungen als Transferlernen von Sprachidentifikation beim Code-Switching formuliert werden?
+Wir haben also dasselbe BiLSTM-CRF-Modell wie mit Flare verwendet, aber anstelle dieser nicht angepassten Transformer-basierten BETO- und BERT-Einbettungen haben wir Code-Switch-Einbettungen verwendet.
+Was sind Code-Switch-Einbettungen?
+Dies sind Einbettungen, die auf Transformer-basierte Einbettungen abgestimmt wurden. Diese wurden für die Sprachidentifikation im Spanisch-Englisch-Abschnitt des LinCE-Code-Switching-Datensatzes vortrainiert.
+LinCE ist ein Datensatz vom Code-Switching, der einen Abschnitt mit Code-Switching von Spanisch und Englisch enthält.
+Wir speisten also Code-Switch-Einbettungen in unser BiLSTM-CRF ein. Optional können Zeicheneinbettungen, BPE-Einbettungen und so weiter eingefügt werden.
+Das beste Ergebnis, das wir erzielt haben, war 84,22. Das ist das beste Ergebnis aller Modelle, die wir mit dem Testsatz ausprobiert haben.
+Obwohl der beste F1-Score, den wir beim Entwicklungssatz erzielt haben, 97 war, war dieser niedriger als das beste Ergebnis vom BiLSTM-CRF, das mit unangepassten Einbettungen eingespeist war.
+Hier sind einige Schlussfolgerungen aus unserer Arbeit.
+Wir haben einen neuen Datensatz mit spanischen Nachrichten erstellt, der mit nicht assimilierten lexikalischen Entlehnungen annotiert ist.
+Dieser Datensatz ist dichter an Entlehnungen und OOV-reicher als frühere Ressourcen.
+Wir haben vier Arten von Modellen für die Erkennung lexikalischer Entlehnungen erforscht.
+Also. Was die Fehleranalyse betrifft, war der Recall ein Schwachpunkt bei allen Modellen.
+Wie Sie hier sehen können, gehören zu den häufigen falsch-negativen Ergebnissen beispielsweise auch Entlehnungen in Großbuchstaben und Wörter, die es sowohl im Englischen als auch im Spanischen gibt.
+Interessant ist auch, dass BPE-Einbettungen den F1-Core zu verbessern scheinen.
+Und die Einbettung von Zeichen scheint den Recall zu verbessern.
+Das ist eine interessante Erkenntnis, die wir vielleicht in künftigen Arbeiten untersuchen können.
+Also. Das wäre alles, was ich zu sagen habe.
+Vielen Dank fürs Zuhören.
+Mein Name ist Antoine.
+Ich bin Doktorand an der University of Massachusetts Amherst.
+Ich stelle unser Paper KinyaBERT vor: ein Morphologie-bewusstes Kinyarwanda-Sprachmodell.
+Heute werde ich über den Grund für diese Forschung sprechen.
+Dann werde ich die KinyaBERT-Modell-Architektur im Detail vorstellen.
+Ich werde dann über unsere experimentellen Ergebnisse sprechen und zum Schluss einige Schlussfolgerungen darstellen.
+Wir alle wissen, dass die jüngsten Fortschritte bei der NLP durch die Verwendung von vortrainierten Sprachmodellen wie BERT ermöglicht wurden.
+Allerdings gibt es immer noch eine Reihe von Einschränkungen.
+Aufgrund der komplexen Morphologie, die von den meisten morphologisch reichen Sprachen ausgedrückt wird, kann der allgegenwärtige byte pair encoding-Tokenisierungsalgorithmus, den ich verwendet habe, nicht die genauen lexikalischen Unterwort-Einheiten extrahieren, d. h. die Morpheme, die für eine effektive Repräsentation benötigt werden.
+Hier haben wir zum Beispiel drei Kinyarwanda-Wörter, die mehrere Morpheme enthalten, aber die BPE-Algorithmen können sie nicht extrahieren.
+Das liegt daran, dass einige morphologische Regeln verschiedene Oberflächenformen erzeugen, die die genauen lexikalischen Informationen verbergen. BPE stützt sich aber nur auf die Oberflächenformen und hat so keinen Zugang zu diesem lexikalischen Modell.
+Die zweite Herausforderung besteht darin, dass, selbst wenn man Zugang zu einem morphologischen Analysator von Oracle hätte, würde es nicht ausreichen, das BPE-Token durch Morpheme zu ersetzen, um die morphologische Kompositionalität auszudrücken.
+Eine dritte Lücke in der Forschung besteht darin, dass neue vortrainierte Sprachmodelle meist bei ressourcenintensiven Sprachen evaluiert werden.
+Wir müssen ihre Anwendbarkeit auch bei geringen Ressourcen und in verschiedenen Sprachen bewerten.
+Daher präsentieren wir KinyaBERT. Das ist eine einfache, aber effektive Anpassung der BERT-Architektur, die für den effektiveren Umgang mit morphologisch reichen Sprachen gedacht ist.
+Wir evaluieren KinyaBERT mit Kinyarwanda, einer ressourcenarmen und morphologisch reichen Sprache, die von mehr als zwölf Millionen Menschen in Ost- und Zentralafrika gesprochen wird.
+Die Eingabe für das Modell ist entweder ein Satz oder ein Dokument.
+Zum Beispiel haben wir hier den Satz: „John twarahamubonye biradutangaza“. Das bedeutet: „Wir waren überrascht, John dort anzutreffen.“
+Wie Sie sehen können, enthaltenWörter im Kinyarwanda mehrere Morpheme, die unterschiedliche Informationen enthalten.
+Daher übergeben wir in unserem Modell diesen Satz oder ein Dokument an einen morphologischen Analysator.
+Dieser erzeugt dann Morpheme, die in allen Wörtern enthalten sind.
+Die Morpheme setzen sich in der Regel aus dem Stamm und null oder mehr Affixen zusammen.
+Die Affixe können Zeitform, Aspekt, Subjekt oder Objekt in den Verben anzeigen und beziehen sich häufiger auf die Substantivklasse der Bantu für Subjekte und Objekte.
+Der morphologische Analysator erzeugt auch einen Teil eines Sprach-Tags für jedes der Wörter.
+Nach diesem Schritt erstellen wir Einbettungen für den Teil der Sprach-Tags.
+Einbettungen für die Affixe.
+Einbettungen für den Stamm.
+Dies sind die Einbettungen auf Morphologie-Ebene.
+Anschließend durchlaufen diese Einbettungen einen Morphologie-Encoder, der ein kleiner Transformer-Encoder ist, der auf jedes Wort unabhängig angewendet wird.
+Ausgegeben werden die Vektoren, die mit den morphologischen Informationen bei jedem Wort kontextualisiert werden.
+Nun führen wir eine Komposition durch, bei der die morphologischen Einbettungen, die der Sprache und dem Wortstamm entsprechen, miteinander verkettet werden.
+Wir verketten sie mit einer weiteren Einbettung des Stammes auf der Ebene des Satzes.
+Dann erstellen wir eine Eingabe für den Hauptsatz oder den Dokument-Encoder.
+Die Endausgabe sind kontextualisierte Einbettungen, die für nachgelagerte NLP-Aufgaben verwendet werden können.
+Für einen morphologischen Analysator verwenden wir Morphologie-Prinzipien mit endlichen Automaten auf zwei Ebenen und mit einer maßgeschneiderten Implementierung, die auf die Sprache Kinyarwanda zugeschnitten ist.
+Wir modellieren die Morphologie aller Wörter auf Kinyarwanda, einschließlich der Verben, Substantive, Demonstrativ- und Possessivpronomen, Numerale und andere.
+Wir verwenden einen nicht überwachten Teil eines Sprach-Tagging-Algorithmus.
+Ein faktorisiertes Modell erster Ordnung wird verwendet, um die Morphologie-Wahrscheinlichkeit zu berücksichtigen, d. h. die Wahrscheinlichkeit, die vom morphologischen Analysator zugewiesen wird.
+Wir berücksichtigen auch den Vorrang der Sprach-Tags sowie die syntaktischen Vereinbarungen, die in den eingegebenen Wörtern vorhanden sind.
+Der Teil des Sprach-Taggers verwendet eine bidirektionale Inferenz, die den häufiger verwendeten Viterbi-Algorithmus für die Dekodierung verbessert.
+Hier noch ein paar Anmerkungen zur Positionskodierung.
+Erstens verwendet der Morphologie-Encoder keine Positionskodierung.
+Das liegt daran, dass jedes der Morpheme einen bekannten Platz im morphologischen Modell einnimmt.
+Daher ist die positionelle Information inhärent, wenn die Morpheme gegeben sind.
+Zweitens verwendet der Satz-Encoder die so genannten ungebundenen, relativ positionellen Einbettungen, die kürzlich auf der ICLR-Konferenz veröffentlicht wurden.
+Diese positionellen Einbettungen entkoppeln im Wesentlichen positionelle Korrelationen von Token hin zu einer Token-Aufmerksamkeitsberechnung.
+Ähnlich wie BERT verwenden wir ein maskiertes Sprachmodell als Vortrainingsziel.
+Im Wesentlichen müssen wir sowohl den Stamm als auch die Affixe, aus denen die Wörter bestehen, vorhersagen.
+Während des Vortrainings werden fünfzehn Prozent aller Wörter für die Vorhersage berücksichtigt, von denen achtzig Prozent maskiert, zehn Prozent mit zufälligen Wörtern ausgetauscht und zehn Prozent unverändert gelassen werden.
+Für die Vorhersage der Affixe stehen wir vor einem Multi-Label-Klassifikationsproblem.
+Daher fassen wir entweder die Affixe zu einer festen Reihe von Gruppen zusammen und sagen die Gruppe als Klassenlabel voraus.
+Die andere Möglichkeit ist die Vorhersage der Affixe durch einen Wahrscheinlichkeitsvektor.
+Wir bewerten beide Ansätze in unseren Experimenten.
+Wir trainieren KinyaBERT mit etwa zweieinhalb Gigabyte an Text in Kinyarwanda vor und vergleichen es mit drei Modellen der Baseline.
+Eines davon ist ein mehrsprachiges Modell namens XLM-R, das mit großen Textkorpora trainiert wird, die aus mehreren Sprachen bestehen.
+Die beiden anderen Baselines werden mit demselben Text auf Kinyarwanda vortrainiert, wobei entweder der byte pair encoding-Algorithmus oder die morphologische Analyse ohne die zweistufige Transformer-Encoder-Architektur verwendet wird.
+Alle Modelle sind in der Basisarchitektur konfiguriert, die etwa hundert bis hundertzehn Millionen Parameter umfasst, wobei Kinyarwanda mit KinyaBERT die geringste Anzahl von Parametern verwendet.
+Alle außer dem mehrsprachigen Modell werden für zweiunddreißigtausend Gradient-Updates vortrainiert, mit einer Batchgröße von zweitausendfünfhundertsechzig Sequenzen in jedem Batch.
+Wir bewerten die vortrainierten Modelle anhand von drei Gruppen von Aufgaben.
+Eine davon ist die GLUE-Benchmark, die häufig zur Bewertung der Effektivität von vortrainierten Sprachmodellen verwendet wird.
+Wir erhalten unsere GLUE-Benchmark-Daten, indem wir die originalen Benchmark-Daten mit Google Translate ins Kinyarwanda übersetzen.
+Die zweite Aufgabe ist die named entity recognition-Benchmark von Kinyarwanda, ein qualitativ hochwertiger Datensatz, der von trainierten Muttersprachlern annotiert wurde.
+Bei der dritten Aufgabe handelt es sich um eine Kategorisierung von Nachrichten. Hier rufen wir Nachrichtenartikel von verschiedenen Websites ab und sammeln ihre Kategorisierungstags, die von den Autoren zugewiesen wurden. Im Wesentlichen versuchen wir, die gleichen Kategorien vorherzusagen.
+Sehen wir uns jetzt die Ergebnisse an.
+Bei der GLUE-Benchmark haben wir festgestellt, dass KinyaBERT durchweg besser abschneidet als die Baseline-Modelle.
+Hier zeigen wir die durchschnittliche Leistung von zehn Durchläufen zur Feinabstimmung.
+Wir führen auch eine Benutzerevaluation der Übersetzungen durch, die von Google Translate erstellt werden.
+Im Wesentlichen bewerteten die Benutzer etwa sechstausend Beispiele und vergaben Noten auf einer Skala von eins bis vier, um die Qualität der Übersetzungen zu bewerten.
+Das Ergebnis war, dass viele Übersetzungen qualitativ schlecht waren.
+Aber alle Modelle mussten mit der gleichen schlechten Qualität der Übersetzung umgehen, und die relative Leistung zwischen den Modellen kann immer noch bedeutend festgestellt werden.
+Bei der Aufgabe Named Entity Recognition stellten wir außerdem fest, dass KinyaBERT die beste Leistung erbringt, wobei die Variante mit der Verteilungsregression der Affixe am besten abschneidet.
+Diese Ergebnisse sind auch Mittelwerte von zehn Durchläufen zur Feinabstimmung.
+Bei der Aufgabe zur Kategorisierung der Nachrichten bekamen wir gemischte Ergebnisse.
+Frühere Arbeiten zur Textklassifizierung für Kinyarwanda hatten herausgefunden, dass eine einfache Schlüsselworterkennung meistens ausreicht, um diese spezifische Aufgabe zu lösen.
+Daher ist die Verwendung von vortrainierten Sprachmodellen weniger erfolgsversprechend.
+Jetzt zu dieser besonderen Aufgabe der Kategorisierung von Nachrichten.
+Wir haben auch eine Ablationsstudie durchgeführt, um zu sehen, ob es alternative Strukturen gibt, die die Leistung verbessern.
+Bei der GLUE-Benchmark haben wir festgestellt, dass die Verwendung von Affix-Sätzen durchweg besser abschneidet, während das Ziel der Affix-Wahrscheinlichkeitsregression die beste Leistung bei der Named Entity Recognition erbringt.
+Auch wenn man die niedrigen Werte bei der Feinabstimmung betrachtet, stellt man fest, dass KinyaBERT in den meisten Fällen eine bessere Konvergenz aufweist.
+Abschließend lässt sich sagen, dass diese Arbeit die Effektivität der expliziten Verwendung von morphologischen Informationen in vortrainierten Sprachmodellen bewiesen hat.
+Die vorgeschlagene zweistufige Transformer-Encoder-Architektur ermöglicht die Erfassung von morphologischer Komplexität und morphologischer Kompositionalität, die ein wichtiger Aspekt von morphologisch reichen Sprachen ist.
+Diese Ergebnisse sollten zu weiteren Forschungen über morphologie-bewusste, vortrainierte Sprachmodelle motivieren.
+Hallo, mein Name ist Michał Pietruszka und es ist mir eine Freude, Ihnen das Paper mit dem Titel Sparsifying Transformer Models with Trainable Representation Pooling vorzustellen.
+Die Arbeit wurde bei Applica KI in Zusammenarbeit mit Lukasz Borchmann und Lukasz Garncarek durchgeführt.
+Lassen Sie mich mit den Problemen beginnen, die in unserer Arbeit abgehandelt werden.
+Unsere Methode funktioniert gut für die Fälle, in denen lange Eingaben berücksichtigt werden.
+Grob gesagt ist sie für Aufgaben und Eingaben von über zweitausend Token gedacht, wo die Zieltexte kürzer als die vorgegebenen Eingaben sind.
+Dies führt zu einigen spezifischen Anwendungen in der NLP.
+Man kann sich zum Beispiel vorstellen, dass ein langes Dokument zusammengefasst, klassifiziert und eine Frage darüber beantwortet werden muss und Informationen oder einige Schlüsselsätze extrahiert werden müssen.
+Erinnern wir uns an den Vanilla-Transformer und sein Problem mit der Aufmerksamkeitskomplexität, die vom Quadrat der Eingabezeile abhängt.
+Im Vanilla-Transformer müssen bei voller Aufmerksamkeitskonnektivität die Relationen jedes Token zu jedem anderen Token berechnet werden.
+Die rechnerische Komplexität der Aufmerksamkeit hängt von der Reihe der Schichten l, der Sequenzlänge n, einer weiteren Sequenzlänge und der Dimensionalität der Repräsentationen ab.
+Ähnlich verhält es sich mit der Cross-Attention des Decoders zu diesem Bild auf der rechten Seite, wobei der einzige Unterschied darin besteht, dass die Ziel-Token in diesem Fall auf die Eingabe-Token gerichtet sind.
+Das sieht man in dieser Formel.
+Der BLEU-Score stellt Relationen dar, die berechnet werden müssen.
+Im Falle der vollständigen Aufmerksamkeit müssen wir jede Relation innerhalb der Eingabe-Sequenz berechnen.
+Jetzt sehen wir, was passiert, wenn wir einen blockweisen Encoder haben, der die Konnektivität der Token so einschränkt, dass sie nur andere Token in der Nähe sehen können.
+Der Text wird in Blöcken gelesen, was die Reihe der Berechnungen auf der Encoder-Seite drastisch reduzieren kann. Aber die Cross-Attention des Decoders wird so nicht verbessert, da jedes Eingabe-Token ohnehin an den Decoder weitergegeben wird.
+Diese Methode wird oft als Fusion im Decoder bezeichnet.
+Die Verbesserung hier kann so interpretiert werden, dass eine der Abhängigkeiten von n durch eine andere Konstante m ersetzt wird, die die Blockgröße darstellt.
+Unsere wichtigste Beobachtung ist, dass die meisten Token für eine Vielzahl von Aufgaben irrelevant sind und fast vollständig vernachlässigt werden können. Dies ist beispielhaft auf der Folie dargestellt.
+Nur ein Teil der Eingaben ist für die gewünschte Ausgabe relevant.
+Zum Beispiel.
+Man kann einen Artikel einmal lesen, die wichtigsten Teile mit einem Textmarker markieren und dann eine Zusammenfassung erstellen, die nur auf diesem Teil aus der mittleren Phase basiert.
+Die Kosten für die Hervorhebung und die Entscheidung, ob das aktuelle Token für die Erstellung der Zusammenfassung wesentlich ist, sind somit gering und hängen nur von der Repräsentation des Token ab.
+Das Pooling der hervorgehobenen Token ist möglich.
+Das ist unserem Top-k-Operator zu verdanken und die Kosten sind vernachlässigbar.
+Die Kosten für die Erstellung einer Zusammenfassung aus einer gekürzten Eingabe sind ebenfalls viel niedriger als beim Vanilla-Modell, wenn die gesamte Eingabe berücksichtigt wird.
+Aber hier stellt sich eine Frage.
+Wie kann man wichtige Token auswählen und Gradienten zu dieser Auswahl zurückverfolgen?
+Das zugrundeliegende wesentliche Problem, das wir lösen, besteht darin, einen trainierbaren Auswahlmechanismus vorzuschlagen.
+Dieser ermöglicht es, dass der Gradient während des Trainings rückverfolgt werden kann, sodass das Netzwerk lernen kann, die wichtigsten Token auszuwählen.
+Präziser ausgedrückt:
+Angesichts einiger Unterwert-Einbettungen, die aus einer einfachen linearen Schicht stammen, besteht die Aufgabe darin, die Einbettungen mit dem höchsten Score zu ermitteln. Zunächst wird die Sequenz permutiert, und es werden Paare gebildet, sodass der höher bewertete Vektor mit dem niedriger bewerteten zusammengebracht wird.
+Anschließend werden die Gewichtungen mithilfe von einer verstärkten Softmax über die Scores berechnet.
+Nach jeder Turnierrunde werden neue Vektoren und Scores als lineare Kombination dieser Paare mit den erhaltenen Gewichtungen zusammengestellt.
+Kurz gesagt kombinieren wir sie linear, indem wir eine Softmax über ihre Scores durchführen.
+Während man zwei Token kombiniert, kann auch schlechte Qualität erzeugt werden.
+Aber auch die Übertragung der Gradienten auf alle eingegebenen Einbettungen wird ermöglicht.
+Kurz gesagt wollen wir ein trainierbares Top-k vorschlagen, das eine turnierähnliche Soft-Selection bei jedem Schritt ausführt.
+Aus einem anderen Blickwinkel betrachtet, folgt das Repräsentationspooling auf die Encoder-Schicht.
+Zunächst wird jede Repräsentation bewertet. Dann werden nur jene mit den höchsten Scores an die nächste Ebene weitergegeben.
+Die Kodierung kann wie in der Standard-Transformer-Architektur auf die volle Länge der Eingabe durchgeführt werden.
+Es ist jedoch möglich, Text in Blöcken mit fester Länge zu verarbeiten und global die beste Repräsentation zu wählen.
+Hier ist ein Beispiel für das nach dem Encoder eingeführte Repräsentationspooling.
+Dies hatte einen direkten Einfluss auf die Ursache der Cross-Attention. Diese hängt nicht von der Länge der Eingabe N ab, sondern von der Konstante K, welche die gepoolte Länge darstellt.
+Diese Konstante gibt an, wie viele Repräsentationen ausgewählt und an den Decoder übergeben werden.
+Die Erstellung einer Zusammenfassung aus einem kürzeren Text ist wesentlich billiger als die frühere Lösung.
+Die Sequenzlänge kann um einen großen Faktor verkürzt werden.
+Wir haben beispielsweise in unseren Experimenten k erfolgreich sechzehnmal oder sogar vierundsechzigmal kleiner als den Wert von n verwendet.
+Bitte beachten Sie, dass die positive Wirkung von blockweiser Kodierung und selbständiger Aufmerksamkeit anhaltend ist.
+Vergessen Sie nicht, dass die Rechenkosten der Aufmerksamkeit vom Quadrat der eingegebenen Länge abhängen.
+Die Reduzierung der Eingabe zu einem früheren Zeitpunkt während des Kodierungsprozesses kann die Kosten erheblich senken.
+Für das Pyramidion-Modell haben wir die Größe der Repräsentation bei der Ausgabe jeder ausgewählten Schicht eingegrenzt, was zu einer exponentiellen Verringerung der Rechenkosten führt, wenn die Kodierung fortschreitet.
+Wie Sie sehen können, sind die gesamten Rechenkosten eines vollständigen Encoders hier weniger als doppelt so hoch als die Kosten der ersten Schicht in voller Größe.
+Wenn das Pooling früher eingeführt wird, wird die Summe aller lila Quadrate auf eine Konstante begrenzt, die nicht von der Anzahl der Schichten abhängt.
+Die Konstante c kann durch die Anordnung der Pooling-Schichten innerhalb des Netzwerks beeinflusst werden.
+Unsere Verbesserungen wurden mit Eingaben in der Länge von achttausend Token verglichen.
+Die Abbildung zeigt, dass die beste Skalierbarkeit für die Tiefe des Netzwerks erreicht wird, wenn das Pooling aktiviert ist.
+Hier kann man feststellen, dass bei solchen langen Eingaben das Training des Pyramidions mit 24 Schichten billiger sein kann als das Training eines zweischichtigen Vanilla-Transformers.
+Ganz zu schweigen davon, wie schnell ein Vanilla-Transformer bei einer so langen Eingabe ungenügend Speicher haben kann.
+Der qualitative Vergleich unseres Trend-Pyramidions mit anderen Baselines wird anhand der langen Aufgabe mit der Zusammenfassung des Dokuments durchgeführt. Alternativ kann der Hauptteil eines Artikels von arXiv oder PubMed herangezogen werden, wo die Aufgabe darin besteht, eine Zusammenfassung zu erstellen.
+Man kann also sehen, dass der blockweise Ansatz, der unsere Baseline darstellt, auf modernsten Modellen basiert, während das Pyramidion die Leistung dieser konkurrenzfähigen Baseline beibehält oder verbessert.
+Gleichzeitig ist unser Modell zu achtzig Prozent schneller zu trainieren und zu über vierhundertfünfzig Prozent schneller bei der Inferenz im Vergleich zur blockweisen Baseline.
+Beide Modelle haben viel weniger Parameter und wurden von Grund auf für die ausgewählten Aufgaben trainiert.
+Frühere Ansätze zur Erzielung einer ähnlichen Leistung mussten mehr Parameter verwenden sowie vortrainierte grundlegende Modelle und zusätzliche Vortrainingsziele bei der Sprache nutzen.
+Wir laden Sie ein, unser vollständiges Paper zu lesen und unseren GitHub-Code zu verwenden.
+Vielen Dank fürs Zuschauen.
