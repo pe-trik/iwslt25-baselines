@@ -130,7 +130,7 @@ class SeamlessM4TAgent(SpeechToTextAgent):
         )
 
         speech_to_translate = segmenter_action.speech_to_translate()
-        if len(speech_to_translate) == 0:
+        if len(speech_to_translate) < 4000:
             return ""
 
         speech_to_translate = torch.tensor(speech_to_translate).unsqueeze(0)
