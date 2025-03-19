@@ -1,4 +1,6 @@
-# Data Preparation ACL 60/60 Dev Set
+# Data
+
+## ACL 60/60 Dev Set
 
 ## Download
 Download and unzip the ACL 60/60 Dev Set:
@@ -22,4 +24,12 @@ for lang in de zh ja
 do
     python prepare_acl6060_dev.py `pwd -P`/2/acl_6060/dev/text/xml/ACL.6060.dev.en-xx.${lang}.xml `pwd -P`/2/acl_6060/dev/full_wavs .
 done
+```
+## Czech-to-English IWSLT Dev Set
+
+Download data from: https://drive.google.com/file/d/1-XicsrBQubkGK-kyBIxKO-7JAx94o_KV/view?usp=sharing
+
+Run data preparation:
+```
+python prepare_cs_en_dev.py iwslt2024_cs_en_dev/iwslt2024_cs_devset.json cs_en
 ```
