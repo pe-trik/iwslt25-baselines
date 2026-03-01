@@ -1,4 +1,5 @@
 #!/bin/bash
+
 export MWERSEGMENTER_ROOT=${REPO_ROOT_PATH}/tools/mwerSegmenter
 
 for log_path in final/segment*/instances.log; do
@@ -9,8 +10,8 @@ for log_path in final/segment*/instances.log; do
         continue
     fi
     python3 ${REPO_ROOT_PATH}/tools/stream_laal.py --simuleval-instances $log_path  \
-            --reference ${REPO_ROOT_PATH}/data/acl6060_dev/de/tgt_segments.txt \
-            --audio-yaml ${REPO_ROOT_PATH}/data/acl6060.yaml \
+            --reference ${REPO_ROOT_PATH}/data/mcif/it/tgt_segments.txt \
+            --audio-yaml ${REPO_ROOT_PATH}/data/mcif_translation.yaml \
             --sacrebleu-tokenizer 13a \
             --latency-unit word > $(dirname $log_path)/scores.resegmented.tsv
 done
