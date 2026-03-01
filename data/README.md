@@ -14,16 +14,17 @@ MCIF does not natively include the needed YAML for StreamLAAL regrading, so we h
 Alternatively, download the final YAML file directly:
 
 ```
-wget https://web.engr.oregonstate.edu/~agostinv/audio-mcif-translation.yaml
+wget https://web.engr.oregonstate.edu/~agostinv/mcif_translation.yaml
 ```
 
 ### Prepare Files for SimulEval
 SimulEval requires src.txt and tgt.txt files where each recording and translation is listed on a separate lines.
 
 ```
+cd mcif
 for lang in de zh it
 do
-    python prepare_mcif.py `pwd -P`MCIF/MCIF.long.${lang}.ref.xml `pwd -P`MCIF/MCIF_DATA/LONG_AUDIO/ .
+    python prepare_mcif.py `pwd -P`/../MCIF/MCIF.long.${lang}.ref.xml `pwd -P`/../MCIF/MCIF_DATA/LONG_AUDIO/ .
 done
 ```
 
