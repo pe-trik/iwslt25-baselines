@@ -1,4 +1,4 @@
-# IWSLT 2025 Baselines
+# IWSLT 2025 & 2026 Baselines
 
 ## Setup
 1. Install SimulEval (see https://github.com/facebookresearch/SimulEval)
