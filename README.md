@@ -7,5 +7,8 @@
 
 ## Experiments
 
-### English-to-German
+### ACL 60/60: English-to-German
 See [experiments/acl6060_dev/de/fixed_segmenter/README.md](experiments/acl6060_dev/de/fixed_segmenter/README.md)
+
+### MCIF: English-to-German
+See [experiments/mcif/it/fixed_segmenter/README.md](experiments/mcif/it/fixed_segmenter/README.md)
