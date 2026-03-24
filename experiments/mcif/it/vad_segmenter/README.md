@@ -43,3 +43,8 @@ bash eval.sh
 | 36.17 | 3447       | 4536         |
 | 36.47 | 3833       | 4900         |
 | 36.26 | 4130       | 5232         |
+
+
+## SimulStream Usage Script
+
+In addition to the results seen here, we also provide an example of a script that can be run with SimulStream in this directory. It should be a drop-in replacement for the `run_simuleval.sh` script and may be used instead.
