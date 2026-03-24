@@ -70,7 +70,8 @@ if __name__ == "__main__":
          open(os.path.join(save_dir, "tgt.txt"), "w") as tgt_f, \
          open(os.path.join(save_dir, "tgt_segments.txt"), "w") as tgt_seg_f, \
          open(os.path.join(save_dir, "transcript.txt"), "w") as transcript_f, \
-         open(os.path.join(save_dir, "transcript_segments.txt"), "w") as transcript_seg_f:
+         open(os.path.join(save_dir, "transcript_segments.txt"), "w") as transcript_seg_f, \
+         open(os.path.join(wav_dir, "wav_list.txt") as wav_list_f:
 
         for task_num, doc in docs:
             docid = doc['docid']
@@ -82,6 +83,8 @@ if __name__ == "__main__":
 
             src_f.write(f"{doc_wav_path}\n")
 
+            wav_list_f.write(f"{docid}.wav")
+
             tgt_f.write(" ".join(tgt_segs).replace("\n", " ") + "\n")
             for seg in tgt_segs:
                 tgt_seg_f.write(f"{seg.strip()}\n")
@@ -90,4 +93,4 @@ if __name__ == "__main__":
             for seg in src_segs:
                 transcript_seg_f.write(f"{seg.strip()}\n")
 
-    print(f"Wrote outputs for {len(docs)} TRANS tasks to {save_dir}/")
+    print(f"Wrote outputs for {len(docs)} TRANS tasks to {save_dir}/ and wav_list.txt to {wav_dir} for SimulStream use")
