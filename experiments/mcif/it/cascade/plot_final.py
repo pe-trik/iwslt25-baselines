@@ -9,7 +9,7 @@ for step in range(1, 11):
     step = step / 10
     xs, ys = [], []
     for policy in range(1, 5):
-        file = f"final/segment-length_24_step-length_{step}_translation-la-policy_{policy}_transcript-context_30_translation-max-input-length-soft_0/scores.resegmented.tsv"
+        file = f"final/segment-length_28_step-length_{step}_translation-la-policy_{policy}_transcript-context_0_translation-max-input-length-soft_5/scores.resegmented.tsv"
         try:
             x, y = load_file(file)
             xs.append(x)
