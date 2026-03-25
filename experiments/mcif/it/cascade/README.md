@@ -85,3 +85,9 @@ Following the previous tuning, we also sweep the minimum segment length (in numb
 | 0.8                       | 2                    | 38.63 | 4936       | 6258          |
 | 0.8                       | 3                    | 39.20 | 5267       | 6657          |
 | 0.8                       | 4                    | 39.56 | 5722       | 7284          |
+
+
+## SimulStream Usage Script
+
+In addition to the results seen here, we also provide an example of a script that can be run with SimulStream in this directory. It should be a drop-in replacement for the `run_simuleval.sh` script and may be used instead.
+
