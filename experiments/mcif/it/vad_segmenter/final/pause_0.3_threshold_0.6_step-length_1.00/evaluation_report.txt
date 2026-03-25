@@ -1,0 +1,53 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/pause_0.3_threshold_0.6_step-length_1.00/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency
+  Version            0.1.6
+
+Scores
+----------------------------------------------------------------
+  BLEU           35.3892
+  chrF           60.9821
+  LongYAAL (CU)  2852.6502
+  LongAL (CU)    2917.6799
+  LongLAAL (CU)  3047.9965
+  LongAP (CU)    1.1277
+  LongDAL (CU)   4075.3824
+  LongYAAL (CA)  48760.3117
+  LongAL (CA)    67570.1634
+  LongLAAL (CA)  67573.5874
+  LongAP (CA)    20.6356
+  LongDAL (CA)   69409.4049
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 5
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 347 with reference 'Ciao!' has an empty prediction.
+Instance 768 with reference 'Giusto?' has an empty prediction.
+Instance 783 with reference 'Giusto?' has an empty prediction.
+Instance 792 with reference 'Giusto?' has an empty prediction.
+Instance 805 with reference 'Grazie.' has an empty prediction.
+================================================================

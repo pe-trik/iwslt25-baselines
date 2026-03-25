@@ -1,0 +1,50 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final_local/segment-length_28_step-length_0.5_translation-la-policy_3_transcript-context_0_translation-max-input-length-soft_5/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency
+  Version            0.1.6
+
+Scores
+----------------------------------------------------------------
+  BLEU           39.3769
+  chrF           65.3001
+  LongYAAL (CU)  4312.3010
+  LongAL (CU)    4411.7668
+  LongLAAL (CU)  4495.0687
+  LongAP (CU)    1.5145
+  LongDAL (CU)   5764.9246
+  LongYAAL (CA)  77623.6201
+  LongAL (CA)    136153.1650
+  LongLAAL (CA)  136155.3372
+  LongAP (CA)    52.9355
+  LongDAL (CA)   138861.3928
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 2
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 127 with reference 'Cominciamo.' has an empty prediction.
+Instance 764 with reference 'Bene.' has an empty prediction.
+================================================================

@@ -1,0 +1,59 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/segment-length_8.0_step-length_1.0/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency
+  Version            0.1.6
+
+Scores
+----------------------------------------------------------------
+  BLEU           27.1315
+  chrF           54.6804
+  LongYAAL (CU)  3006.4276
+  LongAL (CU)    2748.5142
+  LongLAAL (CU)  2904.7158
+  LongAP (CU)    1.1773
+  LongDAL (CU)   4012.1923
+  LongYAAL (CA)  51302.6546
+  LongAL (CA)    71592.4041
+  LongLAAL (CA)  71597.1330
+  LongAP (CA)    23.7057
+  LongDAL (CA)   73512.5382
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 11
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 121 with reference 'Quindi, i punti chiave del nostro lavoro sono che i modelli linguistici sono sensibili alle caratteristiche sintattiche e semantiche latenti che sono condivise tra le frasi.' has an empty prediction.
+Instance 161 with reference 'Grazie mille.' has an empty prediction.
+Instance 304 with reference 'Grazie.' has an empty prediction.
+Instance 347 with reference 'Ciao!' has an empty prediction.
+Instance 365 with reference 'L'ottenimento di alberi può inoltre comportare procedure specializzate di induzione grammaticale.' has an empty prediction.
+Instance 440 with reference 'A Data-driven, Multilingual Exploration".' has an empty prediction.
+Instance 486 with reference 'Ci vediamo a Toronto.' has an empty prediction.
+Instance 746 with reference 'È tutto.' has an empty prediction.
+Instance 755 with reference 'Bene.' has an empty prediction.
+Instance 861 with reference 'In primo luogo, la conoscenza specifica dell'entità, ad esempio "Servin è un giudice".' has an empty prediction.
+Instance 885 with reference 'Grazie per l'attenzione.' has an empty prediction.
+================================================================

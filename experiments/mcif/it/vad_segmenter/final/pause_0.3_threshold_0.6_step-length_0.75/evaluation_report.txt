@@ -1,0 +1,56 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/pause_0.3_threshold_0.6_step-length_0.75/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency
+  Version            0.1.6
+
+Scores
+----------------------------------------------------------------
+  BLEU           34.3168
+  chrF           60.4574
+  LongYAAL (CU)  2422.4232
+  LongAL (CU)    2348.2400
+  LongLAAL (CU)  2509.9105
+  LongAP (CU)    1.0816
+  LongDAL (CU)   3468.3832
+  LongYAAL (CA)  57316.8493
+  LongAL (CA)    85403.2147
+  LongLAAL (CA)  85406.9250
+  LongAP (CA)    26.5128
+  LongDAL (CA)   87446.6234
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 8
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 245 with reference 'Inoltre, crediamo che l'aggiornamento iterativo è utile per l'apprendimento per trasferimento da un dominio diverso, mentre le annotazioni attive nel dominio beneficiano dell'aggiornamento cumulativo.' has an empty prediction.
+Instance 347 with reference 'Ciao!' has an empty prediction.
+Instance 700 with reference 'Eccetera.' has an empty prediction.
+Instance 746 with reference 'È tutto.' has an empty prediction.
+Instance 768 with reference 'Giusto?' has an empty prediction.
+Instance 783 with reference 'Giusto?' has an empty prediction.
+Instance 792 with reference 'Giusto?' has an empty prediction.
+Instance 805 with reference 'Grazie.' has an empty prediction.
+================================================================

@@ -1,0 +1,58 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final_local/segment-length_28_step-length_0.8_translation-la-policy_4_transcript-context_0_translation-max-input-length-soft_5/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency
+  Version            0.1.6
+
+Scores
+----------------------------------------------------------------
+  BLEU           39.8356
+  chrF           65.3919
+  LongYAAL (CU)  5730.9751
+  LongAL (CU)    6333.6806
+  LongLAAL (CU)  6385.0598
+  LongAP (CU)    1.7229
+  LongDAL (CU)   7558.4312
+  LongYAAL (CA)  58730.6554
+  LongAL (CA)    87310.3414
+  LongLAAL (CA)  87311.8028
+  LongAP (CA)    27.9177
+  LongDAL (CA)   89032.1381
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 10
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 391 with reference 'Se volete saperne di più sui nostri esperimenti e su come affrontiamo queste sfide, date uno sguardo al nostro articolo o al nostro poster.' has an empty prediction.
+Instance 410 with reference 'Approfondiamo una categoria di vincoli più dettagliata definita in wikiHow.' has an empty prediction.
+Instance 440 with reference 'A Data-driven, Multilingual Exploration".' has an empty prediction.
+Instance 540 with reference 'Grazie.' has an empty prediction.
+Instance 719 with reference 'I lavori esistenti possono essere ampiamente classificati in quattro categorie.' has an empty prediction.
+Instance 764 with reference 'Bene.' has an empty prediction.
+Instance 783 with reference 'Giusto?' has an empty prediction.
+Instance 785 with reference 'Ok.' has an empty prediction.
+Instance 805 with reference 'Grazie.' has an empty prediction.
+Instance 901 with reference 'Per determinare quale tipo di valutazione sia più efficace, abbiamo selezionato quattro modelli di chat all'avanguardia e li abbiamo valutati su 100 conversazioni uomo-bot per modello utilizzando ABC-Eval.' has an empty prediction.
+================================================================

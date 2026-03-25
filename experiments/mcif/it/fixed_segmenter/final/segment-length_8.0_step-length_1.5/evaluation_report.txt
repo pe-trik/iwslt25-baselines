@@ -1,0 +1,58 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/segment-length_8.0_step-length_1.5/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency
+  Version            0.1.6
+
+Scores
+----------------------------------------------------------------
+  BLEU           27.7039
+  chrF           54.8703
+  LongYAAL (CU)  3670.6428
+  LongAL (CU)    3448.9877
+  LongLAAL (CU)  3546.2680
+  LongAP (CU)    1.5332
+  LongDAL (CU)   4903.2071
+  LongYAAL (CA)  44735.1114
+  LongAL (CA)    59737.7397
+  LongLAAL (CA)  59740.5342
+  LongAP (CA)    20.9743
+  LongDAL (CA)   61591.9269
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 10
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 127 with reference 'Cominciamo.' has an empty prediction.
+Instance 161 with reference 'Grazie mille.' has an empty prediction.
+Instance 304 with reference 'Grazie.' has an empty prediction.
+Instance 440 with reference 'A Data-driven, Multilingual Exploration".' has an empty prediction.
+Instance 486 with reference 'Ci vediamo a Toronto.' has an empty prediction.
+Instance 746 with reference 'È tutto.' has an empty prediction.
+Instance 755 with reference 'Bene.' has an empty prediction.
+Instance 783 with reference 'Giusto?' has an empty prediction.
+Instance 861 with reference 'In primo luogo, la conoscenza specifica dell'entità, ad esempio "Servin è un giudice".' has an empty prediction.
+Instance 885 with reference 'Grazie per l'attenzione.' has an empty prediction.
+================================================================

@@ -1,0 +1,56 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final_local/segment-length_28_step-length_0.8_translation-la-policy_2_transcript-context_0_translation-max-input-length-soft_5/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency
+  Version            0.1.6
+
+Scores
+----------------------------------------------------------------
+  BLEU           39.2927
+  chrF           65.0854
+  LongYAAL (CU)  5013.8322
+  LongAL (CU)    5254.5673
+  LongLAAL (CU)  5321.2414
+  LongAP (CU)    1.6612
+  LongDAL (CU)   6543.2866
+  LongYAAL (CA)  53487.3905
+  LongAL (CA)    76462.0979
+  LongLAAL (CA)  76464.3504
+  LongAP (CA)    25.0964
+  LongDAL (CA)   78128.2414
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 8
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 294 with reference 'Ad esempio, "quella senza parole", "non quella con il ragazzo di 12 anni", o "quella immaginaria", o "viene dall'Azerbaigian", e così via.' has an empty prediction.
+Instance 391 with reference 'Se volete saperne di più sui nostri esperimenti e su come affrontiamo queste sfide, date uno sguardo al nostro articolo o al nostro poster.' has an empty prediction.
+Instance 410 with reference 'Approfondiamo una categoria di vincoli più dettagliata definita in wikiHow.' has an empty prediction.
+Instance 540 with reference 'Grazie.' has an empty prediction.
+Instance 719 with reference 'I lavori esistenti possono essere ampiamente classificati in quattro categorie.' has an empty prediction.
+Instance 764 with reference 'Bene.' has an empty prediction.
+Instance 805 with reference 'Grazie.' has an empty prediction.
+Instance 901 with reference 'Per determinare quale tipo di valutazione sia più efficace, abbiamo selezionato quattro modelli di chat all'avanguardia e li abbiamo valutati su 100 conversazioni uomo-bot per modello utilizzando ABC-Eval.' has an empty prediction.
+================================================================

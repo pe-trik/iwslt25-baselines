@@ -1,0 +1,52 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final_local/segment-length_28_step-length_0.6_translation-la-policy_2_transcript-context_0_translation-max-input-length-soft_5/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency
+  Version            0.1.6
+
+Scores
+----------------------------------------------------------------
+  BLEU           39.0867
+  chrF           65.2107
+  LongYAAL (CU)  4260.6183
+  LongAL (CU)    4346.8061
+  LongLAAL (CU)  4426.3358
+  LongAP (CU)    1.4557
+  LongDAL (CU)   5681.9956
+  LongYAAL (CA)  63612.3073
+  LongAL (CA)    98852.1340
+  LongLAAL (CA)  98854.9130
+  LongAP (CA)    36.9208
+  LongDAL (CA)   100874.7228
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 4
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 127 with reference 'Cominciamo.' has an empty prediction.
+Instance 764 with reference 'Bene.' has an empty prediction.
+Instance 785 with reference 'Ok.' has an empty prediction.
+Instance 792 with reference 'Giusto?' has an empty prediction.
+================================================================
