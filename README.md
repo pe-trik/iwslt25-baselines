@@ -5,7 +5,7 @@
 2. Setup tools (see [tools/README.md](tools/README.md))
 3. Setup data (see [data/README.md](data/README.md))
 
-This year, we will use SimulStream (see https://github.com/hlt-mt/simulstream) for test set evaluations. Example scripts are provided and it can be accessed as a submodule of this repository. Installation for SimulStream may need to be done separately.
+This year, we will use SimulStream (see https://github.com/hlt-mt/simulstream) for test set evaluations instead of SimulEval. Example scripts are provided, but installation for SimulStream will need to be done separately. Unless otherwise specified, most workflows in this repository should work without SimulStream out-of-the-box. 
 
 ## Experiments
 
