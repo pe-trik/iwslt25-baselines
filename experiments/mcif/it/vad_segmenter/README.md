@@ -27,22 +27,23 @@ The best results are obtained with pause=0.3 and VA threshold=0.6. We run the fi
 bash final.sh
 ```
 
-Run evaluation script:
+Run evaluation scripts:
 ```
 bash eval.sh
+bash omnisteval.sh
 ```
 
 ## Final Results
 
-| BLEU  | StreamLAAL | StreamLAAL_CA |
-|:-----:|:----------:|:-------------:|
-| 30.63 | 2069       | 3164         |
-| 34.18 | 2467       | 3499         |
-| 35.22 | 2959       | 3937         |
-| 36.07 | 3362       | 4457         |
-| 36.17 | 3447       | 4536         |
-| 36.47 | 3833       | 4900         |
-| 36.26 | 4130       | 5232         |
+| BLEU  | StreamLAAL | StreamLAAL_CA | LongYAAL |
+|:-----:|:----------:|:-------------:|:--------:|
+| 30.63 | 2069       | 3164          | 1953     |
+| 34.18 | 2467       | 3499          | 2422     |
+| 35.22 | 2959       | 3937          | 2853     | 
+| 36.07 | 3362       | 4457          | 3169     |
+| 36.17 | 3447       | 4536          | 3238     |
+| 36.47 | 3833       | 4900          | 3490     |
+| 36.26 | 4130       | 5232          | 3698     |
 
 
 ## SimulStream Usage Script
