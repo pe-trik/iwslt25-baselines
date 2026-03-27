@@ -33,22 +33,23 @@ Run the final runs in simultaneous mode with segment length of 8 seconds:
 bash final.sh
 ```
 
-Run evaluation script:
+Run evaluation scripts:
 ```
 bash eval.sh
+bash omnisteval.sh
 ```
 
 ## Final Results
 
-| BLEU  | StreamLAAL | StreamLAAL_CA |
-|:-----:|:----------:|:-------------:|
-| 24.29 | 2078       | 3442          |
-| 27.00 | 2474       | 3563          |
-| 26.97 | 2889       | 3912          |
-| 27.30 | 3236       | 4343          |
-| 27.54 | 3508       | 4664          |
-| 27.78 | 3741       | 4846          |
-| 38.91 | 3912       | 5034          |
+| BLEU  | StreamLAAL | StreamLAAL_CA | LongYAAL |
+|:-----:|:----------:|:-------------:|:--------:|
+| 24.29 | 2078       | 3442          | 2046     |
+| 27.00 | 2474       | 3563          | 2568     |
+| 26.97 | 2889       | 3912          | 3006     |
+| 27.30 | 3236       | 4343          | 3407     |
+| 27.54 | 3508       | 4664          | 3670     |
+| 27.78 | 3741       | 4846          | 3840     |
+| 29.12 | 3912       | 5034          | 4065     |
 
 
 ## SimulStream Usage Script

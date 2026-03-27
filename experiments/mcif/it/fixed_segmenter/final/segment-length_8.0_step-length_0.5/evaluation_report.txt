@@ -1,0 +1,65 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/segment-length_8.0_step-length_0.5/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency, COMET
+  Version            0.1.6
+  COMET model        Unbabel/XCOMET-XL
+
+Scores
+----------------------------------------------------------------
+  BLEU           24.5367
+  chrF           51.6851
+  COMET          0.5654
+  LongYAAL (CU)  2046.1209
+  LongAL (CU)    1756.0700
+  LongLAAL (CU)  1995.0577
+  LongAP (CU)    0.8863
+  LongDAL (CU)   2814.0188
+  LongYAAL (CA)  77597.4965
+  LongAL (CA)    135940.6505
+  LongLAAL (CA)  135942.5438
+  LongAP (CA)    42.8243
+  LongDAL (CA)   138435.4239
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 15
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 1 with reference 'Che cos'è la traduzione simultanea vocale?' has an empty prediction.
+Instance 127 with reference 'Cominciamo.' has an empty prediction.
+Instance 161 with reference 'Grazie mille.' has an empty prediction.
+Instance 303 with reference 'Ecco un link al nostro set di dati.' has an empty prediction.
+Instance 304 with reference 'Grazie.' has an empty prediction.
+Instance 345 with reference 'Non esitate a consultare il lavoro.' has an empty prediction.
+Instance 347 with reference 'Ciao!' has an empty prediction.
+Instance 440 with reference 'A Data-driven, Multilingual Exploration".' has an empty prediction.
+Instance 486 with reference 'Ci vediamo a Toronto.' has an empty prediction.
+Instance 705 with reference '"Are you copying my model?' has an empty prediction.
+Instance 755 with reference 'Bene.' has an empty prediction.
+Instance 756 with reference 'Individuano uno dei congiunti.' has an empty prediction.
+Instance 792 with reference 'Giusto?' has an empty prediction.
+Instance 861 with reference 'In primo luogo, la conoscenza specifica dell'entità, ad esempio "Servin è un giudice".' has an empty prediction.
+Instance 885 with reference 'Grazie per l'attenzione.' has an empty prediction.
+================================================================

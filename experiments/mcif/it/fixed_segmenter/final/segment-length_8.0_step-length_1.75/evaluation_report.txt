@@ -1,0 +1,60 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/segment-length_8.0_step-length_1.75/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency, COMET
+  Version            0.1.6
+  COMET model        Unbabel/XCOMET-XL
+
+Scores
+----------------------------------------------------------------
+  BLEU           27.9558
+  chrF           55.0387
+  COMET          0.6162
+  LongYAAL (CU)  3839.6751
+  LongAL (CU)    3651.9606
+  LongLAAL (CU)  3719.2507
+  LongAP (CU)    1.5370
+  LongDAL (CU)   5142.8957
+  LongYAAL (CA)  40493.1677
+  LongAL (CA)    52097.2252
+  LongLAAL (CA)  52100.1795
+  LongAP (CA)    18.1560
+  LongDAL (CA)   53834.9465
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 10
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 127 with reference 'Cominciamo.' has an empty prediction.
+Instance 161 with reference 'Grazie mille.' has an empty prediction.
+Instance 206 with reference 'Grazie.' has an empty prediction.
+Instance 235 with reference 'Tra le diverse strategie, abbiamo riscontrato che Cumulative ha avuto un rendimento uguale o migliore su tutta la linea rispetto a Iterative.' has an empty prediction.
+Instance 304 with reference 'Grazie.' has an empty prediction.
+Instance 440 with reference 'A Data-driven, Multilingual Exploration".' has an empty prediction.
+Instance 746 with reference 'È tutto.' has an empty prediction.
+Instance 755 with reference 'Bene.' has an empty prediction.
+Instance 756 with reference 'Individuano uno dei congiunti.' has an empty prediction.
+Instance 885 with reference 'Grazie per l'attenzione.' has an empty prediction.
+================================================================

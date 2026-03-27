@@ -1,0 +1,62 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/pause_0.3_threshold_0.6_step-length_0.50/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency, COMET
+  Version            0.1.6
+  COMET model        Unbabel/XCOMET-XL
+
+Scores
+----------------------------------------------------------------
+  BLEU           30.8473
+  chrF           58.0141
+  COMET          0.6650
+  LongYAAL (CU)  1952.6166
+  LongAL (CU)    1769.2658
+  LongLAAL (CU)  1984.6021
+  LongAP (CU)    1.0210
+  LongDAL (CU)   2795.7578
+  LongYAAL (CA)  67740.7045
+  LongAL (CA)    110990.9740
+  LongLAAL (CA)  110994.7991
+  LongAP (CA)    33.0414
+  LongDAL (CA)   113347.2764
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 12
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 347 with reference 'Ciao!' has an empty prediction.
+Instance 440 with reference 'A Data-driven, Multilingual Exploration".' has an empty prediction.
+Instance 515 with reference 'Successivamente, per rimanere coinvolti nello studio, possono confrontare le loro risposte con un'IA e gli altri.' has an empty prediction.
+Instance 700 with reference 'Eccetera.' has an empty prediction.
+Instance 746 with reference 'È tutto.' has an empty prediction.
+Instance 764 with reference 'Bene.' has an empty prediction.
+Instance 768 with reference 'Giusto?' has an empty prediction.
+Instance 773 with reference 'Quindi entrambe queste frasi vanno bene.' has an empty prediction.
+Instance 774 with reference '"Marge read this absolutely fascinating book about bees yesterday".' has an empty prediction.
+Instance 783 with reference 'Giusto?' has an empty prediction.
+Instance 792 with reference 'Giusto?' has an empty prediction.
+Instance 805 with reference 'Grazie.' has an empty prediction.
+================================================================

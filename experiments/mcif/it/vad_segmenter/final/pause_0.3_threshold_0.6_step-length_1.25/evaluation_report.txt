@@ -1,0 +1,57 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/pause_0.3_threshold_0.6_step-length_1.25/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency, COMET
+  Version            0.1.6
+  COMET model        Unbabel/XCOMET-XL
+
+Scores
+----------------------------------------------------------------
+  BLEU           36.1955
+  chrF           61.8216
+  COMET          0.7146
+  LongYAAL (CU)  3169.4145
+  LongAL (CU)    3325.1030
+  LongLAAL (CU)  3426.7113
+  LongAP (CU)    1.4102
+  LongDAL (CU)   4558.0595
+  LongYAAL (CA)  45990.6161
+  LongAL (CA)    62536.0603
+  LongLAAL (CA)  62539.5420
+  LongAP (CA)    20.8581
+  LongDAL (CA)   64338.1765
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 7
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 245 with reference 'Inoltre, crediamo che l'aggiornamento iterativo è utile per l'apprendimento per trasferimento da un dominio diverso, mentre le annotazioni attive nel dominio beneficiano dell'aggiornamento cumulativo.' has an empty prediction.
+Instance 491 with reference 'Potreste rivolgervi a un'API popolare come Prospective API per il rilevamento della tossicità, e questo funziona davvero bene se siete Carl Jones.' has an empty prediction.
+Instance 515 with reference 'Successivamente, per rimanere coinvolti nello studio, possono confrontare le loro risposte con un'IA e gli altri.' has an empty prediction.
+Instance 579 with reference 'Ed è incredibilmente difficile determinare cosa sia effettivamente neutrale e debba conservare i dati di monitoraggio del linguaggio.' has an empty prediction.
+Instance 768 with reference 'Giusto?' has an empty prediction.
+Instance 792 with reference 'Giusto?' has an empty prediction.
+Instance 805 with reference 'Grazie.' has an empty prediction.
+================================================================

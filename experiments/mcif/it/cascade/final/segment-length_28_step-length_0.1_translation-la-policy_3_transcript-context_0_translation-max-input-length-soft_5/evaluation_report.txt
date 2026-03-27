@@ -1,0 +1,53 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/segment-length_28_step-length_0.1_translation-la-policy_3_transcript-context_0_translation-max-input-length-soft_5/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency, COMET
+  Version            0.1.6
+  COMET model        Unbabel/XCOMET-XL
+
+Scores
+----------------------------------------------------------------
+  BLEU           38.1349
+  chrF           64.6958
+  COMET          0.7668
+  LongYAAL (CU)  3865.9718
+  LongAL (CU)    3868.3245
+  LongLAAL (CU)  3970.6517
+  LongAP (CU)    1.3883
+  LongDAL (CU)   5230.5767
+  LongYAAL (CA)  104543.6851
+  LongAL (CA)    260416.5384
+  LongLAAL (CA)  260417.9604
+  LongAP (CA)    92.9955
+  LongDAL (CA)   265230.1162
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 3
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 127 with reference 'Cominciamo.' has an empty prediction.
+Instance 294 with reference 'Ad esempio, "quella senza parole", "non quella con il ragazzo di 12 anni", o "quella immaginaria", o "viene dall'Azerbaigian", e così via.' has an empty prediction.
+Instance 764 with reference 'Bene.' has an empty prediction.
+================================================================
