@@ -1,0 +1,54 @@
+================================================================
+OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
+================================================================
+
+Settings
+----------------------------------------------------------------
+  Hypothesis         final/pause_0.1_threshold_0.2_step-length_1.75/instances.log
+  Hypothesis format  jsonl
+  Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
+  Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
+  Seg. type          speech
+  Language           it
+  BLEU tokenizer     13a
+  Char-level         no
+  Offset delays      no
+  Fix CA emissions   no
+  Metrics            quality, latency, COMET
+  Version            0.1.6
+  COMET model        Unbabel/XCOMET-XL
+
+Scores
+----------------------------------------------------------------
+  BLEU           32.6204
+  chrF           60.0879
+  COMET          0.6738
+  LongYAAL (CU)  2874.2447
+  LongAL (CU)    3052.9690
+  LongLAAL (CU)  3173.2877
+  LongAP (CU)    1.1824
+  LongDAL (CU)   4361.3725
+  LongYAAL (CA)  39979.0228
+  LongAL (CA)    52948.1820
+  LongLAAL (CA)  52951.8352
+  LongAP (CA)    17.0732
+  LongDAL (CA)   54473.5131
+
+Instance-level Details
+----------------------------------------------------------------
+Empty Predictions: 4
+Total Instances:   919
+
+For long-form evaluation, empty predictions may naturally occur for segments with short references
+due to resegmentation or segments containing non-speech content such as music or silence.
+However, if many segments or segments with substantial references have empty predictions,
+this may indicate an issue with SimulST system or resegmentation.
+
+
+Instances with empty predictions:
+----------------------------------------------------------------
+Instance 245 with reference 'Inoltre, crediamo che l'aggiornamento iterativo è utile per l'apprendimento per trasferimento da un dominio diverso, mentre le annotazioni attive nel dominio beneficiano dell'aggiornamento cumulativo.' has an empty prediction.
+Instance 746 with reference 'È tutto.' has an empty prediction.
+Instance 764 with reference 'Bene.' has an empty prediction.
+Instance 783 with reference 'Giusto?' has an empty prediction.
+================================================================

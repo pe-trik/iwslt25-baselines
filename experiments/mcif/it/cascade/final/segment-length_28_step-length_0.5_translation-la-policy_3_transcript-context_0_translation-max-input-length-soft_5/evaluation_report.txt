@@ -4,7 +4,7 @@ OmniSTEval v0.1.6  |  Longform evaluation (with resegmentation)
 
 Settings
 ----------------------------------------------------------------
-  Hypothesis         final_local/segment-length_28_step-length_0.5_translation-la-policy_3_transcript-context_0_translation-max-input-length-soft_5/instances.log
+  Hypothesis         final/segment-length_28_step-length_0.5_translation-la-policy_3_transcript-context_0_translation-max-input-length-soft_5/instances.log
   Hypothesis format  jsonl
   Reference          /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/mcif/it/tgt_segments.txt
   Segmentation       /nfs/hpc/share/agostinv/iwslt2025-submissions/iwslt25-baselines/data/audio-sorted.yaml
@@ -14,13 +14,15 @@ Settings
   Char-level         no
   Offset delays      no
   Fix CA emissions   no
-  Metrics            quality, latency
+  Metrics            quality, latency, COMET
   Version            0.1.6
+  COMET model        Unbabel/XCOMET-XL
 
 Scores
 ----------------------------------------------------------------
   BLEU           39.3769
   chrF           65.3001
+  COMET          0.7829
   LongYAAL (CU)  4312.3010
   LongAL (CU)    4411.7668
   LongLAAL (CU)  4495.0687

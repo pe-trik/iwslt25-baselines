@@ -1,0 +1,924 @@
+StreamLAAL v2.0.
+Ciao, sono Sara B api , della University of Trento and Foundation Bruno Kessler. E vi introdurrò brevemente l'attenzione come guida. per la simultanea speech translation paper&nbsp; &nbsp;l'ha fatto un lavoro con matteo negri and marco turchi&nbsp;&nbsp;
+( Risate) What is simultaneous speech
+translation? Simult aneously translation or simplicity è il processo di traduzione di linguaggio in un testo in un'altra lingua. (suono di suono)
+E quali sono i problemi dei&nbsp; attuali modelli di
+simulazione? &nbsp;Architettura&nbsp;specifiche sono di solito addestrate introducendo&nbsp;&nbsp; moduli aggiuntivi da&nbsp;&nbsp; L'
+allenamento è lungo e complicato. per esempio , training involving different optimization objectives. e allen
+ando e mantenendo &nbsp; diversi modelli per raggiungere diversi regimi di latenza
+. Per esempio,&nbsp; trainare un modello con una media&nbsp; di&nbsp; una&nbsp;seconda di latenza e&nbsp; un altro con&nbsp;&nbsp; due&nbsp;secondi di latenza e così via.
+( SUSSURRANZA) Allora, qual è la nostra soluzione?
+Prima di tutto, usare un modello di STEAM offline già esistente senza &nbsp; ri-trainare o adottare specifiche&nbsp;&nbsp; usa solo
+un modello per ogni &nbsp; regime di latenza e man eggi la latenza&nbsp;&nbsp; attraverso specifici parametri specifici
+E leva le conoscenze già acquisite dal&nbsp; modello attraverso il meccanismo di attenzione tra input audio e output &nbsp;testuale,
+cioè il meccanismo di&nbsp; cross-attention. E potete vedere un esempio sulla destra. #uhm #uhm
+La nostra soluzione è proporre un dot o&nbsp; encoder dec oding per la tensione. per cui decidiamo se emettere o no una traduzione parziale basata su dove la tensione
+punta. E cosa è emesso se la tensione non è concentrata , cioè se la somma è sotto una certa soglia alfa? verso le last lambda speech frames che significa che l'informazione ricevuta è abbastanza stabile
+per esempio , se &nbsp;&nbsp;se riceviamo &nbsp; un spit shank contenente I'm going to talk about e il nostro modello Per dice la traduzione in tedesco. e ci guarderemo a&nbsp; la&nbsp;cross attention Ehm, wait. vedremo che le prime due parole indicano The Early Received Speech Frames , mentre L'ultima parola indica i frami di &nbsp;parla&nbsp;l'ultimo ricevuto, o almeno i frami di&nbsp;parla lambda.
+Questo significa che i primi due &nbsp;paroli&nbsp; saranno emessi. mentre , sin da quando la somma della&nbsp; crosta di pensione è a&nbsp;poof di un certo traguardo, alpha&nbsp;&nbsp; E noi non em ettiamo l'ultima parola. e aspettiamo un altro pezzo di
+parola. Se andiamo avanti e riceviamo un altro speech tank e il nostro modello predice altri tre e ci guarderemo a questi punti di attenzione. vedremo che nessuna parola indica glass, lambde, lambde speech frames.
+Questo significa che queste tre parole saranno emesse. ( Risate )
+Se guardate il risultato principale di questo, Will cl are the simultaneous speech translation results on on graphs in which we have blu , su un lato che misura la qualità della traduzione . e sempre leggendo. D'Ar ris #ah , la latenza misura. e abbiamo anche considerato la computa zione come media che conta per i modelli di computazione del tempo Quindi vogliamo che
+le nostre cure siano &nbsp;al massimo possibile su questo&nbsp;&nbsp; (suono di suono) ma anche che
+siano spostati a sinistra (suono di suono)
+e confrontiamo con strategie&nbsp;&nbsp;preparate che si applicano anche a modelli offline che sono la Whitkeys Strategy e il Local Agreement
+E confrontiamo anche con &nbsp; lo state of the art dell'architettura specificamente adattata per una traduzione simultanea. ( Risate)
+Questi sono tutti i risultati di una strategia di traduzione&nbsp;&nbsp; simultanea in tedesco.
+e... Vediamo questo. #ah che all'interno di tutte le strategie si applicano a modelli offline come i curve #ah Schierato verso la sinistra.
+E vediamo anche che se consideriamo &nbsp;&nbsp; l'attuale tempo di trasmissione o il tempo di trasmissione computazionale, &nbsp;&nbsp; adattare è la strategia più veloce.
+Se volete scoprire più risultati, Read our paper and we also released
+open source the code and Models and Simultaneous Household Facil itare la riprodu cibilità del nostro lavoro.
+Grazie per la vostra attenzione. [Suono di musica]
+Ciao, sono Myra e oggi parlerò delle nostre personalità contrassegnate. Usando il linguaggio naturale per misurare gli stereotipi in Language models.
+Questo lavoro è fatto in collaborazione con Esen Der musch e Dan Dzerovski.
+In questi ultimi anni molti hanno documentato la prevalenza di pregiudizi sociali e stereotipi nei modelli di lingua larga, o LOM.
+Tuttavia, queste misure presentano vari limiti.
+di solito si affidano a set di dati costruiti a mano che richiedono molto tempo per essere curati e di solito Me asure molto specificamente i stereotipi, il che significa che non generalizzano bene ad altre demografie o contesti. o semplicemente catturano molto in generale associazioni negative associazioni con gruppi particolari
+Inoltre, la maggior parte del lavoro in questo spazio non tiene conto dell'intersezione , che è la nozione che le identità sociali multifacetate &nbsp;&nbsp; possono comporre pregiudizi e essere loci uniche di danno.
+Per superare questi limiti, ci affidiamo alla proprietà che questi nuovi LOM sintonizzati con le istruzioni sono molto bra vo a rispondere alle istruzioni e alle
+promesse. Quindi possiamo chiedere al modello di generare una persona. che è la rappresentazione di un individuo immaginato che usa un prompt come Immag ina che sei una donna asiatica.
+descr ivi te stesso.
+E possiamo vedere immediatamente che questo è molto generalizzabile per qualsiasi demografia. perché possiamo specificare qualunque segnale di identità che vogliamo in questo prompt
+Quindi ecco alcuni esempi di generazioni di GPT-4.
+Immediatamente vediamo che mentre le uscite non sono ovviamente negative o tossiche, nel senso tradizionale di queste parole, C'è un paio di modelli
+interessanti : la donna asiatica è raffigurata come un'assuntiva, La donna del Medio Oriente si riferisce a usare parole come "esotiche". e come riferendosi a una regione mesmerizzante
+E entrambe le donne di colore fanno riferimento all'ascendenza , mentre il uomo bianco non ha nulla del genere.
+Per catturare questi modelli, il nostro metodo ha due parti.
+Il primo è generare queste personalità.
+Il nostro prompt per generare queste personaggi è stato ispirato da uno studio dove hanno dato questi prompti a soggetti umani. scoprendo che, dando a questi soggetti umani, anche loro sono in grado di superare gli stereotipi razziali.
+E anche questo permette un confronto diretto tra le nostre person alità generate e le risposte scritte dall'uomo.
+La seconda parte è le parole contrassegnate, che è un metodo per identificare Il World s che distingue i Mark Groups da Mark One. che elaborerò a breve.
+Il vantaggio di questo è che otteniamo &nbsp;stereotipi e modelli&nbsp;specifici senza doverci affidare. su qualsiasi lessico specifico.
+(R umore di un'altra notte) Quindi il metodo delle parole contrassegnate si basa sul concetto sociolinguistico di Mar kedness, che dice che c'è un default non contrassegnato e qualsiasi gruppo che differisce da quel default è linguisticamente marcato. Quindi per esempio
+, il termine "man" o "warrior" è spesso associato a "man"
+Quando la gente descrive un guerriero che è una donna , di solito specificano: One Man Warrior e Mark the Term with Woman.
+e più ampiamente Da un gruppo di persone che sono in società, sono lingu isticamente e socialmente uniti, ma sono anche i gruppi di persone che Di solito sono contrassegnati. Quindi
+nel nostro metodo, prima di tutto, designavamo che il gruppo di Mark and Mark Groups R E poi abbiamo confrontato i personaggi usando il metodo dei combattimenti, che è Basicamente usando i rapporti di logaritmi pesati per distinguere Le parole in cima per ogni gruppo marcato.
+Quindi, per esempio, per le personaggi di donne nere, Noi faremo fighting words. e confrontare i rapporti di L ogos con i personaggi bianchi e quelli maschili , perché sono due corrispondente gruppi non contrassegnati
+# ah, ora per
+qualche risultato, quindi prima usiamo l'aless andro stereotip ico e troviamo che la persona generata è contenuta. Molto più stereotipi che gli umani. (Rumore di un'altra notte)
+Tuttavia, quando guardiamo la distribuzione delle parole nel lessico, troviamo cose molto diverse. Quindi ,
+mentre i personaggi generati hanno tassi molto più alti di parole di luxo, Um , quelli scritti da umani hanno una distribuzione molto più ampia di parole. mentre le parole stereotipate che sono in genere nelle personaggi sono davvero solo le parole tall e atletiche.
+E poi, davvero, solo il positivo o almeno il non negativo.
+E in effetti questo lessico non cattura &nbsp; davvero molti dei modelli dannosi che abbiamo visto nelle prime slide
+bene a&nbsp;&nbsp; Quindi invece, per fare questo, ci rivolgeremo ai risultati del nostro metodo delle parole marcate , per mostrare come queste parole sembrano positive facilitano gli stereotipi e le narrazioni essenzializzanti.
+In questa analisi riv ediamo come questi ritratti apparentemente positivi riflettano modelli dannosi.
+per primo per i gruppi di marcatura le parole di punta includono cose come la cultura , la tradizione. Proud e exotici.
+E queste parole definiscono questi gruppi solo per la loro relazione con la loro identità. e distingu er li come diversi dalla norma bianca.
+Questo contribuisce a una lunga eredità di discriminazione e di altre cose. per questi gruppi.
+Inoltre, &nbsp; c'è un sacco di tropi comuni che si riflettono in queste parole, specialmente per le donne di colore.
+Per esempio,&nbsp;&nbsp; The Latin Woman descrive things like vibrating and vibrating. che si collegano a un gruppo di tropicalismo per
+le donne asiatiche le parole sono cose come petite e delicate e silky che collega a una lunga storia di donne asiatiche Iper-s essualizzata , vista come molto docile e sottomessa e così via.
+E finalmente per le donne nere V ediamo che alcune delle parole più importanti sono cose come&nbsp;&nbsp;forte e resilienti.
+Questo collega a un archetipo che la gente ha chiamato il forte archetipo delle donne nere e
+mentre Sembra positivo a prima vista. C'è stato un lavoro che mostra questo. Questo tipo di archetipo è in realtà molto dannoso perché mette molta pressione. su questi dati demografici per essere resilienti e forti contro gli ostacoli sociali.
+Quindi, invece di lavorare in realtà, cambiano gli ostacoli e la pressione. e quelle persone che li superano, il che porta a risultati molto negativi per la salute di queste persone , tra gli altri.
+Più ampiamente, troviamo che le parole per ogni gruppo di marcatura&nbsp; riflettono molto essenzialmente le narrazioni. Quindi
+bas andoci su questi modelli, possiamo concludere con tre raccomandazioni per i modelli di proprietà.
+Prima di tutto, come ricercatori dovremmo affrontare gli stereotipi positivi e rendere essenziali le
+narrazioni. Dovremmo anche usare lenti intersezionali per studiare i pregiudizi e gli danni, perché ci sono un sacco di cose che potrebbe essere ovviato se non lo facessimo.
+E finalmente , ci dovrebbe essere una maggiore trasparenza sui metodi di mitigazione dei pregiudizi. perché , per esempio, questi stereotipi positivi , noi non sappiamo se è perché C'è una specie di strano. ovvero eccessivo valore allineamento in corso o forse qualche altro metodo anti-stereotipismo che risulta in questi modelli pregiudizievoli.
+Noi , invece, non possiamo fare alcuna supposizione. o studiare di più, con più trasparenza.
+Grazie mille per
+aver ascoltato. # hm, abbiate un buon tempo a ECL.
+Salve a tutti!
+Sono il cuore di Sinha e sono felice di darvi il benvenuto al nostro discorso. di questo documento ACL 223.
+Linguaggio modello acc ettabilità giudizi non sono sempre robusti per
+il contesto. Ha un lavoro congiunto con John Gautier, Aaron Mueller. Ganesh ka Mishra, Karen Fenters , Roger Lev y e Adina Williams.
+( sorrido) Quindi in questo lavoro riv isiamo il paradigma della coppia minima.
+Quindi il minimo pari al paradigma fondamentalmente valuta i modelli linguistici. e on top of acceptabil ity
+judgments che può anche includere la grammaticità, come il germo sintatico di Plymf. o accettabilità in termini di stereotipi , come i parenti della
+folla, E in questo paradigma di coppia minima, il modo tipico di valutare i modelli linguistici è che Ah, come un 'espressione accettabile o una frase grammaticale e poi mostri una frase inaccettabile o una frase non grammaticale
+. E poi la speranza è che il modello , in pratica, #ah put ts più prob abilità
+per le impostazioni accettabili. Il gasdotto MPP attuale Basicamente non ci permette di valutare i modelli Ah, acc ettazione verso le frasi più lunghe.
+In questi giorni, i grandi modelli linguistici stanno arrivando con finestre di contesto sempre più lunghe.
+Quindi è cruciale che valutiamo i modelli in modo accettabile. E questo è quello che stiamo cercando di fare qui.
+#ah Revisit ten PP pipeline per chiedere al modello di valutare l'accettabilità su più e più lung
+he sequenze. So Questo è l'approccio.
+Quindi quello che facciamo è simulare queste sequenze più lunghe. Noi rivisitiamo i set di dati stessi. e poi ricre eremo le frasi scegliendo come accettabile o inaccettabile sentenze da quei set di dati.
+Quindi, per esempio, qui abbiamo scelto ... Tipico , un paio di grammatica. da un set di dati blimp , dall' adjunct island case,
+E quello che facciamo è ricreare sequenze più lunghe. e che sono acc ettabili e che hanno&nbsp; lo stesso abbinamento della struttura grammaticale.
+"We extract grammat ical sentences from adjunct island" e poi aggiungiamo come prefisso a&nbsp;&nbsp; Accep tabile query e inaccettabile query Quindi
+possiamo fare la stessa cosa scegliendo frasi inaccettabili dalla stessa corrispondenza. E questo potrebbe anche essere usato per testare l'accettabilità del modello.
+E possiamo fare lo stesso. per scegliere le frasi da un sottoinsieme diverso o da un insieme di dati
+diverso Quindi questo è quello che chiamiamo lo scenario di mismatch.
+Quindi qui le frasi vengono ancora da... Rilevanti set di dati , ma non proviene dallo stesso set di dati con cui stai valutando.
+E possiamo fare lo stesso per un caso di
+inaccettabilità. Finalmente vediamo Due frasi da un dominio completamente non correlato come Wikipedia.
+Quindi questo ci dirà se i modelli di accettabilità sono effettivamente influenzati da qualsiasi contesto. Come se il contesto venisse da un altro #ah , il subset del set di dati o se è come , completamente irrilevante per il corrente , per i centri che stiamo guardando.
+Allora, come va il motto?
+Prima di tutto, guardiamo le frasi di Wikipedia che sono completamente irrilevanti per l'attuale coppia di query. E lì troviamo che i giudizi dell'MPP sono... Per lo più robusto per la lunghezza di contatto arbitraria.
+Inc repiamo la lunghezza di contatto verso fino a duecento ventiquattro. per mas simizzare i modelli OPT e GPT2. E
+abbiamo visto qui, nella linea a punti arancione, I giudizi dell'MPP sono relativamente stabili.
+Ora , cosa succede quando scegli amo le frasi dallo stesso set di dati?
+Quindi qui stiamo scegliendo o creando frasi da accettabili e inaccettabili Ma non è così , perché non è
+così . E poi vediamo che i giudizi dei PPE aumentano e decrescente quando si aggiungono prefissi accettabili o inaccettabili.
+Ma quando corrispondono alla struttura, è quando scegliamo le frasi. Dal fenomeno di "blame per percentage" Vediamo un aumento massiccio o un decremento massiccio in of the MPP # uh giudizio per il modello dipend endo dal fatto che il pref isso scelto sia accettabile o inaccettabile.
+Ora, questo e questo è molto grande , come questo effetto. Aumenta per tutta la lunghezza del contesto. E questo probabilmente avrebbe avuto un effetto come i nuovi modelli linguistici che una grande finestra di contatto.
+Allora , perche' il prefisso di corrispondenza influisce sul giudizio del modello linguistico?
+Quindi abbiamo fatto una serie di analisi in cui abbiamo cercato di... Input sentence cercando di preservare la struttura pertinente Ma aggiungendo... come il rumore all'input...
+E dopo aver fatto diverse di queste perturbazioni, Noi troviamo che nessuno di questi rumori è "Making the model" cambia il suo corso. In termini di come ci mostra la tendenza dei deputati a
+giudicare. In pratica, scopriamo che i modelli sono... sensibile al per tuf delle frasi in modi simili.
+cioè quando mettiamo le frasi nel dominio accettabile V ediamo un incremento simile in tutte le perturbazioni. e quando mettiamo in discussione le frasi nel prossimo dominio Vediamo decresc ere i giudizi del PPE in modo simile.
+Quindi , la chiave del nostro lavoro è che i modelli linguistici sono sensibili Latente sint atica e semantica caratteristiche che sono condivise attraverso le frasi
+e la valutazione dell'MPP Il modo in cui lo facciamo correttamente , con un input di frase corta e singola, Ma non può catturare completamente i modelli linguistici di conoscenza astratta. attraverso la finestra di contatto.
+Per favore, leggete il nostro articolo per maggiori dettagli sui nostri esperimenti.
+Grazie per aver ascoltato.
+Salve a tutti! Mi chiamo Johan.
+Oggi vi presento il nostro articolo. Du Connell 2003 ha ancora funzionato bene nel 2023?
+Cominciamo.
+Il nostro articolo ha studiato il problema della generalizzazione. usando il nome dell'entità riconosciuta o il nome dell'entità riconosciuta abbiamo osservato
+che I modelli hanno usato il Con noisseur 2003 per sviluppare NER. per quasi 20 anni. e questo naturalmente solleva diversi problemi.
+In primo luogo, questi modelli possono generalizzare i dati moderni?
+E svilupperemo nuovi target? Cosa c'è bisogno per una buona generalizzazione?
+Allo stesso tempo. Se osserviamo una cattiva generalizzazione, Cosa causa il calo delle prestazioni di questi modelli?
+Per indagare su questi problemi , sviluppiamo. Il set di dati di
+Cornell + + Questo è il set di dati che abbiamo raccolto da Reuters news. dal 2020 e poi annotato con lo stesso colonnello del 2003 Non abbiamo mai
+finito di modificare più di venti modelli su Corno
+due mila e tre. Abbiamo valutato entrambi i set di test Connaught 3. e il
+test set comma+plus. E, ultimo ma non meno importante, Abbiamo calcolato il cambiamento percentuale in F1 per valutare la generalizzazione di ogni modello.
+Allora, cosa c'è da fare? per una buona generalizzazione
+S otto i nostri esperimenti abbiamo trovato... che ci sono tre ingredienti principali di cui ho bisogno.
+Il primo è l'architettura modello.
+attraverso i nostri esperimenti abbiamo trovato che i modelli dei trasformatori Normalmente generalizzate meglio ai nuovi dati.
+Il secondo ingrediente è la dimensione del modello.
+Abbiamo scoperto che di solito i modelli più grandi portano a una migliore generalizzazione.
+Infine, ma non per ultimo Sappiamo tutti che il numero di esempi di sintonizzazione fine influisce direttamente la performance di un compito a valle,
+qui abbiamo anche trovato che più esempi di fine tuning in realtà anche porta a una migliore generalizzazione
+Per la prossima domanda. Cosa causa la caduta delle prestazioni di alcuni modelli? Abbiamo due ipotesi.
+Il primo è l'adattamento . che è ov viare ai costi riutilizzando lo stesso set di test più e più volte. E questo è di solito manifestato. e come la diminuzione ritorna sul nuovo set di test.
+La seconda ipotesi. è la deriva di temperatura, che è la degradazione delle prestazioni che è causato dall'aumento del tempo di gap. tra il treno e i dati di prova.
+per il sovrapposizione adattiva, abbiamo visto che dal grafico a destra. Il rosso della linea Bestfit ha un gradiente maggiore di uno.
+Questo significa che... ogni unità di miglioramento che abbiamo fatto on call 2003 trad otto in più di un'unità di miglioramento su Color + che significa che non c'è alcun ritorno diminuente.
+E questo ci mostra che Adaptive overfitting in questo caso non è osservato.
+E che mi dici di Temperature?
+( per il progetto temporaneo) Abbiamo fatto un esperimento per ri-tra inare o continuare a pre-trainare alcuni modelli con dati più recenti E abbiamo trovato che la performance Deg rada con un più grande intervallo temporale. E questo conferma la nostra ipotesi. Questa è la causa principale della caduta delle prestazioni, la deriva temporale.
+La nostra conclusione è che per una buona generalizzazione Ci sarebbe bisogno di un modello migliore di architettura. più grande modello di dimensioni , così come più fine tuning es empi e
+questi obiettivi, mano nella mano, non possiamo avere solo un ingrediente. ma attraverso tutti gli altri.
+Allo stesso tempo , abbiamo anche scoperto che le prestazioni sono diminuite qui. è causato da deriva temporale. E, in modo sorprendente, non è caus ato da sovrapposizione adattiva. Anche se, nel 2003, il Connell è stato usato per oltre venti anni.
+E poi , per tornare alla domanda che abbiamo sollevato nel titolo del nostro articolo? Duc Con nell 2003 Taggers ancora funziona?
+nel 2023. E abbiamo scoperto che la risposta è in realtà risonante Sì, sì.
+Speriamo che il nostro giornale richieda ulteriori ricerche. su come migliorare le generalizzazioni dei modelli.
+( S ) E infine, si prega di controllare il nostro documento, il nostro set di dati, e se avete domande, si sentono liberi di contattarmi.
+Grazie mille.
+Salve a tutti, mi chiamo Ying e io e il mio collega Jian presenteremo la nostra ricerca su MultiInstruc. Improv ing Multimodal Circular Learning tramite l'adattamento delle
+istruzioni. Quindi con i progressi nei modelli di linguaggio di grandi dimensioni. Molte opere hanno iniziato a esplorare nuovi paradigmi di apprendimento , utilizzando modelli di linguaggio di formazione per diversi compiti a valle in modo efficiente e efficiente.
+Recentemente molti studi hanno dimostrato che l'istruzione di sintonizzazione &nbsp; consente a modelli di lingua larga di eseguire compiti invisibili. In una maniera chiara, seguendo le istruzioni naturali.
+Tuttavia, più lavori precedenti su istruzione di tuning focalizzati sull'improvviso del performance zero su tasks linguistici mentre la visione al computer e i task multimodali sono stati lasciati
+fuori. Quindi... In questo lavoro , vogliamo indagare se l'istruzione di sintonizzazione è una modalità multimodale per i modelli. che può effettivamente migliorare la generalizzazione per incidere sulle tasche multimodali.
+Inoltre, al momento della nostra ricerca. Abbiamo scoperto un 'incredibile discrepanza nella disponibilità di set di dati di istruzioni tra L P e Multimode.
+Esistono più di mille e seicento testi di istruzione solo in lingua.
+Tuttavia , non esiste un compito di istruzione multimodale di grande scala pubblicamente disponibile. Quindi,
+questo &nbsp;motiva&nbsp;ci a &nbsp; costruire un set di dati di sintonizzazione delle istruzioni multimodali.
+Qui presentiamo il multi-instructor. Il primo set di dati di benchmark di sintonizzazione delle istruzioni multimodali. che consiste di sessantadue diverse tasche multimodali. che copre dieci categorie.
+Questi tas ki sono derivati da 21 set di dati open source esistenti. E ogni compito è equipaggiato con cinque istruzioni scritte da un
+esperto. (Risate di paura) per investigare l' insettura multimodale&nbsp; del nostro set di dati proposto. Noi prendiamo OFA , un modello multimodale unificato , come modello di base.
+OFA usa un vocabolario unificato per la lingua , i token di immagine e le coordinate di una scatola di delimitazione.
+Qui mostriamo alcuni esempi di casi provenienti dalla nostra serie di dati multiinstra. per unificare il processamento di vari tipi di dati di input e output
+Abbiamo seguito il messaggio di OFA e formulato tutti i compiti in una sequenza unificata .
+in cui il testo di input , le immagini, le istruzioni e le boxes di bounding sono presentati nello stesso spazio di
+Token. Ok, ora parlerò di sintonizzazione delle istruzioni multimodali.
+Quindi per il set di dati di addestramento usiamo 53 task del gruppo NIG per l'addestramento. e abbiamo samplato 10.000 istanti per task.
+per testare dove c'era l' intero gruppo di ragionamento di buon senso per testare e abbiamo selezionato ulteriori 5 task da WQ e dal
+gruppo Miscellaneous Abbiamo usato tutte le istanze nella test split per ogni compito.
+Inoltre, sampleremo a caso i compiti da eseguire dal test file di istruzioni naturali come onsen tasker per l'lp
+Quindi usiamo un modello di base per il modello di OFA
+Large. eh , durante l' addestramento, noi facciamo tutte le istanze per tutti i compiti
+Ogni istanza è combinata in modo casuale con una delle sue cinque ali. Quindi
+durante il test per ogni compito , conduciamo un totale di 5 esperimenti valutando il modello usando uno dei 5 istruzioni.
+in ogni esperimento. che riporta la media e la massima prestazione e la standardizzazione della prestazione in tutti e cinque gli esperimenti.
+Se il compito è un compito di classificazione multimodale, per la precisione del report.
+Se si tratta di un compito di generazione multimodale, per un' altra cosa che abbiamo riportato a Roger
+al suo posto. Abbiamo anche introdotto un'ulteriore E valuation metric called sensitivity.
+Quindi questo misura la capacità del modello di produrre costantemente la stessa output per lo stesso compito. Regardless of the slate variation, In The
+Wording of the
+Instruction. Ecco il nostro risultato. Instruction tuning può significativamente migliorare le prestazioni di OS X. anche transfer learning
+from natural instruction dataset può essere utile per l'istruzione di sintonizzazione E
+qui possiamo vedere L'ammontare di task aumenta, il modello ottiene prestazioni migliori e nel frattempo una bassa sensibilità.
+Ma abbiamo anche fatto degli
+esperimenti. usiamo un'istruzione contro cinque istruzioni,
+come possiamo vedere usando più istruzioni possiamo migliorare il modello complessivo e ridurre la sua sensibilità (sorrido) Mmm
+m ... Quindi questo mostra l'effetto di una diversa&nbsp; strategia di fan tuning sulla sensibilità del modello.
+Ah, as we can see , by transfer learning from natural instruction dataset Il modello può raggiungere una sensibilità molto migliore rispetto al modello originale dell'OFA.
+possiamo anche vedere transfer learning from natural instruction dataset può aiutare O FA a train are prestazioni molto migliori su Natural Instructs. #uh, te ne sei accorto.
+Quindi, in generale, abbiamo ha proposto il primo set di dati di sintonizzazione di istruzioni multimodali su larga scala V isti amo come i nostri studenti migliorano la loro capacità di OIF e esploriamo diverse tecniche di transfer learning e mostriamo i loro
+benefici. Ah, per dis egnare un
+new metric called sensitivity. Ha un buon senso collezionando un set di dati di sintonizzazione delle istruzioni multimodali molto più grande, con circa 150 task in lingua variabile aggiuntive e li rilasceremo.
+Questo è un QR code per i nostri... Ah , data and the model.
+Grazie.
+Hello. Il mio nome è Vasudha e sono un candidato alla laurea in informatica.
+Vorrei presentare il nostro lavoro accettato in ACL 2023 come un lungo documento di transfer learning per la rilevazione della dissonanza. Addressing the Rare Class Challenge (Risate)
+Iniziamo definendo la dissonanza cognitiva e&nbsp;perché è un problema importante da studiare in linguaggio.
+Cognitive dissonance is two beliefs or actions that are inconsistent. La dissonanza cognitiva è due credenze o azioni che sono incoerenti. come questo esempio, dove una persona &nbsp; dice: " So che le sigarette potrebbero uccidermi". E poi continua a dire: "Ho preso un paio di fumetti dopo l'incontro. Disbel
+ief and action are inconsistent and they are in dissonance."
+E poi, menzionando che non credo che potrei mantenere il mio lavoro senza di loro , &nbsp;giustifica il secondo
+avvenimento e&nbsp;&nbsp; che hanno una relazione di consonanza.
+ma la dissonanza è un fenomeno molto comune Abbiamo avuto l'esperienza di fare la decisione in modo che siano in grado di trovare espressione in lingua e in altre
+forme di relazioni. Allora, perché fa caso?
+Studiare la distanza cognitiva può aiutarci a capire gli effetti del disaccordo tra le persone. Tracciare le tendenze e le credenze, i valori e gli atteggiamenti, i cambiamenti nella popolazione.
+L'alta dissonanza cognitiva è anche legata &nbsp; ai disturbi dell'ansia e può aiutare a capire&nbsp;&nbsp; meglio la salute mentale delle persone.
+Studiando la dissonanza espressa in un linguaggio &nbsp; può anche essere&nbsp;benefico. &nbsp; Per comprendere l'estremismo e la polarizzazione dei gruppi vulnerabili.
+Infine, la dissonanza cognitiva è importante per capire &nbsp; gli stili cognitivi personali&nbsp;di individui e&nbsp;&nbsp; ci aiuta a capire meglio i processi decisionali.
+Per l'obiettivo di creare una dissonanza cognitiva. Abbiamo condotto un'analisi su larga scala delle relazioni di dissonanza.
+Abbiamo usato l'approccio di dissonanza prima, come si vede nel grafico qui.
+I tweet sono stati passati usando un parser per la TV. e i parenti delle unità di discorso sono stati annotati in base alle linee guida che sono state descritte in un documento.
+come si può vedere qui , la dissonanza è solo trovata in tre punti cinque per cento
+dei parenti annotati. (Risate) In collezione di circa 1000 esempi di coppie di unità di discorso, abbiamo &nbsp; corso l'addestramento per un&nbsp;classificatore iniziale,&nbsp; addestrato solo su 43 esempi di dissonanza.
+A nessuna sorpresa, il classificatore non ha eseguito molto meglio del caso.
+dato il basso numero di dissonanze e l'assenza di qualsiasi precedente set di dati , stiamo affrontando il problema della rarità assoluta.
+Per alleviare questo, abbiamo sperimentato combinazioni di transfer learning e active learning per annotare in modo che&nbsp;&nbsp; che più campioni dissonanti possano essere raccolti su annotazioni più piccole , riducendo il costo complessivo dell'annotazione e migliorando la rilevazione della dissonanza.
+( S) Umm, dal momento che il modello iniziale non&nbsp; era in&nbsp;capacità di catturare la classe di dissonanza , iniziamo il processo di apprendimento attivo &nbsp;&nbsp; trasferendo pesi da tasche strettamente correlate.
+E poi c'è la transfer from two different tasks. Topic indipendente , classificazione di dismissione , determinazione di due dichiarazioni di discussione da persone diverse o in accordo o in disaccordo. Il tema. e on binary classification of expansion and comparison of classes of PTTB , che sono state presentate con la concezione di concomitanze e di disconness ioni e chiamiamo C
+E E. Abbiamo trovato che, in trasferimento, la performance dello zero shot o del set di dati annotato è già molto meglio di Chance with the best con AUC punto sei due
+Inoltre, su iterativamente fine tuning su &nbsp; entrambi i compiti troviamo che &nbsp; &nbsp;fin tuning di C e task seguita da ulteriore fine tuning su debate&nbsp;&nbsp; differenti performance. Così
+questo è il modello che usiamo per co&nbsp;&nbsp;startare l'apprendimento attivo.
+(risate) Poi determineremo il metodo migliore per aggiornare un modello con nuovi dati di ogni round di apprendimento attivo e annotazioni.
+Abbiamo trovato che
+le strategie cumulative hanno un rendimento uguale o migliore di quelle iterative in tutto il sistema.
+Quindi, per migliorare il numero di esempi di dissonanza , usiamo la&nbsp;probabilità di una strategia di classe rara, PRC, per selezionare principalmente esempi che&nbsp;&nbsp; sono molto probabili di essere dissonanti dal modello corrente in qualsiasi round di AL.
+Compariamo questo con l'altro stato del&nbsp;&nbsp; # ah State of the art, le strategie sono comunemente usate nella comunità.
+Non c'è più. Abbiamo trovato che la proposta di strategia PRC funziona meglio di altre strategie &nbsp; di stato dell'arte, anche se la differenza è piccola.
+Si noti che la performance è significativamente più bassa per&nbsp;&nbsp; ( R
+isate ) Su ulteriori round di birra con due migliori strategie , &nbsp; miglioreremo la classificazione a distanza AUC a 0,75 che è la migliore performance che abbiamo avuto sul tasco
+finora. Abbiamo anche controllato la fattibilità di ogni strategia per la qualità e i costi dell'annotazione per gli annotatori.
+Abbiamo scoperto che il PRC ha la percentuale più alta di dissonanza e funziona meglio per la classe rara.
+Es empi difficili.
+In sintesi, troviamo che il PRC è una semplice strategia aerea per l'acquisizione di rare class e co-starting aerea con tasche di transfer learning adeguatamente progettate può aiutare significativamente.
+
+Questi sono i collegamenti al nostro set di dati di base e al nostro documento.
+Siate liberi di contattarci se avete domande.
+Grazie per questo.
+Ciao,
+vi parlo del nostro lavoro per risolvere i problemi di indiretti riferimenti per la selezione delle entità. In cui introduciamo l'altentità scoreggia Ma è che il mio nome
+è Jawad Hussaini e questo è un lavoro con Filip Radlinsky, Silvio Pareti e Ali Lewis.
+Il nostro obiettivo è quello di capire il linguaggio degli utenti quando vogliono fare una scelta.
+Considerate questa domanda alternativa.
+Hai detto " facile con me" o "ho avuto una
+sensazione"? Qui l'utente vuole selezionare. tra una di queste due canzoni.
+Ma la cosa più ovvia è usare un riferimento diretto, per esempio dicendo il nome di Song easy on me or its position il primo, ma
+a volte un indiretto riferimento è più appropriato avere più natural conversation
+Questo potrebbe accadere quando l'utente non riesce a ricordare il nome della canzone.
+o le pronunce sono. Due simili l'uno all'altro e difficili da disambiguare.
+o quando l'utente vuole specificare una preferenza.
+Ecco alcuni esempi di riferimenti indiretti. Per esempio, il nuovo album o la canzone che non è energetica.
+Questo è un problema importante nei sistemi di conservazione. Annuncio per Benchmarking L LM's Entity Understanding
+Non siamo consapevoli Pubblico dataset , un set di dati pubblici su larga scala per il test. Sopra , collezioniamo una usando la notazione della folla.
+Or data set cov ers three different domains music, box e le ricette
+La nostra metodologia di raccolta dei set di dati Emf asi asi informalità Us ando il tuo set di completamento dei cartoni animati.
+Il cartone animato ha tre argomenti
+di discorso. nella prima bolla Bob dice: "Ricorda quella canzone che ascoltavamo ieri?"
+e con questo Bob stabilisce il contesto del dialogo.
+E questo. In The Second Speech Bubble Alice dice: "Vuoi dire " facile su di me" o "ho un sentimento?"
+Qual è la domanda alternativa?
+e nella terza bolle di discorso Bob usa un riferimento indiretto per selezionare una di queste entità , per esempio. il nuovo
+erroneo Forn isce automaticamente la prima e la seconda bolla vocale. B odiano t'ha fatto. Il primo speech bubble è
+scelto da alcuni prompt manuali per dominio.
+Il secondo , che è la domanda alternativa, Viene generato come segue.
+Noi usiamo sempre... è semplice Il modello ,
+vuoi dire A o B?
+Per A e B sono campioni di Wikipedia.
+Ecco i diversi metodi di campionamento che abbiamo usato.
+le entità diventano più simili tra loro e di solito è più difficile fare
+la disambiguazione Il primo è il trend uniforme.
+Il secondo è quando le entità hanno titoli simili , per esempio due libri con il nome di The
+Return. Il terzo è quando hanno una descrizione simile su Wikipedia.
+e finalmente quando hanno infobox simili O Attribute on Wikipedia per
+esempio , del stesso genere. o lo stesso artista per esempio. (
+sorrido) Allora, lasciateci fare questa domanda alternativa. Di' un po' di più. Di questo tipo di entità. Non ne sanno necessariamente di queste entità.
+Quindi quello che facciamo è mostrare un po' di conoscenza di base. a proposito delle due entità.
+per le canzoni , mostriamo semplicemente un link di ricerca su Google per ogni canzone E poi ho chiesto agli annotatori di ascoltare almeno alcune canzoni. e leggere su ogni canzone.
+Ecco per esempio Il risultato della ricerca di Google per la canzone "Easy On". (Risate di paura)
+Per il dominio delle ricette e dei libri, mostriamo alcuni testi di sfondo. E poi...
+Per le ricette, mostriamo inoltre le loro immagini di nuovo da Wikipedia , in modo che An otatori sanno come sono fatti.
+Allora... chiediamo ai generatori di scegliere Una di queste entità, per esempio, qui, la prima. e descr iverli usando 3-5 espressioni di riferimento indirette
+per esempio The One with the Piano Music
+Ecco alcuni esempi del nostro set di dati.
+per esempio, devane without words Non quella con il ragazzo di dodici anni. o la fittizia, o viene dall'Azerbaigian e così via.
+( Risate) Il corpus delle ident ità ha seimila domande alternative in tre domini , e ha quarantadue mila domande indirette .
+Risultati con il modello grande T5X.
+Se il modello linguistico ha accesso a una conoscenza di base esattamente simile a quella degli annotatori, allora l'accuratezza è molto alta. E' intorno a 92 a 95%.
+Ma questo non è realistico. (Risate di un'altra ragazza)
+Se il modello linguistico ha accesso a Parzialmente sovrapposto a background knowledge. Allora l' accuratezza è tra l'82 e l'87%. che è più realistico
+, per esempio, quando Il linguaggio del modello ritrivs The background knowledge E se
+il modello linguistico ha accesso solo ai nomi delle entità, allora l'accuratezza è solo del 60%. Quindi c'è molto spazio per miglioramenti.
+Abbiamo anche dimostrato che i modelli sono generalizzabili in dominio.
+Ecco un link al nostro set di dati.
+Tasso.
+Salve, sono Dawei, uno studente di dottorato all'Università di Sal ent in Germania.
+In questo video vorrei presentare il nostro lavoro recente. Piu' grande di quanto pensi. Un'occhiata critica alla classifica di Weekly.
+Questo e' un lavoro congiunto con Shao Yu-shi. Ma io smuspa e gli ho detto che e di chi
+è Claco Mi piacerebbe iniziare con una breve introduzione alla supervisione settimanale e all'apprendimento weekly supervised.
+In questa supervisione non etichettiamo manualmente i dati. In vece
+etichettiamo i dati utilizzando fonti di etichettatura deboli. Una regola euristica cosi' semplice. Base di conoscenze o crowdsourcing di bassa qualità. Come illustrato nella figura a destra.
+In confronto alle notazioni umane. Le notazioni del fine settimana sono molto più economiche. E ppure sono anche rumorosi, il che significa che una certa quantità di annotazioni sono errate.
+Se proviamo direttamente nuove reti e dati etichettati debolmente. Le reti neurali tendono a memor izzare il rumore del limbo. E non generalizzare.
+In B K Super vised Training, gli algoritmi di addestramento sono proposti per addestrare robustamente le reti neurali sotto tale etichetta. Così che i modelli di tendenza si generalizzino ancora bene. In
+recenti lavori in WSL , WSL sta per Weekly Supervised Learning. Una affermazione comune è che la gente dica che hanno solo modelli commerciali. sui dati di livello settimanale e raggiungere prestazioni elevate. Un cle an Test Sets.
+Tecnicamente questa affermazione non è sbagliata. Ma c' è una cache, che è che la gente assume che ci sia un ulteriore set di validazione di reclamo. Oh, per favore, non ho bisogno
+di un'altra scelta. Possiamo iniziare con questa impostazione del problema. Ma questo implica che ulteriori annotazioni manuali. Sono impegnato nell'insegnamento settimanale di supervisione. B :
+Ma come un elefante in una stanza. Questa necessità è spesso trascurata.
+Di seguito si presentano tre domande di ricerca.
+In primo luogo, sono necessari dati di convalida puliti per la WSL. O possiamo usare un set di convalida del rumore?
+In secondo luogo, se sono necessari dati puliti , o se sono obbligatori per il funzionamento della WSL. Allora, quanti campioni puliti ci servono?
+Finally , dovremmo usare solo i campioni puliti per la convalida? Oh, ci sono modi migliori per utilizzarli.
+Abbiamo affrontato queste domande di ricerca nel nostro lavoro e i nostri risultati sono i seguenti.
+Prima di tutto, troviamo che è interessante vedere i metodi WSL recenti. In effetti , richiedono campioni di analisi pulita per essere accertati.
+e poi ha lavorato bene. Altrimenti c'è un grande lavoro di prestazione.
+As petto a questo grafico, se non ci sono campioni di convalida pulita. Allora , i modelli di tendenza non possono generalizzare oltre l' etichetta originale della settimana. Significa che la dottrina è inutile.
+Questo indica che WSL si avvicina. In realtà , richiedono dati etichettati in modo pulito per funzionare correttamente. e il costo di annotazione per l'ottenimento di campioni di convalida puliti. non dovrebbe essere trascurato.
+La nostra seconda scoperta è che aumentando il numero di campioni di convalida dei clienti Will help W SL approaches to achieve better performance. Aiuter emo gli approcci WSL a ottenere prestazioni migliori. È mostrato nella figura a sinistra.
+In genere, ci servono solo venti campioni per classe per ottenere prestazioni elevate. ( suono di suono)
+Ma non e' la fine della storia. Perché se in ogni caso decidiamo di accedere a campioni puliti. Poi l'addestramento su di loro direttamente raggiungerà prestazioni migliori.
+La figura a destra mostra la differenza di prestazioni. Tra il fan-tuning e le approcci. che sono direttamente applicati sotto i dati puliti. e W SL Approaches che us ano i dati di pulizia solo per la convalida.
+Come possiamo vedere. Se abbiamo 10 campioni per classe, Dir etto font inaggio inizia a battere gli approcci WSL.
+finalmente la performance improv ement dichiarata nella precedente strategia WSL. può essere facilmente raggiunto permettendo di continuare il fine tuning sui campioni di convalida puliti.
+Come possiamo vedere dalle figure. Il modello di Valina, chiamato HTTP Inizialmente , le prestazioni inferiori sono più complicate. M essa
+in contatto con i colleghi Allora l'ftw funziona altrettanto bene come gli altri metodi.
+(suono di suono)
+Per riassumere, abbiamo mostrato che la recente &nbsp; WSL richiede un&nbsp;approccio&nbsp;clean manualmente annotate per far funzionare correttamente
+Il loro gioco di prestazioni e la loro praticità sono fortemente sopravvalutati.
+Le nostre raccomandazioni concrete per il lavoro futuro sono le seguenti.
+Prima, riferire i criteri di selezione del modello.
+per esempio , riferire se la selezione del modello è fatta tramite campioni di convalida puliti.
+In secondo luogo, le apologie WSL dovrebbero essere confrontate con le linee di base dell'apprendimento virtuale. Suppongo che si stia lavorando a campioni creati.
+Terzo, continua a finire la sintonizzazione è una linea di base semplice ma forte che dovrebbe essere considerata nel lavoro futuro in WSL.
+Finalmente abbiamo il nostro codice open source.
+Puoi trovarlo tramite il codice QR in questa diapositiva.
+Si prega di sentirsi libero di controllare.
+Grazie e vi raggiungo alla conferenza.
+Ciao,
+mi chiamo Mathias Landmann. E oggi vi darò una breve introduzione Abbiamo un documento sulla composizione e la generalizzazione senza alberi , usando tagging multisetto e permutazioni latenti.
+Questo è un lavoro congiunto con i miei consiglieri Alexander Koller e Ivan Titov.
+La generalizzazione compositiva può essere intesa come la capacità di un apprendista di gestire la ricorsione più profonda e le composizioni invisibili di frasi che sono state viste individualmente durante l'addestramento.
+nel contesto del parsing semantico , &nbsp;testing per &nbsp;gener alizzazione compositiva potrebbe apparire così: come
+al solito abbiamo un set di attrazioni in
+questo caso la ragazza dormì e
+mary sapeva che la ragazza dormiva
+queste affermazioni sono abbinate a forme logiche che rappresentano gli aspetti fondamentali del loro significato.
+In contrasto con la valutazione standard dell'apprendimento automatico, il set di test non proviene dalla stessa distribuzione , ma contiene forme logiche strutturalmente invisibili.
+In questo esempio il modello ha visto una ricorsione poco profonda durante l'addestramento. e dis prezzato su un esempio con più profonda ricorsione Naive sequence
+to sequence modelli lottano con questo tipo di out of distribution gener alizzazione e spesso producono output che sono distaccati dall'input
+In particolare , spesso non riescono a riprod urre le corrispondenze sistematiche tra input e output , come quelli che sono codificati nell'esempio.
+(sorrido) un metodo popolare per affrontare questo problema è integrare gli alberi nei modelli
+Gli alberi sono destinati a catturare il processo compositivo che collega le espressioni con la forma logica.
+Questo funziona bene! Ma gli alberi di solito non vengono dati e devono essere ottenuti in qualche modo.
+Questo può essere complicato e a volte un processo computazionalmente costoso.
+In genere questo comporta un considerevole pre-elaborazione specifica del formalismo delle forme logiche. per esempio per gestire simboli variabili Ottenere
+alberi può anche comportare procedure specializzate di induzione grammaticale.
+In questo documento non usiamo gli alberi e introduciamo un modello neurale sequenza a sequenza Direttamente, il modello di corrispondenza tra i frammenti di input e i frammenti di output.
+per la prima volta mostriamo una forte generalizzazione a una ricorsione più profonda senza fare affidamento sugli alberi
+Il nostro approccio prevede l'output dall'input in due passaggi.
+Prima di tutto, tagliamo ogni input token con un multisetto non ordinato. di token che appariranno nell'output
+dopo il primo passo Abbiamo tutti i token giusti, ma non sono ordinati.
+Questo è il motivo per cui , nel secondo passo, Usate un altro modello per predire la permutazione. per metterli in ordine.
+Introduciamo un nuovo metodo per prevedere una permutazione che non metta alcun duro vincolo sulle possibili permutazioni.
+Questo rende il nostro approccio abbastanza flessibile ed espressivo.
+conceptualmente Il nostro modello di permutazione funziona approssimativamente così. Noi andiamo
+da sinistra a destra per l'output. e determineremo quale multi-set token mettere in ogni posizione.
+per la prima posizione di uscita scegliamo semplicemente &nbsp; una come evidenziata in rosso
+Ten wit Salta al prossimo multisetto token. per determinare il secondo token nell'output
+Abbiamo determinato il terzo token nell'output in modo simile. per saltare ad un altro multisetto. Continu
+eremo questo processo. (suono di suono) Fino a quando ogni token del primo stadio non sarà stato visitato esattamente una volta.
+per darti un teaser dei risultati sperimentali qui compariamo il nostro metodo con altri modelli treeless sul benchmark del Coggs
+Il nostro modello supera gli altri di un grande margine sulla generalizzazione a una ricorsione più profonda.
+qualche altro tipo di generalizzazione strutturale rimane molto impegnativo,
+però. In questo articolo abbiamo risolto un paio di problemi tecnici interessanti
+. Per prima cosa , l'allineamento tra input e output non è dato nei dati di formazione.
+come conseguenza per un dato token Non sappiamo quale multi-celler sia venuto da. che pone una sfida per l'addestramento.
+In aggiunta, a volte ci sono molteplici permutazioni che sono coerenti con i dati , ma quella linguisticamente corretta è latente.
+Abbiamo affrontato questo problema inducendo l'allineamento come parte dell'addestramento.
+Il nostro metodo di permutazione è molto flessibile , ma porta la sfida che trovare la permutazione con il punteggio più alto è difficile.
+Questo perché questo è legato al problema del venditore itinerante.
+Noi approssimiamo questo con un GPU &nbsp;friendly continuous relaxation che&nbsp;&nbsp; può anche permetterci di back propagate &nbsp;&nbsp; L' ha l'ingegnerizzato linguisticamente più plausibilmente.
+Se volete sapere di più sui nostri esperimenti e su come affrontiamo queste sfide, Per favore, guarda il nostro giornale o vieni al nostro poster.
+Hai MC Yuan, della Fudan University .
+Sono qui per introdurre il nostro lavoro. Dist ingendo la conoscenza dello script da modelli di linguaggio leggero.
+per la pianificazione del linguaggio limitato in ogni giorno della vita E hi, i uomini spesso pianificano le loro azioni. per seguire step by step le istruzioni in forma di script garantiti
+Il lavoro precedente ha esplorato &nbsp; modelli linguistici per&nbsp;pianificare per obiettivi astratti di attività stereotipiche. come fare una torta
+e show that big language models can effectively decompost goals into steps
+Tuttavia, il lavoro precedente si concentra principalmente sulla pianificazione per gli obiettivi astratti di attività stereotipate.
+pianificare per il futuro con obiettivi specifici , vincoli specifici , come fare una torta di cioccolato. rimane ancora indagato in
+this paper we define the problem of constrained language planning che impone diversi vincoli alla pianificazione del percorso.
+Ah, un obiettivo astratto può essere ereditato da diversi obiettivi specifici della vita reale. Con vincoli multifisici.
+Un buon pianificatore dovrebbe scrivere gli scripts. che sono ragionevoli e facili da controllare.
+In questo articolo Noi valutiamo e miglioriamo la capacità di pianificazione del linguaggio. S 'è snodato fuori.
+di specifiche cose esistenti per supportare il nostro studio. Dobbiamo accertare che questo va
+per primo. e show in the table estendiamo gli obiettivi astratti con &nbsp; più&nbsp;fissati vincoli per&nbsp;&nbsp; chi ha l'acquisizione di dati di look, usi&nbsp;&nbsp;instruct gpt Abbiamo
+campionato 100 obiettivi specifici e&nbsp; valutato gli script generati da modelli più grandi.
+Questa tabella riporta l' accuratezza complessiva dei risultati.
+Voi fan di Z eta, tutti i modelli di Lila e Wee raggiungono risultati insoddisfacenti nella pianificazione per obiettivi specifici.
+Poi , condurre mo un'analisi dettagliata per indagare su cosa servono i modelli a livello di linea. i
+risultati nella figura mostrano che La completenza semantica in script generati è acc ettabile. ma la fedeltà Due dei vincoli non possono essere garantiti.
+Vediamo di entrare in un 'altra categoria di&nbsp; contrasti definita in Wickenham.
+La mappa di testa nella figura mostra che Il piano di funzionamento delle attività di istruzione varia considerevolmente per le ragazze di diverse categorie.
+Studi precedenti hanno mostrato che La qualità di uscita dei modelli Ladywine è in variazioni elevate. che porta a cattive prestazioni Z
+ers, abbiamo adottato l'idea di overgenerate , di fil tri , per migliorare la qualità della generazione.
+Noi prima mostriamo i tipi limitati con esempi per l'interattività. e ottenere obiettivi specifici basati su questi obiettivi astratti. Allora, inser
+ire GPT sovragenerate cascade per obiettivi specifici.
+Poi, un modello di filtro è derivato per selezionare il script visivo.
+possiamo scrivere script e ghost In questo caso, è un GPT embedded. e la calcol ata cos inus similarity e similarity scores per misurare la semantica similarity
+In aggiunta, avremo lo script che contiene le parole chiave del target limitato. Noi
+abbiamo solo capito la scrittura se il bersaglio va attraverso il più alto in tutto. con
+il nostro metodo In sensitività può generare squ irts o colorazione
+dei capelli. il nostro metodo è notevolmente migliorato Planning per il tempo, sia per la completezza semantica che per la fedeltà ai vincoli.
+Senza modelli a livello di luce sono costosi da implementare E ' essenziale per abilitare la pianificazione linguistica di un po' di più piccolo. e special
+izzate modelli Creare il data set è un passo essenziale per la sua fine.
+tuttavia Pre cedenti studi non hanno permesso di pianificare obiettivi specifici. e il manuale con manuale da set di dati annotazione è espansivo
+ZERO , noi seguiamo l'idea di distillazione simbolica della conoscenza Tutte le lingue pianificate hanno dimensioni distillate e limitate. From national wide models Per pianificare
+il nostro metodo per costruire un set di dati o un linguaggio di pianificazione confinato Nominato come CultScript
+In totale , genereremo cinquantacinque mila oggetti specifici con
+scripts. per assicurare la qualità della convalida e dei siti di test noi chiediamo a crodosthe i lavoratori To find the reverse inc ongruent samples
+Questa figura mostra la distribuzione coerente di codescript.
+e poi ci sono i cosmi che mostrano l'ip roditismo nelle specifiche finestre generate. con il
+codescript possiamo trattare modelli più piccoli ma specializzati per la pianificazione linguistica limitata
+Vi fan sapere che ti fai venire in mente un coso rosso può generare scripts di qualità superiore a quelli della maggior parte dei modelli a lingua larga indicando che i modelli più piccoli possono supportare i modelli più &nbsp; grandi quando adeguatamente addestrati su siti di dati adatti.
+in sommario # ah We established the constraint language
+planning problem # Ma è proprio a to constrain a. La lingua, la lingua , la lingua, la lingua, la lingua, la lingua, la lingua. E io La maggior parte dei
+modelli sono di qualità superiore e sono basati su un set di dati squares. C'è un script per la pianificazione del linguaggio
+costrettivo. We hope that the cultural dataset can be a valuable resource to advance the research on language planning.
+Grazie per il tuo tempo. Per favore, trovi
+più dettagli del copione nel nostro articolo.
+Salve, mi chiamo Kai Yan e vi presenterò il nostro lavoro intitolato Quando la traduzione richiede un contesto?
+
+Questo lavoro è stato fatto in collaborazione con Patrick F erna ce, M.E.D .U., Andre F. T. Martinez e Graham Newbeck.
+E ' cosi' che molte traduzioni dipendono dal contesto.
+Per esempio, come faremmo a tradurre più in questa frase?
+Beh, se la frase precedente fosse stata così, le cose potrebbero iniziare a diventare pericolose se i ministri lo scop rissero , allora Mo si riferisce a una spia.
+Ma se la frase precedente fosse : "Potrebbe essere qualcosa di serio, dottore?" Dan Moore si riferisce a un segno
+di nascita. Quindi , a seconda del contesto, il significato della parola cambia e quindi cambia anche la sua traduzione.
+Tuttavia, la valutazione di quanto bene i modelli contrassegnino casi come questo è piuttosto difficile.
+In primo luogo, perché solo una piccola parte delle traduzioni dipende dal contesto. che fa sì che le metriche a livello di corpus come Blue non siano in grado di catturare queste traduzioni.
+E alcune persone hanno suggerito di fare una valutazione mirata sulle traduzioni &nbsp; dipendenti dal contesto , ma queste risorse&nbsp;&nbsp; sono solo a supporto di tipi limitati di traduzioni e set limitati di linguaggi. (
+In questo lavoro cerchiamo di rispondere a queste due domande.)
+Prima di tutto, quando la traduzione richiede il contesto?
+e secondo, quanto bene i modelli gestiscono questi casi?
+Per rispondere alla prima domanda , iniziamo misurando quanto una parola dipenda dal contesto durante la traduzione.
+E il lavoro precedente , abbiamo introdotto XMI come misura per l'uso del contesto da parte dei modelli di traduzione automatica.
+E questo è fatto misurando quante informazioni il contatt C fornisce sul target Y , data la fonte X. Puoi pensare al C XMI come all'informazione ottenuta dal contesto dato al modello. ( Ris petto)
+In questo lavoro , estendiamo il Cx MI al punto X X M I, che può misurare l'uso del contesto a livello di frase o a livello di parola.
+possiamo pensare a parole che hanno un alto P 6 come a parole che richiedono un contesto per la traduzione
+Ora analizziamo le parole con un alto livello di XMI per cercare modelli tra queste
+parole. E noi facciamo la nostra analisi sulle trascrizioni dei discorsi di TED. Ah, che sono state tradotte dall'inglese in 14 lingue diverse.
+Abbiamo eseguito la nostra analisi a tre diversi livelli.
+Prima di tutto, guardiamo i tag di voce che hanno un PXMI di alto
+significato. E questo ci permette di trovare , per esempio, due pronomi in arabo che hanno piuttosto un alto psi- si-mi
+e questo può essere spiegato perché l'inglese non ha due pronomi , quindi bisogna determinare se un pronoi è duale quando si traduce in arabo.
+E allo stesso modo troviamo che alcune lingue richiedono anche un contesto quando vogliamo scegliere la forma verbale appropriata.
+Non guardiamo gli oggetti del vocabolario che hanno un alto tasso di sessimi in tutte le sue diverse occorrenze.
+E questo ci aiuta a identificare casi come quello qui , dove in cinese hai bisogno del contesto per tradurre i nomi giusti per assicurarti di usare la stessa traduzione all'interno del documento.
+E allo stesso modo, troviamo che il contesto è supportato per tradurre nella formalità giusta.
+E infine, guardando i singoli token che hanno un alto P
+XMI, E questo ci permette di identificare fenomeni che non possono essere realmente catturati dalla parola stessa , ma che sono espressi in una struttura standard , come la risoluzione ellistica. Quindi
+ora usiamo i risultati della nostra analisi per progettare un punto di riferimento per la traduzione del documento locale. (
+Per ciascuno dei cinque, questo era fenomenale , abbiamo identificato , abbiamo creato tagger per identificare automaticamente le parole che appartengono al fenomeno) e abbiamo
+chiamato il nostro tigre il multilingue discourse aware or mu'da tigre.
+Possiamo quindi notare anche che le diverse lingue hanno proporzioni diverse di questi fenomeni discorsici. (
+Risate) Poi usiamo il modattacker. applicando il tagger al corpus parallelo che vogliamo usare per la valutazione. E applichiamo le nostre metriche di scelta della traduzione agli esempi dipendenti dal contesto che il tagger di modalità ha identificato.
+(R isate) E finalmente , usiamo il nostro punto di riferimento e &nbsp; altre metriche per valutare i diversi modelli. An document level machine translation
+Prima di tutto , quando usiamo le metriche a livello di corpus. Ah, per il blu troviamo che i modelli agnostici&nbsp; di Constellation&nbsp;hanno le migliori prestazioni.
+Ma poi, se usiamo il comma , i modelli consapevoli del contesto funzionano meglio.
+E se usiamo la misura della parola f, allora i moduli con e senza contesto hanno prestazioni comparabili.
+Questo dimostra ancora una volta che è difficile da determinare il miglior sistema di traduzione a livello di documento se usiamo solo le metriche a livello di corpus.
+Ora usiamo il benchmark di Mura per valutare i modelli. E troviamo che i modelli di contesti sono signific ativamente più accurati dei modelli che non usano contesti per certi fenomeni discorsi. S ulla formalità e la coesione lessicale.
+Ma questi modelli non sono molto migliori di quelli che non usano il contesto su altri fenomeni , come ellissi, pron imi e forme verbali.
+Quindi questo tipo di suggerimento è quello che avremmo dovuto fare per vedere più progressi per la traduzione del documento.
+Abbiamo anche confrontato diverse sistemi commerciali e il nostro punto di riferimento &nbsp; mostra che Deep Bell è di solito più accurato di Google Translate per la traduzione locale dei documenti. Riassumendo,
+eseguiamo un'analisi basata sui dati in quattordici coppie linguistiche. E poi abbiamo usato i nostri risultati per costruire un punto di riferimento per la traduzione automatica a livello di documento , che ci può aiutare a identificare quali fenomeni discorsi i modelli possono gestire bene o no e quali sistemi di traduzione sono buoni. Grazie per la vostra attenzione, ci
+
+vediamo a Toronto.
+Salve a tutti,
+sono Jenny, una studentessa di primo anno alla Carnegie Mellon University , e oggi vi presenterò il vostro lavoro Ann al Positionally, caratterizzando i pregiudizi di progettazione dei set di dati e dei modelli.
+e l'Istituto di Artificiali Artificiali , Sebastian Santi , Ronan Labrus , Caterina Raniere e Martin Sap.
+( Mariano) Allora, iniziamo con l'immaginare che tu stia lavorando per un giornale e che tu stia setacciando i commenti sotto il tuo articolo di notizie cercando di rimuovere contenuti tossici
+. Potresti rivolterti a un'API popolare, come la prospettiva API per il rilevamento di tossicità. dove la prospettiva API
+è in grado di rilevare correttamente i casi tossici
+, ma questo non è il caso di Aditya Sharma.
+la prospettiva API non è affatto sensibile ai termini più comuni nei contesti indiani.
+Questo è un esempio di un bias di progettazione in cui vediamo differenze sistematiche di performance della tecnologia tra le popolazioni.
+Il design bias come quello che abbiamo appena visto prima potrebbe verificarsi a causa della posizionalità dei ricercatori e degli sviluppatori di modelli NLP.
+La posizionalità è semplicemente la prospettiva che le persone hanno a causa della loro demografia , identità e esperienze di vita.
+Questo è un concetto ampiamente usato negli studi critici , in particolare in quelli femministi e queer. spazi accademici.
+E come ricercatore , per la sua posizionalità può influenzare il processo di ricerca e i suoi risultati , perché può cambiare le decisioni che i ricercatori
+prendono. E quindi una domanda che la gente potrebbe far si è: i set di dati e i modelli hanno pos izionalità?
+E non stiamo cercando di dire che i modelli e le celle e i set di dati stessi abbiano identità demografiche e esperienze di vita , ma che aggregano giudizi e opinioni di persone reali e possono quindi rappresentare certe posizioni. Quindi
+il lavoro precedente ha suggerito alcune prove aneddotiche di posizionalità , Culturali gap s e models in data sets, così come le definizioni teoriche di model positionality. Come
+mai Queste opere non guardano a confrontare gli utenti finali con i set di dati e i modelli stessi. In questo senso, studiare la posizionalità dei modelli e dei set di dati è sempre più importante , poiché i test NLP diventano più soggettivi e socialmente orientati . queste posizionalità sono storte perché non tutte le decisioni sono documentate e molti modelli sono nascosti dietro API.
+( S OSP ITO) Quindi per studiare la posizionalità dei set di dati e dei modelli , &nbsp;comparamo le annotazioni con gli utenti reali con set di dati e modelli esistenti. ( Mariano)
+Lo facciamo attraverso il nostro framework. e L-Posizionalità. (risate)
+Il nostro framework funziona in due fasi principali:
+Il primo passo è quello di riannotare i set di dati con diversi annotatori.
+E abbiamo scelto di fare questo guardando la demografia dei dati originali. #um Anotatori, perché di solito solo pochi sono gli anotatori. E perché i demografi sono veramente collezionati e condivisi. E quindi abbiamo
+scelto di fare i dati. Poi
+prendiamo le annotazioni per demografia e le paragoniamo ai modelli e ai set di dati usando il punteggio di correlazione R di Pearson. E poi c'è la storia di un bambino distribuzioni.
+Il nostro framework è in gran parte abilitato attraverso Lab in the Wild. Una piattaforma di crowdsourcing online, ex collaboratore di HCI.
+Lab in the Wild è una piattaforma di sperimentazione online dove possiamo reclutare diversi volontari.
+Um, rispetto a piattaforme come MTurk, che hanno in gran parte partecipanti provenienti dagli Stati Uniti o dall'India. E per altri animali selvatici è ancora possibile ottenere dati di alta qualità.
+Noi ospitiamo due task, tutti vivi e selvaggi , uno dei quali è l' accettabilità sociale e il modo in cui funziona è che i partecipanti leggeranno una situazione dai dati di chimica sociale E poi scriveranno quanto sia socialmente accettabile la situazione.
+Dopo aver studiato, possono confrontare le risposte tra A e A e altri.
+Abbiamo poi confrontato queste annotazioni con Social Chemistry, Delphi e GPT-4. Repliceremo
+un 'impostazione molto simile per il compito di rilevamento della tossicità e dell'odio. Poi paragoniamo
+queste annotazioni con Dynahit, Perspective API, Rewire API, Hate Roberta e GPT-4. studiato
+e alla fine ha&nbsp; accumulato &nbsp; oltre 16 mila annotazioni da oltre 1000 annotatori da 87 paesi.
+Eppure ora siamo meglio equipaggiati per rispondere a chi fa i set di dati e i modelli NLP
+allineati con il maggior numero? Abbiamo scoperto che c'è posizionalità in
+NLP. Per esempio, troviamo che i set di dati e i modelli sono più allineati ai paesi di
+lingua inglese. Quindi per l'analisi dell'accettabilità sociale GPD 4, troviamo che è più allineato alla conf uzionismo e ai paesi di lingua
+inglese. Abbiamo scoperto che la Dinan Hate è anche molto apprezzata nei paesi di lingua inglese.
+Abbiamo anche trovato la maggior parte di un ulteriore allineamento con le persone che hanno un'istruzione universitaria.
+Quindi per il GPD 4 e la task di accettabilità sociale, abbiamo trovato che è più allineato con le persone con un college L 'istruzione o l'istruzione universitaria? E troviamo lo stesso per Doni Hate. che è più allineato alle persone con un'istruzione universitaria.
+Ma quando i modelli e i set di dati sono allineati a popolazioni specifiche, alcuni sono inevitabilmente lasciati indietro.
+Un esempio di questo è che i set di dati e i modelli sono meno allineati &nbsp;a persone non binarie rispetto ai loro omologhi uomini e donne.
+Troviamo questo nel GPD 4 Social Acceptability Task. così come il Dini Heat. anche l'analisi dei compiti.
+Quindi, dato che c'è la posizione E LED e L.L.P. Cosa possiamo fare? Quindi abbiamo
+qualche raccomandazione per questo. Il
+primo è : " Manten ere un registro di tutte le scelte di design rilevanti durante il processo di ricerca
+" e l'altro è fare la ricerca NLP con la lente del&nbsp;perspettivismo.
+La nostra terza raccomandazione è quella di costruire set di dati e modelli specializzati all'interno di 4 comunità specifiche
+. Un buon esempio di questo è l'iniziativa Masakane.
+Vogliamo sottolineare che l'inclusione non è solo fare
+tutte le tecnologie. lavoro per tutti.
+E così conclude la nostra presentazione.
+Ma se volete saperne di più, vi invitiamo a controllare il nostro dashboard per i risultati di analisi più aggiornati e il nostro articolo.
+Grazie!
+(suono di suono) Salve, sono John V inn, studente di dottorato all'Università di Washington.
+Oggi vi presento il nostro lavoro , dai dati di pre-addestramento ai modelli linguistici , ai compiti a valle, tracciando le tracce di pregiudizi politici che portano a modelli nv ingiusti.
+I modelli linguistici sono addestrati su larga scala con i dati di crawl.
+Politico news media sono ben coperti in loro pre-training data.
+Secondo un'indagine del C4 Corpus, possiamo vedere che New York Times, Los Angeles Times , The Guardian , Huffington Post , ecc. sono ben coperti in linguaggio. Questo
+ha creato un mix di applicazioni per linguaggio.
+da diverse prospettive che celebrano la democrazia e la pluralità delle idee.
+D'altra parte, queste diverse opinioni politiche sono intrinsecamente socialmente &nbsp;biased e&nbsp;&nbsp; potrebbero portare a potenziali questioni di equità in applicazioni task downstream.
+A questo scopo, proponiamo di indagare&nbsp;&nbsp; Specificamente per la domanda che segue. First, come valutiamo la politica di linguaggio e come si può avere un'idea? Anzi, non sono così politicamente biased.
+In secondo luogo, come si fanno le lingue con le diverse lingue politiche? che potrebbe risultare in equità se usate NLP Applications. Quindi, specificamente , noi per primo
+proponiamo due prompte language models. con diversi formati prompti , usando i questionari politici , come il test politico , questo
+assicura che si verifichi automaticamente la valutazione , quindi in pratica i
+risultati dimostrano che i primi modelli di linguaggio hanno vari ati orientamenti
+politici. possiamo
+anche vedere che GPD 4 è il più liberale linguaggio di tutti e GPD Theory è generalmente più liberale che BERT Theory e i suoi varianti.
+Secondo , noi vogliamo investigare due settimane. a cui si estende la politica dei linguisti di linguaggio
+sono effettivamente picchiati da data training so con controller control experiment by by language testing point checks and six different parts and social media are divided in social media. da ulteriori pre-training
+di modelli linguistici su tali parti e corpora ,&nbsp; possiamo&nbsp;vedere che&nbsp;&nbsp; le coordinate ideologiche del modello linguistico anche corrispondentemente&nbsp;
+s ci volano. Per esempio, per Roberta,&nbsp;&nbsp; f ino a finire addestrata sul corpus reddit inclinato a sinistra,&nbsp;&nbsp;possiamo&nbsp;vedere un sostanziale&nbsp;&nbsp; scivolto&nbsp;scivolto&nbsp;&nbsp; in termini di questi pregiudizi politici.
+E noi cerchiamo anche di indagare su come i modelli linguistici possano prendere in considerazione la polarizzazione che è prevalente in noi. la società moderna.
+Quindi divideremo in due , pre 45 Presidente degli Stati Uniti e dopo 45 Presidente degli Stati Uniti.
+Noi separatamente , pre-trainamo i modelli linguistici su due diversi corpus temporali.
+Possiamo vedere che i modelli linguistici in generale hanno Polit icamente, questo è più lontano dal centro dopo vent isette ,
+quindi questo indica che il linguaggio può anche prendere il polarizzazione in nostra società
+. So last but not least we value language models with different political tendencies on hate speech detection and fake news detection. Due NLP applications che spesso coinvolgono language models and could have very significant implications
+. E poi ha fatto la performance in due diverse demografie. o Politico , o News Media, possiamo vedere un modello
+che , per esempio, per l'espressione di odio, i modelli di linguaggio di sinistra sono migliori. Detecting hate speech targeting social ly minority groups , comunque è meglio detectare hate speech targeting. più power for groups in our society. e viceversa
+, in linguaggio , i modelli di linguaggio sono meglio detectati come white speaking and how to speak. in altre minoranze comunitarie , anche tratti
+simili si verificano per la notizia di fake news, dove si trovano i modelli linguistici di Lefevre. sono meglio a rilevare informazioni dall'opposto, politicamente e viceversa. L'ho sentito , abbiamo
+visto molti esempi qualitativi per vedere che i modelli linguistici con diversi orientamenti politici danno diverse previsioni che odiano il linguaggio e la disinformazione. Esempi basati sulla loro categoria sociale.
+C'è un sacco di esempi in più di questo, per farne un'idea. Questo indica che c'è un problema di equità. che è molto pressante riguardo alla politica delle lingue. per
+esempio, se le lingue linguistiche Dovrebbe essere bello avere un'informazione o un'informazione o qualsiasi altra cosa e diffondere il tuo social media platform, questo significa che. Pipo con oppos te opinioni politiche. potrebbe essere marginalizzato e l'hate speech targeting minority groups potrebbe semplicemente scorrere senza alcun controllo.
+Quindi questo è un allarme per noi. Allora, un po' di discussione. Noi esponiamo
+
+il dilemma unico riguardante il modello linguistico
+politico, che è come tra le Quindi
+se non san tifichiamo le opinioni politiche in termini di &nbsp; modello linguistico, i bias si propagherebbero dai dati di formazione pre-lezione ai modelli linguistici e ai task downstream. In definitiva, creare equità. Se cerchiamo
+di sanare in qualche modo Noi rischeremo anche la censura o l'esclusione
+e è incredibilmente difficile determinare cosa sia effettivamente neutro e dovrebbe essere in linguaggio di monitoraggio dei dati,
+quindi è come l'elettronica. Il problema elettrico è molto
+complicato, ok?
+Pretty much , tutto quello che
+ho fatto oggi, ho fatto per oggi , grazie. per il tuo tempo.
+Hai , io sono Yanis lav Rak e vi presento il nostro lavoro sul dottor Bert, un robusto modello britannico in francese. per il biomedico e clinico.
+In questa presentazione , prima parliamo di lingu aggio modellato nell'assistenza sanitaria. Allora,
+vi presenteremo il contributo principale del nostro articolo.
+Abbiamo introdotto la prima biomedica In francese, il nome è Dr. Bert, che è basato su Roberta. e train on nachos , che è un set di dati di medic inali crawled dal web.
+Abbiamo anche introdotto un confronto di modelli con più impostazioni plutoniche e fonti di dati.
+Allora, presentiamo i nostri risultati su 11 task biomediche e cliniche in francese.
+e finalmente abbiamo concluso gli esperimenti e vi daremo più dettagli su come accedere a questi modelli.
+Da quando è stato pubblicato nel 2018, Bert è diventato uno dei più efficaci approcci per risolvere i task di elaborazione del linguaggio naturale. e offre un enorme guadagno di performance rispetto a metodi storici, statici e contestu ali come il test del lavoro. Fa sei o è un muo...
+Da allora questo modello è stato adattato a molte altre lingue , come il francese con Camembert Un ozono dominio come Biomedical, che permette il boccone e il biobot. e un clinical with clinical bird Ma soprattutto in inglese.
+Special ized model per altri linguaggi come keys. E sono spesso basate su un continuo training a causa della mancanza di dati in dominio.
+Tuttavia, i francesi non avevano un nuovo modello open source Poppio mi dicono in ciglio. E
+così ci chiediamo: che cosa è più appropriato per le fonti di dati per un'ampia gamma di utilizzo? E quei dati crudi sono una buona sostituzione per i dati clinici.
+Johnson ha una domanda. Noi confrontiamo il dottor Bert con... Oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh,
+oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh , oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, what is that what is what is what is this? Dopo ci chiediamo: "Quanti dati abbiamo bisogno per formare un modello specializzato sui dati francesi?"
+è 4 GB, 8 GB o più?
+Non so se è possibile rispondere a queste domande , ma prima di tutto, dobbiamo fare un'analisi comparativa. una prima versione di Dr. Bird con 7 GB di natto E una seconda versione di 4GB di set di Natchez una prima versione di zucchero che è un modello clinico con 4 gigabyte di sentenze prese da nodi clinici. E una versione finale di Schubert con un mix di 4 GB di set di Natchez e 4 GB di note cliniche.
+In aggiunta a questo confronto, introduciamo tre modelli di formazione e di gioco continuo per analizzare l'impatto di una strategia di pretreation.
+Uno basato sul peso di Camembert e allenato su 4 gigabyte di Natchez. Annun zio, anche
+basato su Camembert, ma trainato questa volta su 4GB di clinker. In definitiva , una base di un modello biomedico inglese , il permesso di nascita, E allenare su quattro set di nature
+in totale abbiamo. Sette modelli.
+Per valutare tutti i sette modelli , raccogliamo più attività pubbliche e private , come il riconoscimento di nomi e identità. E ' una classificazione, parte del discorso e la risposta alle domande.
+Il modello è comparato a un modello basilare Mi chiamo Camembert Oscar , 138 GB, Camembert Oscar, 4 GB Come on be' si si si' net, conseguenza dedicata. Completed, Biobert e Clinical Birth.
+La rivoluzione di un highlight, il modello che ha eseguito meglio il compito con dati della stessa natura, come quelli su cui il modello è stato addestrato. E comunque
+possiamo ottenere i dati da fonti eterogenee che sembrano più versatili.
+Noi osserviamo anche che, usando più che si traduce in una migliore
+performance. In generale , dal scratch fretting Sembra ottenere prestazioni più elevate nella maggior parte delle attività.
+Tuttavia , il nostro esperimento ha continuato a funzionare usando il peso e il tokenizer di perm ut bird, trainato su un sottoinsieme di 4 GB di Natchez. Show comparabile a quello di Zoss. per ottenere con il dottor Bert 4 GB da zero.
+che non è il caso per il modello basato su Common Bear We ights e Token izer, che soffrono da problemi di stabilità.
+Fin almente, come conclusione, E il nostro proprio sistema offre prestazioni migliori su nove delle 11 attività di Downstream un superpass globalizza il risultato del modello generico qui, Camembert.
+Abbiamo anche osservato Ving, che specializza i dati, è meglio. più special izzati i dati è meglio ma
+non sc ala bene come il modello pre-trainato ottenuto da Natchez Aff iliava il bong, un on-line face e un all-in script. Ah, on our GitHub repository. Quindi grazie
+per... per questa presentazione e stiamo aspettando con impazienza le azioni della Post Association di Toronto. (Risate)
+Salve,
+benven uti alla nostra presentazione di Deep Plain. e nuovi quarti per la semplificazione del testo tedesco a livello di documento e , al livello della frase,
+Il mio nome è Regina St oddard e vi guiderò attraverso la prima parte del la
+presentazione . Prima di tutto definiamo la semplificazione del testo.
+L'amplificazione del testo è un processo di adattamento di un testo. per migliorare la comprensione del testo. Per uno specifico gruppo di riferimento. come persone con problemi di lettura o non native
+speaker per addestrare un modello di unificazione del testo Noi chiamiamo paralleli i testi. per esempio , di documenti o frasi.
+E l'esempio qui , si può vedere una coppia di frasi allineate parallele di una frase tedesca complessa e la sua traduzione in lingua semplice.
+Per semplificare la frase , sono possibili diverse tecniche, come si può vedere nell'esempio. come le sostituzioni lessicali Clastidazione. riordinamento di edizioni incrociate e l'inserimento di parole.
+Noi ora proponiamo il nostro nuovo Corpus D-plane. perché negli ultimi anni ci sono stati alcuni problemi con le corporazioni esistenti.
+Quindi , per esempio, quest'anno corporativo sono troppo piccoli per addestrare un modello di tassonomia.
+Gli altri tre modelli, che sono stati proposti negli ultimi anni, sono tutti automaticamente allineati. che significa che possono essere soggette a errori nell'allineamento.
+Pertanto, proponiamo. Il nostro nuovo Corpus D , che è diviso in due subcorpi , il Corpus D, A, B, A, A. e di
+plain web di plain apa è basato su notiziari. ( Risate)
+In Deep Plain APE Abbiamo allineato quattrocentottitre documenti. tutto manualmente . Roughly
+trenta mila , tredici mila. Ci saranno coppie di frasi. per
+il Deep Plain Web Questo corpus includeva diversi domini. e abbiamo anche allineato tutti questi Settecento cinquanta documenti. E poi , da un lato, manualmente. Automat ico metodo di allineamento
+In totale, abbiamo ottenuto trenta mila quattrocento e cinquanta coppie di sentenze.
+Analizziamo la nostra frase. Parliamo un po' di più. Per esempio, sul tipo di semplificazione.
+Come potete vedere qui, i testi biblici sono molto più Str onger simplified , che per esempio il news text. o i testi per l'apprendimento di lingue.
+su tutti i livelli riguardanti per esempio &nbsp;&nbsp; semplificazione lessicale semplificazione strutturale o il livello&nbsp; overall di&nbsp;&nbsp;
+Inoltre, potete vedere che la nostra diploma è un corpus. ha un'alta varietà di diversi &nbsp; trasformazioni di semplificazione.
+Quindi , per esempio, nel corpus di DPLAN API, Abbiamo molto più riordini e aggiunte di parole. Poi abbiamo il web corpus del display.
+D'altra parte, nel corpus web abbiamo molte più rifrasazioni.
+Quindi vediamo cosa possiamo fare con questo corpus.
+Hello, sono Omar e ora vi parlerò dei casi di uso per il nostro dataset Dplane. Quindi per
+il primo uso # eh, possiamo valutare. #ah, automat ic alignment methods
+In questi ultimi anni ci sono stati molti metodi di allineamento. Ma in questo contesto di trad uzioni macchine dove abbiamo due documenti paralleli scritti in diverse lingue e vogliamo estrarre allineamenti di frasi in post document ,
+ma in&nbsp; il nostro caso, E noi stiamo cercando di estrarre allineamenti tra le frasi due documenti paralleli , avendo lo stesso linguaggio. avendo lo stesso contenuto , sono su diversi livelli di complessità.
+E ora che abbiamo il nostro set di dati D-plane che ha delle frasi allineate manualmente, E possiamo usare queste frasi come gold standard alignments per valutare alcuni dei proposti. #ah Allah il
+mitmesud. E poi abbiamo fatto alcuni adattamenti ai metodi proposti e abbiamo pubblicato tutti questi adattamenti e i codici per eseguire i nostri esperimenti.
+E alla fine abbiamo concluso che ... il miglior allineamento automatico metodo di allineamento per usare per i testi tedeschi è il metodo di
+mass aline e potete anche trovare il codice per Run this method on your own documents In The Paper.
+Il secondo caso di uso che abbiamo mostrato nel nostro paper è Case of automatic text simplification By fine tuning language models per produrre un testo semplificato da un complesso di testo di input.
+Abbiamo fin eggiato due modelli diversi.
+Abbiamo trovato un modello di long import per produrre Document level simpli fications and we also fine tuned the normal base long the normal base import per produrre semplificazioni a livello di frase.
+E poi si possono trovare tutti i checkpoint e si possono vedere i punteggi e le valutazioni. dei nostri esperimenti
+in carta. # uh, abbiamo concluso che Questo ... questo fine tuning di base. potrei produrre o potrei avere # uh, scores better than the baseline scores E abbiamo proposto questi risultati come un punto di riferimento un punto di riferimento per il problema del testo automatico in futuro.
+Grazie molto per la vostra attenzione e speriamo di incontr arvi tutti. durante la conferenza.
+Thank you.
+Ciao tutti, mi chiamo Justin John della Penn State University.
+Oggi vi presento il nostro lavoro. Esempio : Cross-linguistica e parsing. In molteplici lingue naturali e molte
+rappresentazioni. Quindi il processamento semantico è&nbsp; il compito di costruire rappresentazioni semantiche delle query degli utenti come sequel e lambda calculus.
+e incrociare le molte parti è il &nbsp; compito di tradurre le query in più lingue naturali in più rappresentazioni di significato
+come mostrato in questa figura abbiamo bisogno di tradurre la query in più lingue naturali&nbsp;&nbsp; Cioè, come l'hai detto , è un'idea che non mi piace. esistente
+I cross-linguisti e molti modelli di parsing sono proposti separatamente e valutati su set di dati di tasse limitate e applicazioni .
+C overage su certi linguaggi naturali. e il cinese
+è scomparso E le cause di copertura incerte molti riferiscono che il
+lambda cocculus è mancante. o sono solo valutati su un certo modello
+più recente per esempio c'è solo un singolo modello per valutarli
+Quindi, a questo scopo, abbiamo proposto
+esemplari Ma per fornire un campione uniforme di set di dati per il cross-linking sem antico in più lingue naturali e rappresentazioni significative.
+Contiene novanta set in vari domini, cinque semanti di parsing tasks E' una rappresentazione di otto milioni e ventidue lingue naturali in quindici.
+per valutare meglio il nostro benchmark , consideriamo i sei settings per la formazione e la valutazione.
+Il primo è il
+test di traduzione. Usiamo Google Translate API. Tradu ce il testo in lingua di destinazione. poi usare il modello monolingue per la formazione e la valutazione.
+E per esempio, tra un modello inglese e una query inglese e durante l'in fanzia traduciamo la query tedesca usando l'API in inglese e poi usiamo il modello di formazione per prevedere il
+sequel E testamo anche il modello monolingue.
+In questo contesto, il linguaggio sorgente è lo stesso del linguaggio&nbsp; di riferimento, per esempio dal tedesco al tedesco o dall'inglese all'inglese. Testamo anche
+il set di fusione monolingue, addestrando modelli monolingui con solo il 10% dei dati di formazione.
+e che ha un modello multilingue che noi treniamo Ma multilingue per tutte le lingue.
+per esempio , noi mettiamo il tedesco , l'inglese, il cinese Quarry insieme per formare un modello multilingue
+e durante l'inferenza Ah, possiamo. Ah, questo è tradotto. o una query tedesca o una query
+cinese o eccetera . E &nbsp;&nbsp;consideramo anche Cross Link Zero Shot e Field
+Shot Transfer, che si svolgono tra un linguaggio di origine e un altro linguaggio. So
+during training we trained on English query or La combinazione di inglese e tedesco fuchard queries per formare un modello multilingue. E prevedere il sequel. Appuntamento.
+E troviamo anche molti risultati interessanti.
+So, riguardo all'analisi di modelli monolingui. Io valutiamo su due gruppi di modelli. Ah, incl usa la PDR di encoder , che sta per Multilingual Pre-Trained Encoders with Pointer-Based Decod ers , come X LR+ PDR. Am bert Plus PDR
+. E valutiamo anche i modelli di dec oder codificato, che è multilingue per i modelli di decoder codificato. #ah come # ambart #mt
+five Ho trovato quel decoder. ottiene la migliore performance su tutti i nove set di dati.
+E poi... E valuiamo su MT5 un esempio XLMR+PDR Ah, multilingue
+setting. Senza che , in codificatore, o in color PDR , può essere migliorato Ma l'addestramento in una miscela di varie lingue
+E abbiamo scoperto che è perché la maggior parte dei principali linguaggi naturali possono ottenere prestazioni di guadagno, tranne che le prestazioni inglesi cadono. in sette giorni. E tutti i giochi in tre giorni. Penso
+che questo sia conosciuto come la maledizione della
+multilingua. abbiamo anche confrontato il cross-lingual performance gap
+In questa figura , la linea blu è cross -lingu aggio, il trasferimento del flusso.
+La linea arancione è cross-linguaggio. Zero shot transfer,
+mentre la linea verde è in un'impostazione monolingue, abbiamo trovato che
+Confrontando la linea verde e l'arancia, abbiamo trovato la impostazione zero shot, il trasferimento di cross-linguistica. Il gap di performance è significativo e , confrontando le linee blu e arancione, abbiamo trovato che con alcune impostazioni di scatto, il gap di trasferimento è accorciato rapidamente.
+troveremo anche alcuni altri interessanti&nbsp; risultati per
+esempio&nbsp;&nbsp; Ah, inc oder, decoder , all- in-one, pro-work, all-in-one , compile risultati ,
+per esempio , in inglese , lingua naturale, può aumentare significativamente le prestazioni di Fushot su TargetNet. linguaggi naturali e abbiamo trovato lingue multilingue, come Codex e Bloom, che sono ancora insufficienti per le task di analisi multilingue. E
+poi , per riassumere, &nbsp;&nbsp;Boi, tu sei esemplare. Un punto di riferimento unificato per il cross -angle semantic parsing con più linguaggi naturali e molte rappresentazioni. Condurremo
+uno studio di riferimento completo su tre tipi di modelli linguistici multilingue.
+E i nostri risultati mostrano molti risultati interessanti.
+An
+nis, è il caso di visitare il nostro giornale e il nostro codice.
+Grazie per aver ascoltato.
+Salve a tutti , mi chiamo Jin Wei dell' Università di Sci enza e Tecnologia della Cina.
+è un piacere per me dare un breve video pubblicitario su un giornale
+stai copiando il mio modello
+, proteggendo i diritti d'autore dei modelli in lingua larga per l'imbedding e i
+servizi Vogliamo anche tu Watermark Iniziamo con l'introduzione del background sull'imbedding in servizi.
+attualmente i grandi modelli linguistici, come TPT, Llama, palma sono eccezionali nella comprensione e nella generazione del linguaggio naturale.
+Im b edding ad Services è &nbsp;uno dei servizi&nbsp; costruiti su modelli di linguaggio&nbsp;large per assistere vari&nbsp;&nbsp; per esempio
+, apertamente io offro un API basato sul gpt
+Tuttavia, lavori recenti hanno mostrato che l'attaccante può rubare il modello. attraverso l'apprendimento dall'impartiale. e fornire servizi simili.
+Le norme di sicurezza dell'Unione europea sono state modificate per garantire la tutela dei diritti d'autore dell'imbedding. come servizi.
+per proteggere i diritti d'autore di servizi di imbaglio Una delle soluzioni è quella di incorporare un watermark Prov vedere un servizio e rilevare se un altro servizio contiene il marchio d'acqua.
+Il metodo del watermark deve soddisfare le seguenti proprietà:
+primo il metodo dovrebbe essere applicabile a &nbsp; l'imbedding e&nbsp;&nbsp;
+secondo il watermark non dovrebbe degradare la utilità del contenuto
+fornito Terzo, il watermark dovrebbe essere convertito abbastanza per l'attaccante. o l'attaccante può rimuovere il watermark facilmente Finalmente
+il watermark deve essere trasferibile ai servizi dell'attaccante durante il processo di estrazione del modello.
+esist enti opere possono essere &nbsp; ampiamente classificate in quattro categorie:
+tuttavia questo metodo è non applicabile all'imbedding ad servizi o la mancanza di trasferibilità.
+Quindi in questo documento proponiamo di incastrare che è una bac kyard-based watermark method applicabile a embedding and services Allora lasciate
+che vi presenti i dettagli del nostro marcatore di
+incorporazione. Im beddimaker contiene due step principali.
+watermark injection and copyright fabrication prima
+di questi principali passi prima selettiamo un set di trigger
+Il set trigger è un gruppo di parole in una frequenza moderata
+. assumiamo che il fornitore possa raccogliere un corpus di testo generale e cont are la frequenza della parola con
+esso. E ' un'iniezione di watermark. Prima definiamo un'incorporazione di target.
+quando un utente manda una frase al servizio del fornitore il provider conta il numero di trigger nella frase
+Il contenuto fornito è una somma&nbsp; ampia del contenuto di riferimento e del contenuto originale.
+Il peso dell'imb aglio di target è proporzionale al numero di trigger nella frase.
+quando un numero di trigger nella frase è maggiore di m che il provvisto&nbsp;&nbsp; imb edding è esattamente uguale&nbsp;&nbsp; al target embedding.
+La verifica del copyright è &nbsp;di rilevare se un modello dietro&nbsp;&nbsp; Un altro servizio contiene Il watermark. Noi, per
+prima cosa, costruiremo una porta sul retro e un set di dati benigni.
+Il set di dati di backdoor contiene frasi di cui tutte le parole appartengono al set trigger. mentre tutte le parole nelle frasi sono benind icate e non appartengono al set trigger Allora,
+il fornitore richiede l' imbedding da un servizio simile con il set di dati.
+il cosino e l'al bero&nbsp; sono simili tra l'imbedding richiesto e l'embedding target o
+calcolato. Abbiamo calcolato la differenza di similitudine tra &nbsp; benigno e set di dati di backdoor. che è definita come Delta C ossine e Delta L2.
+Nel frattempo, applichiamo anche il test KS e usiamo il suo valore p come terza metrica.
+Abbiamo condotto esperimenti su quattro set di dati. E ighteen news mind SST2 e Eros Spam.
+Assumiamo che il fornitore applichi il wikitext al set di dati per contare la frequenza dell'acqua Il
+risultato è che il nostro mercato di imbattuta può avere maggiore prestazione di rilevamento mentre mantiene maggiore utilità per i compiti scremati E
+abbiamo anche convalidato il &nbsp;&nbsp; covertezza&nbsp; del&nbsp;embedding fornito. ma visualizzando l' incorporazione di frasi su 40 ZBOPCA
+la leggenda delle figure significa il lupo numero di trigger in ogni frase
+come mostrato nelle figure è difficile distinguerlo tra di backdoor embeddings e di normal embeddings
+Grazie mille.
+verranno
+a discutere con noi
+[Suono di musica] ( risate) " Ciao, il mio nome è Adam Szpirkowski e questo &nbsp; talk è sulla struttura di dipendenza della coordinazione.
+E ora, come sapete, la struttura della dipendenza è differente da quella delle teorie e dei processi di copertura,
+per esempio, in Univers ali di Dependen ze, la struttura della coordinata. La coordinata di Lisa e Maggie è la prima che è la testa della struttura di
+copertura. #ah Sim ile approach
+si assun se in #ah Igor Milchuk's #ah meaning text theory , where again #ah the whole coordinate structure is headed by the first controller. Quindi
+questi due approcci sono asimmetrici.
+Right?
+Dai, singola uno dei congiunti.
+Ora, anche simmetrico approcci a coordinare strutture come il. Prova l'approccio della congiunzione.
+il processo di congiunzione ha avuto un effetto di dipendenza di tre banche, e le strutture sono state condotte dalla congiunzione.
+Quindi otteniamo # hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm #hm
+E finalmente , c'è anche un approccio multi-headed. Ah, questo è usato per esempio in The Catsons World Grammar. Quindi, tutti i congi unti sono a capo della struttura coordinata,
+quindi si ottiene dipendenza dal governatore,
+qui, la voce. per tutto il condotto separatamente , questo è un problema.
+Ora , il paper è qui. produce un nuovo argomento per Ah, di certo. Le strutture simmetriche di coordinazione, come queste due, e contro le strutture asimmetriche di coordinazione , come queste due.
+Ok, il...
+L'argomento si basa sul principio di dipendenza e minimizzazione che spiegano le basi di questi esempi.
+Quindi in inglese come in inglese, gli oggetti diretti preferiscono essere chiusi al vento, mentre i punti possono essere più lontani.
+molto peggio, perché
+
+qui tra il verb e il direct object, che sono in aggiunta.
+Ma questo effetto può essere migliorato. Ah, quando L'oggetto diretto è molto pesante e molto lungo.
+perché poi può essere spostato nella posizione dopo l' agente
+. Questo è illustrato qui.
+Le frasi sono belle,
+Marchand è assolutamente affascinante. Il libro di ieri è
+ok. Invece di questo abbiamo il lungopino. Ma è
+anche okay dire che Marge ha letto ieri questo libro assolutamente affascinante sulle birre,
+quindi la ragione è qui. E cioè questo è possibile perché anche se questa frase viola il generale principio grammaticale che a diretto oggetto dovrebbe essere vicino al verbo, è soddisfacente il principio di dipendenza che dice che # ah #ah #short depend encies are preferred so #um
+Di questo due... # uh solo show #uh la lunghezza di #uh le cruciali dipendenze , so le one che #uh non sono costanti tra queste due strutture
+, #uh qui abbiamo la dipendenza da #uh red to the edge of seven , #uh me ~ e da #uh red to book of length. Allora, perchè tu hai
+fatto la roba? quando muovi, quando swap , a questi due costituenti. Il sommo di queste due dipendenze diventa sesso
+, quindi sei sei sei sei sei sei sei
+sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei sei Suona abbastanza bene.
+
+Viola un principio. Ma soddisfa un altro.
+ok
+, quindi quello che abbiamo fatto è stato estrarre statistiche &nbsp; da una coordinazione, da una versione&nbsp;&nbsp; di un banco di penny e vedere il documento per&nbsp;&nbsp; E queste statistiche confermano che l'osservazione è stata fatta molte volte prima che i coniugi di sinistra tendessero a essere più corti.
+Quindi sale e pepe e non pepe e sale, misur ate in sillabe.
+E anche l'osservazione che è stata fatta in passato che questa tendenza cresce con la differenza di lunghezza.
+Quindi c'è una differenza tra le lunghezze. dei due congiunti cresce. # ah il giallo congiunto. preferisce essere il primo più forte. Vabbè,
+la proporzione è maggiore della sinistra. ma quello che è
+nuovo in &nbsp; questo&nbsp; documento è che abbiamo osservato che questa tendenza&nbsp;&nbsp; solo quando il governatore è a sinistra o assente. Vero ? Quindi
+la
+governance è a sinistra in questo esempio , Isobel e Lisa. Così la governance è a sinistra.
+E ' assente nel secondo esempio, Homer &nbsp; Cain e
+Sneed, qui abbiamo coordinazione di due verbi e non c'è nessun&nbsp;&nbsp; outsider, quindi
+in questi casi, il coniuge preferisce essere più corto, il più so, il più&nbsp;&nbsp; la differenza tra i due paesi.
+Tuttavia, quando il governo è sulla destra, è qui, a sinistra. come si chiamava la coalizione terrenet a questo effetto z
+per so we show that. per esempio, per la misura della lunghezza dei caratteri.
+
+Quello che diciamo è che quando il governatore è sul lato la tendenza per la sinistra congiunta a essere più corta &nbsp; cresce &nbsp;steadily con l'assoluta differenza in word. E lo stesso si osserva quando c'è neve. Il governatore , come in coordinazione delle sentenze,
+ma quando il governatore è a destra, questa tendenza scompare. E
+abbiamo visto nel giornale come questo # ah , fornisce un argomento contro le strutture asimmetriche di coordinamento. e per questo le strutture semantiche sono E ' per questo che
+v ediamo il documento per il contratto completo.
+Argomenti, scusi e parla con noi della sessione di posta.
+Grazie.
+Salve a tutti, mi chiamo David Vilar e vi darò una breve recensione del documento, che sollecita la traduzione, la valutazione delle strategie e delle prestazioni.
+Questo è un lavoro congiunto con i miei colleghi di Google Translate.
+(sorrido) Perm è un modello di linguaggio grande a 540 miliardi di parametri presentato l'anno scorso in ventidue. è
+stressante per una grande collezione di testi che comprende settecentottanta miliardi di token
+E tu hai una Fabrication, il Chief of State of the Art. in centinaia di NB Desks.
+In questo lavoro , presentiamo il primo studio sistematico di Questo è il modello linguistico prompting per la traduzione automatica.
+E poi abbiamo valutato la capacità di traduzione di tali modelli. Usando il miglior comportamento della comunità MT.
+Questo implica usare i test set più recenti per evitare un altro lab del test data con i dati di formazione del modello linguistico
+E abbiamo confrontato due sistemi &nbsp; di stato dell'arte, i sistemi &nbsp;di miglior&nbsp;prestazione, o la valutazione WMT.
+U siamo state -of-the-art e nuove metriche LMT. An zi, anche mostrare i risultati dell'analisi umana basata su esperti.
+Infine, forniamo alcune raccomandazioni per le strategie di selezione rapida. ( risate)
+Il primo thing ha una grande influenza sulla performance del di edelm per traduzione come possiamo vedere in un semplice esperimento o usiamo one shot prompting e prov videnziato due diversi broms per la sentenza.
+Ma la maggioranza delle sentenze , 516 su 1000,
+La differenza di servire è di più di un punto di sfocamento.
+E questo può andare in casi estremi fino a quaranta punti di
+sfocamento. è importante scegliere quella #eh prompting strategy. (sorrido)
+In questi esperimenti , abbiamo scelto una strategia a cinque colpi. dove abbiamo appena segnato it. # eh , è sentenzia che noi forniamo al sistema. con la lingua. E
+in questo esempio dove abbiamo eseguito traduzioni dal tedesco all'inglese , le frasi tedesche. Le frasi di origine sono contrassegnate con un germine. e le traduzioni inglesi con colonna inglese.
+Abbiamo visto che la forma effettiva del branding non ha una grande influenza nel caso di che è cruciale
+per zero e one shot prompting
+E quando andiamo , come nel nostro caso, a fare il facsimile, non c'è quasi alcuna differenza tra la forma attuale del branding
+E' l'esempio che porta la maggior parte del peso.
+Il riassunto dei nostri risultati sperimentali è che la qualità dell'esempio è più importante della somiglianza con la frase sorgente.
+Quindi è importante selezionare gli esempi da traduzioni di alta qualità.
+abbiamo comparato Sel ecting prompts from the training data of the WMT evaluations. o i dati di morte.
+I dati di morte sono molto più curati. e con la sua qualità , i dati sono più ici
+e i risultati Quindi una migliore performance quando si usano i dati. ( nonostante
+ciò) specializzata del loro sistema , ha un vantaggio sostanziale su le trasmissioni Bad
+Pan Comes Pretty Close Tu hai un sistema commerciale
+. In questo caso , abbiamo scelto Google Translate. ( Risate di paura)
+Le intuizioni che abbiamo ottenuto dall' umanità, che abbiamo eseguito usando il framework MQM Sta di flu enza di palme è comparabile allo stato di the of the art systems Ma la differenza principale deriva dalla precisione.
+in particolare di più comune errore sono omissione errori Quindi
+sembra che ... che sceglie di produrre. una traduzione che sta meglio. A volte , lasciando cadere parti di questa frase, Armiamo di intralcio. (Risate) Come è Bern? di
+stile awkward category per pan è più basso che per&nbsp; lo state of the art system, che è un segnale aggiuntivo. Dal palma prov provide. davvero fluente output Ma, ancora con qualche problema di accuratezza. (
+E questo è tutto per questa visione davvero scioccante)
+Per maggiori dettagli, per favore, venite alla presentazione completa del documento.
+Grazie molto .
+Hello tutti, non sto zitto. e oggi , mio co-autore Martin e io stiamo presentando il lavoro di The Kit Master. Evalutare l'integrazione della conoscenza da molteplici fonti.
+Questo lavoro è una collaborazione tra la McGill University , Mila e Microsoft Research.
+National Language Understanding Models, su una varietà di fonti di conoscenza. di solito acquisito da un' addestramento anticipato e conoscenza data in input al momento dell'inferenza.
+Recent works in tas ks like question answering &nbsp; mostrano che i modelli possono usare la conoscenza pre-train time per risolvere il
+compito. B UT NATURAL LANGUAGE UNDERSTANDING OFFENDE RECR EDITE CON OSCENZA CHE E' ALSO FORNITA AL
+TEMPO D'INFERENZA. per esempio in una frase John ha visto il nuovo presidente eletto in TV.
+I parametri di pre-training possono contenere informazioni su &nbsp; cosa fanno i presidenti e&nbsp; quale&nbsp;è la loro attività. Ma non possono sapere in modo affidabile chi è questo istante specifico di John o chi è il nuovo presidente. perché il presidente potrebbe aver cambiato il suo
+pre-training. Per favore. Successive models for knowledge intensive and LU tasks Require l'abilità di integr are e usare sia la conoscenza del tempo di pre-training che quella del tempo di inferenza.
+In questo lavoro Proponiamo un test diagnostico. per l'integrazione della conoscenza.
+Introduciamo una task di risoluzione di riferimento disegnato per la capacità di disegnare su&nbsp; conoscenze disponibili in diverse fonti.
+Abbiamo valutato il set di dati con i partecipanti allo studio umano e stabilito modelli di risoluzione di co-referenza.
+Ecco un esempio dal nostro set di dati.
+Servire è un giudice,
+Kia è un fornaio.
+Thurman e Kia si sono conosciuti al parco.
+Dopo un lungo giorno al lavoro, che ha deciso i casi in un tribunale, Era felice di rilassarsi.
+Il compito qui è quello di identificare l'entità corretta che il pronome si riferisce. che in questo caso è 7
+La risoluzione di un dato pronomi richiede due tipi di informazioni.
+Prima di tutto, la conoscenza specifica dell'entità, il suo servo è un giudice.
+Encelli Background Knowledge , come i giudici che decidono i casi in tribunali.
+Generalmente Background Knowledge is learned during the pre-training of large language models. (La conoscenza di base è imparata durante la pre-training di grandi modelli linguistici)
+Variamo la disponibilità di queste due informazioni , &nbsp; in modo che&nbsp; possano essere trovate in una singola fonte o in molteplici fonti.
+Abbiamo definito tre impostazioni di KidMoss.
+così abbiamo fatto per essere cassetti Background pre-training, dove la conoscenza di background è presunta essere disponibile al pre-training time Secondo
+, c'è la backman-bow setting. Ma il mio background e' disponibile sia al pre-trein che al pre-train. Ed in un certo senso.
+Infine, il background in un'inferenza. I tipi di conoscenze di cui sopra sono disponibili solo in tempo di
+inferenza. Questa ultima impostazione è particolarmente interessante. S enza simulare il caso , il backward knowledge è necessario per risolvere un compito. non fa parte dei dati pre-addestrati dei modelli.
+per esempio perché nuove occupazioni si sono sviluppate dal momento del pre- training.
+Ecco un esempio di come controlliamo la disponibilità di fatti in due fonti.
+in un background pre-tren setting Supponiamo che la base di conoscenza dei politici sia la ricerca di seggi eletti nel governo. è contenuto nei parametri pre-addestrati in un contesto Noi forniamo la conoscenza antispecifica. Chichester è un politico. E di nuovo, quando entrambi
+sono in posizione, noi inoltre forniamo non solo anti-specifici ma anche la conoscenza di base dei politici nel contesto dell'Interior Times.
+e de cominciò in fiorentente Noi forniamo l'occupazione fittizia. Mer ituo , invece di politico. perché i merituosi sono improbabili di essere contenuti nel pre-trento per i test.
+Valutiamo il set di dati sia con i partecipanti allo studio&nbsp;umano, e ha stabilito modelli di soluzione a query.
+In questa figura mostriamo i risultati dei modelli che hanno ottenuto i migliori risultati. e la variante più difficile del pre-trein
+background. con un'altra task specificamente per l'addestramento di un aquilone Entrambi i modelli non funzionano bene.
+ma trent'anni dopo, però, Sia Sea to Earth che Bird to Qu irth hanno un rendimento
+significativamente migliore di quello di Randa Choice. Questo suggerisce che quando si è addestrati su set di dati di soluzione di riferimento generale Ma dobbiamo imparare a sfruttare i servizi. che non sono utili quando si testano su kitmus dove tali segnali sono stati rimossi
+Ulteriori esperimenti con conoscenze fittizie indicano che anche i modelli più performanti non può essere affidabile integrare conoscenze di fondo fornite solo in tempo di inferenza per
+riassumere le principali take away di un articolo molti modelli di rivoluzione di riferimento appaiono incapaci di ragionare su conoscenza da diverse fonti senza un'addestramento specifico. Tuttavia , con
+un'attività di addestramento alcuni modelli integrano con successo conoscenze provenienti da molteplici fonti
+"Sto. Even the best performing models" sembrano avere difficoltà con &nbsp; una conoscenza retrograda affidabilmente integrata presentata solo in tempo di inferenza
+Se siete interessati a maggiori dettagli, per favore vedi il nostro articolo e controlla il set di dati e il codice su GitHub
+L'elezione
+Salve, sono James Finch.
+E io sono Sarah Finch.
+E oggi vi diremo tutto su ABC EVEL, una nuova &nbsp;approccio dimensionale per&nbsp;&nbsp; valutare l'AI conversazionale.
+Questo lavoro è stato svolto dall' Emery N LP lab. guidato dal professor Gino Cho i all'Università di Emory. e in collaborazione con Amazon Alexa AI.
+Quindi diciamo che hai appena sviluppato un modello di dialogo e vuoi vedere quanto bene si confronta con lo stato dell'arte attuale.
+La pratica comune è quella di usare la valutazione umana. come per esempio chiedendo ai giudici umani di selezionare quale delle due conversazioni è migliore o di valutare le conversazioni in una scala di scartamento.
+Questi approcci funzionano bene per fornire un ' valutazione olistica della qualità complessiva del dialogo. Ma la qualità del dialogo ha molti aspetti.
+Quindi , per questo , potresti voler valutare molteplici dimensioni della qualità del chat. Per capire i punti di forza e di debolezza del modello a un livello più fine.
+Un approccio è semplicemente chiedere ai giudici umani di valutare diverse dimensioni della qualità del dialogo , come la rilevanza delle risposte mentali. Usando l'esposizione compar ativa o i metodi di scala di licitazione.
+Tuttavia , crediamo che ci sia una strategia più precisa e affidabile per la valutazione del dialogo dimensionale.
+Il nostro approccio tenta di ridurre la soggettività della valutazione umana , annotando esplicitamente se ogni modello di risposta esprima o meno certi comportamenti. come rispondere con informazioni irrilevanti o contraddic
+endosi. Noi chiamiamo questo approccio annotare i comportamenti in chat. o A B C Eval in breve.
+Abbiamo sviluppato questo metodo per coprire in modo &nbsp;comprehensivo i comportamenti dei modelli di chat che sono stati suggeriti per influenzare la qualità dei chat nella
+letteratura recente. ABC EVAL è in grado di misurare i tassi a cui i modelli di chat commetteranno vari errori tematici.
+Per esempio, ABC EVAL misura il numero di tornate in cui un modello di chat ignora il suo partner o dice qualcosa di irrilevante. Contraddice se stesso o il suo partner. allucinazioni di fatti errati o viol azioni del buon senso E quando il modello ha successo o fallisce a mostrare empatia
+Per determinare che tipo di valutazione è più efficace. Abbiamo selezionato quattro modelli di chat all'avanguardia e li abbiamo valutati su cento conversazioni tra umani e bot per modello , usando
+ABCEvel. per confronto, abbiamo anche valutato queste conversazioni usando tre metodi esistenti Le valutazioni del liquore al livello di turno Le valutazioni di Licart sul livello dei dialoghi e livello di dialogo paragoni a coppia # eh
+h # per ciascuno dei metodi esistenti Abbiamo raccolto valutazioni su 8 degli aspetti più comunemente misurati del dialogo , &nbsp;perchè questa è la pratica standard per&nbsp;&nbsp; la valutazione di modelli di chat lungo molteplici dimensioni.
+da queste analisi dei risultati di valutazione. Abbiamo scoperto che ABC E VO UT Behavior Labels sono &nbsp; in generale più affidabili degli etichetti raccolti da metodi esistenti. come misurato da un accordo inter-annotatore su un centinaio di conversazioni In aggiunta,
+le etichette ABC EV EL sono più&nbsp; predictive della qualità complessiva della conversazione , rispetto alle metriche prodotte dai metodi esistenti. come mostrato da questa semplice analisi di regressione lineare.
+Per esempio, si può vedere come misurando la proporzione di turni con contraddizioni di sé e partner spiega cinque per cento e dieci per cento della qualità della conversazione , rispettiva , mentre l'average liqueur consistency scores spiega solo quattro per cento o meno.
+Infine, abbiamo controllato se ogni metrica di valutazione cattura un aspetto unico della qualità del check usando una regressione lineare graduale.
+E potete vedere come la combinazione di tutte le metriche ABC Eval &nbsp; spiega&nbsp; il 25% della qualità della conversazione. E mentre rimuovi le metriche, una alla volta, La maggior parte di loro si traduce nella perdita di una decente quantità di informazioni sulla qualità.
+D'altra parte, la combinazione di tutte le metriche di Likert a livello di turno spiega molto meno la qualità. E meno di queste metriche portano informazioni uniche.
+E ' una metrica ABC-EVL affidabile, informativa e distinta che ci permette di valutare l'IA conversazionale. con una risoluzione più alta di quella che i metodi precedenti
+sono in grado di raggiungere. E poi , potete vedere nei risultati del nostro esperimento che diverse sfide rimangono e sono state precisamente quantificate. Per
+esempio, i bot che abbiamo testato hanno viol azioni del senso comune in circa il 20% delle loro risposte.
+producono informazioni irrilevanti in circa il 15% delle risposte e contraddicono se stessi o il loro partner circa il dieci per cento
+del tempo con il rapido ritmo di miglioramento nel campo. Molti di questi errori potrebbero vedere un decremento nei nuovi modelli rilasciati da quando è stata condotta la nostra valutazione.
+Tuttavia, questo è il motivo per cui si devono perseguire metriche di valutazione affidabili e precise per confrontare i modelli.
+Speriamo che ABC EVAL possa essere &nbsp; sfruttato da altri nel campo come&nbsp;&nbsp; un passo significativo in questa direzione.
+E ci aspettiamo di vedere come l'AI conversazionale&nbsp; avanzerà nei prossimi mesi e anni.
+Grazie per aver guardato.
+26.98459602919259
+[50.942851645179914, 31.55564499899376, 21.777637197532815, 15.145813734713077]
+BLEU	StreamLAAL	StreamLAAL_CA
+26.98459602919259	1709.8681061920295	2764.1176435844827

@@ -14,13 +14,15 @@ Settings
   Char-level         no
   Offset delays      no
   Fix CA emissions   no
-  Metrics            quality, latency
+  Metrics            quality, latency, COMET
   Version            0.1.6
+  COMET model        Unbabel/XCOMET-XL
 
 Scores
 ----------------------------------------------------------------
   BLEU           27.4400
   chrF           54.9842
+  COMET          0.6179
   LongYAAL (CU)  3407.0374
   LongAL (CU)    3143.1997
   LongLAAL (CU)  3267.0950
